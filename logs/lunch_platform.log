@@ -1,0 +1,13 @@
+2026-04-22 12:24:23,279 WARNING Bootstrap admin created: username=admin password=heslo123
+2026-04-22 12:25:42,039 INFO request_id=89bd794537a0 method=GET path=/ status=302 account_id=None role=None ip=37.188.130.33, 10.32.0.37 duration_ms=1
+2026-04-22 12:25:42,448 INFO request_id=5e57495be9ba method=GET path=/login status=200 account_id=None role=None ip=37.188.130.33, 10.32.0.37 duration_ms=35
+2026-04-22 12:25:42,992 INFO request_id=4e2209708539 method=GET path=/static/navy.css status=200 account_id=None role=None ip=37.188.130.33, 10.32.0.37 duration_ms=3
+2026-04-22 12:25:43,012 INFO request_id=e318bc79f9d0 method=GET path=/static/app.js status=200 account_id=None role=None ip=37.188.130.33, 10.32.0.37 duration_ms=3
+2026-04-22 12:25:47,306 INFO request_id=fcc36d370ab4 method=POST path=/login status=302 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=197
+2026-04-22 12:25:47,510 INFO request_id=0db456459cec method=GET path=/login status=200 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=1
+2026-04-22 12:25:47,760 INFO request_id=c3100ba958c6 method=GET path=/static/navy.css status=304 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=1
+2026-04-22 12:25:47,768 INFO request_id=542246f9afa0 method=GET path=/static/app.js status=304 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=1
+2026-04-22 12:25:58,227 INFO request_id=9b11eb21e342 method=POST path=/login status=302 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=131
+2026-04-22 12:25:58,417 INFO request_id=90610c7bfad2 method=GET path=/login status=200 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=1
+2026-04-22 12:25:58,678 INFO request_id=8f63a088512f method=GET path=/static/navy.css status=304 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=1
+2026-04-22 12:25:58,682 INFO request_id=fb359ca2ffe3 method=GET path=/static/app.js status=304 account_id=None role=None ip=37.188.130.33, 10.32.1.111 duration_ms=1
