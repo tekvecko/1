@@ -1,0 +1,7 @@
+__pycache__/
+.pytest_cache/
+instance/
+logs/
+uploads/import_previews/
+uploads/menu_originals/
+*.pyc
