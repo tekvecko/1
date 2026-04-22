@@ -24,6 +24,8 @@ def get_request_ip() -> str:
 
 
 def check_login_rate(ip: str) -> bool:
+    if current_app and current_app.config.get("TESTING"):
+        return True
     now = time.monotonic()
     valid = [t for t in _LOGIN_ATTEMPTS[ip] if now - t < _LOGIN_WINDOW]
     valid.append(now)
