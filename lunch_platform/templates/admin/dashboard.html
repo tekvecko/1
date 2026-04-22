@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %}Admin · FINAL Lunch{% endblock %}
+{% block content %}
+<section class="hero hero-admin">
+    <div class="card hero-copy stack">
+        <span class="badge badge-gold label">Admin cockpit</span>
+        <h1 class="display">Správa provozu</h1>
+        <p>Import menu, billing i účty běží nad modulární v2 architekturou. Účty používají křestní jméno, příjmení, e-mail a notifikace.</p>
+    </div>
+    <div class="kpi-grid">
+        <div class="kpi"><div class="label muted">Role</div><div class="display" style="font-size:2rem;color:#fff">{{ account['role'] }}</div></div>
+        <div class="kpi"><div class="label muted">Menu položek</div><div class="display" style="font-size:2rem;color:#fff">{{ menu_count }}</div></div>
+        <div class="kpi"><div class="label muted">Lock state</div><div class="display" style="font-size:2rem;color:#fff">{{ lock_state }}</div></div>
+    </div>
+</section>
+
+<div class="tab-row">
+    <button class="tab-btn active label" data-tab-button="menu">Menu & import</button>
+    <button class="tab-btn label" data-tab-button="billing">Billing</button>
+    <button class="tab-btn label" data-tab-button="accounts">Účty</button>
+    <button class="tab-btn label" data-tab-button="audit">Audit</button>
+</div>
+
+<section class="tab-panel active stack" data-tab-panel="menu">
+    <div class="layout-two">
+        <div class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Přidat jídlo</h2></div>
+            <form action="{{ url_for('admin.add_menu_item') }}" method="post" class="form-grid">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <select class="select-dark" name="day">
+                    <option>Pondělí</option><option>Úterý</option><option>Středa</option><option>Čtvrtek</option><option>Pátek</option>
+                </select>
+                <input class="input-dark" name="dish_name" placeholder="Dish name">
+                <input class="input-dark" name="price_text" placeholder="150 Kč">
+                <button class="btn-gold label">Přidat do menu</button>
+            </form>
+        </div>
+        <div class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">PDF import</h2></div>
+            <form action="{{ url_for('imports.preview_menu_pdf') }}" method="post" enctype="multipart/form-data" class="form-grid">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input class="file-dark" type="file" name="pdf_file" accept="application/pdf">
+                <button class="btn-blue label">Preview importu</button>
+            </form>
+            {% if current_menu_pdf_meta.available %}
+            <a class="btn-ghost label" href="{{ url_for('imports.current_menu_pdf') }}" target="_blank" rel="noopener">Zobrazit původní PDF · {{ current_menu_pdf_meta.filename }}</a>
+            {% else %}
+            <div class="muted small">Zatím není uložené žádné původní PDF menu.</div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<section class="tab-panel stack" data-tab-panel="billing">
+    <div class="layout-two">
+        <div class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Billing akce</h2></div>
+            <form action="{{ url_for('billing.update_lock_state') }}" method="post" class="form-grid">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <select class="select-dark" name="state">
+                    <option value="auto" {{ 'selected' if lock_state == 'auto' else '' }}>auto</option>
+                    <option value="locked" {{ 'selected' if lock_state == 'locked' else '' }}>locked</option>
+                    <option value="unlocked" {{ 'selected' if lock_state == 'unlocked' else '' }}>unlocked</option>
+                </select>
+                <button class="btn-blue label">Uložit lock state</button>
+            </form>
+            <form action="{{ url_for('billing.lock_week') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn-gold label">Lock submitted orders</button></form>
+            <form action="{{ url_for('billing.pay_everyone') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn-ghost label">Pay all</button></form>
+            {% if account['role'] == 'super_admin' %}<form action="{{ url_for('admin.reset_week') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn-ghost label">Reset week</button></form>{% endif %}
+        </div>
+        <div class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Dlužníci</h2></div>
+            {% for debtor in debtors %}
+            <form action="{{ url_for('billing.mark_paid') }}" method="post" class="card" style="padding:14px">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="target_account_id" value="{{ debtor['id'] }}">
+                <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+                    <div>
+                        <div style="color:#fff"><strong>{{ debtor['first_name'] }} {{ debtor['last_name'] }}</strong></div>
+                        <div class="muted small">{{ debtor['email'] }} · {{ debtor['item_count'] }} položek · {{ debtor['cents'] // 100 }} Kč</div>
+                    </div>
+                    <button class="btn-gold label">Mark paid</button>
+                </div>
+            </form>
+            {% else %}<p class="muted">Žádní aktuální dlužníci.</p>{% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="tab-panel stack" data-tab-panel="accounts">
+    <div class="layout-two">
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Vytvořit účet</h2></div>
+            <form action="{{ url_for('admin.create_account') }}" method="post" class="form-grid">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input class="input-dark" name="first_name" placeholder="Křestní jméno">
+                <input class="input-dark" name="last_name" placeholder="Příjmení">
+                <input class="input-dark" name="email" type="email" placeholder="E-mail">
+                <select class="select-dark" name="role"><option>user</option><option>manager</option><option>billing_admin</option><option>super_admin</option></select>
+                <input class="input-dark" name="password" placeholder="Dočasné heslo (default heslo123)">
+                <button class="btn-gold label">Vytvořit účet</button>
+            </form>
+        </section>
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Účty</h2></div>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Identita</th><th>E-mail / login</th><th>Role</th><th>Security</th><th>Akce</th></tr>
+                    {% for row in accounts %}
+                    <tr>
+                        <td><strong>{{ row['first_name'] }} {{ row['last_name'] }}</strong></td>
+                        <td>{{ row['email'] }}{% if row['username'] == 'admin' %}<div class="muted small">login: admin</div>{% endif %}</td>
+                        <td>{{ row['role'] }}{% if not row['is_active'] %}<div class="muted small">inactive</div>{% endif %}</td>
+                        <td>{% if row['must_change_password'] %}<span class="badge badge-red">Změna hesla</span>{% else %}<span class="badge badge-blue">OK</span>{% endif %}</td>
+                        <td>
+                            <form action="{{ url_for('admin.update_account', account_id=row['id']) }}" method="post" class="form-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:8px">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input class="input-dark" name="first_name" value="{{ row['first_name'] }}">
+                                <input class="input-dark" name="last_name" value="{{ row['last_name'] }}">
+                                <input class="input-dark" name="email" type="email" value="{{ row['email'] }}">
+                                <select class="select-dark" name="role">{% for role_name in ['user','manager','billing_admin','super_admin'] %}<option value="{{ role_name }}" {{ 'selected' if row['role'] == role_name else '' }}>{{ role_name }}</option>{% endfor %}</select>
+                                <select class="select-dark" name="is_active"><option value="1" {{ 'selected' if row['is_active'] else '' }}>active</option><option value="0" {{ 'selected' if not row['is_active'] else '' }}>inactive</option></select>
+                                <button class="btn-ghost label">Uložit</button>
+                            </form>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap">
+                                <form action="{{ url_for('admin.reset_account_password', account_id=row['id']) }}" method="post">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="new_password" value="heslo123"><button class="btn-ghost label">Reset hesla</button>
+                                </form>
+                                {% if row['username'] != 'admin' %}<form action="{{ url_for('admin.delete_account', account_id=row['id']) }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn-ghost label">Smazat</button></form>{% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </section>
+    </div>
+</section>
+
+<section class="tab-panel stack" data-tab-panel="audit">
+    <section class="card pad-lg stack">
+        <div class="section-title"><h2 class="display">Audit log</h2></div>
+        <div class="table-wrap"><table><tr><th>Kdy</th><th>Event</th><th>Actor</th><th>Role</th><th>Detail</th></tr>{% for row in audit_rows %}<tr><td>{{ row['created_at'] }}</td><td>{{ row['event_type'] }}</td><td>{{ row['actor'] }}</td><td>{{ row['role'] }}</td><td>{{ row['detail'] }}</td></tr>{% else %}<tr><td colspan="5">Audit log je prázdný.</td></tr>{% endfor %}</table></div>
+    </section>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Registrace · FINAL Lunch{% endblock %}
+{% block content %}
+<div class="auth-shell">
+    <section class="card auth-card">
+        <span class="badge badge-gold label">Registrace</span>
+        <h1 class="display">Nový účet</h1>
+        <p class="muted">Firemní identita účtu používá křestní jméno, příjmení a e-mail.</p>
+        <form method="post" class="form-grid">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input class="input-dark" name="first_name" placeholder="Křestní jméno" autocomplete="given-name" required>
+            <input class="input-dark" name="last_name" placeholder="Příjmení" autocomplete="family-name" required>
+            <input class="input-dark" name="email" type="email" placeholder="E-mail" autocomplete="email" required>
+            <input class="input-dark" name="password" type="password" placeholder="Heslo" autocomplete="new-password" required>
+            <input class="input-dark" name="password_confirm" type="password" placeholder="Heslo znovu" autocomplete="new-password" required>
+            <button class="btn-gold label">Vytvořit účet</button>
+        </form>
+        <div class="auth-actions">
+            <span class="muted">Máte účet?</span>
+            <a class="btn-ghost label" href="{{ url_for('auth.login') }}">Přihlášení</a>
+        </div>
+    </section>
+</div>
+{% endblock %}
