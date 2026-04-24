@@ -1,0 +1,367 @@
+from __future__ import annotations
+
+import json
+import os
+import shutil
+import uuid
+from pathlib import Path
+
+from ..core.db import account_full_name, execute, get_setting, log_event, query, set_setting
+from ..core.utils import ALLOWED_DAYS, DAYS_ORDER, extract_price_cents, format_price_czk, normalize_spaces
+from ..domain.menu_parser import analyze_menu_text
+
+ALLOWED_UPLOAD_EXTENSIONS = {".pdf"}
+CURRENT_MENU_PDF_NAME = "current_menu.pdf"
+DEFAULT_PRICE_CENTS = 15000
+
+
+def validate_pdf_upload(storage) -> str | None:
+    if not storage or not storage.filename:
+        return "No file selected."
+    ext = os.path.splitext(storage.filename.lower())[1]
+    if ext not in ALLOWED_UPLOAD_EXTENSIONS:
+        return "Only PDF upload is allowed."
+    header = storage.stream.read(4)
+    storage.stream.seek(0)
+    if header != b"%PDF":
+        return "Uploaded file is not a valid PDF."
+    return None
+
+
+def _ordered_menu_rows():
+    return query(
+        "SELECT * FROM menu ORDER BY CASE day WHEN 'Pondělí' THEN 1 WHEN 'Úterý' THEN 2 WHEN 'Středa' THEN 3 WHEN 'Čtvrtek' THEN 4 WHEN 'Pátek' THEN 5 ELSE 99 END, dish_name, id"
+    )
+
+
+def _item_sort_key(item: dict[str, object]):
+    return (DAYS_ORDER.get(str(item.get("day") or ""), 99), str(item.get("dish_name") or "").lower(), str(item.get("item_id") or ""))
+
+
+def _ensure_item_ids(report: dict[str, object]) -> dict[str, object]:
+    items = []
+    for item in list(report.get("items", []) or []):
+        row = dict(item)
+        row.setdefault("item_id", uuid.uuid4().hex[:12])
+        row.setdefault("continued_lines", [])
+        items.append(row)
+    report["items"] = items
+    return report
+
+
+def build_menu_diff(parsed_items: list[dict[str, object]], current_rows) -> dict[str, object]:
+    current_by_key = {(row["day"], row["dish_name"]): row for row in current_rows}
+    parsed_by_key = {(str(item["day"]), str(item["dish_name"])): item for item in parsed_items}
+
+    added: list[dict[str, object]] = []
+    removed: list[dict[str, object]] = []
+    changed: list[dict[str, object]] = []
+    unchanged_count = 0
+
+    for key, item in parsed_by_key.items():
+        current = current_by_key.get(key)
+        if not current:
+            added.append({
+                "day": item["day"],
+                "dish_name": item["dish_name"],
+                "price_text": item["price_text"],
+                "source_line": item.get("source_line"),
+            })
+            continue
+        if int(current["price_cents"]) != int(item["price_cents"]):
+            changed.append({
+                "day": item["day"],
+                "dish_name": item["dish_name"],
+                "old_price_text": current["price_text"],
+                "new_price_text": item["price_text"],
+                "source_line": item.get("source_line"),
+            })
+        else:
+            unchanged_count += 1
+
+    for key, row in current_by_key.items():
+        if key not in parsed_by_key:
+            removed.append({
+                "day": row["day"],
+                "dish_name": row["dish_name"],
+                "price_text": row["price_text"],
+            })
+
+    added.sort(key=lambda item: (DAYS_ORDER.get(item["day"], 99), item["dish_name"]))
+    changed.sort(key=lambda item: (DAYS_ORDER.get(item["day"], 99), item["dish_name"]))
+    removed.sort(key=lambda item: (DAYS_ORDER.get(item["day"], 99), item["dish_name"]))
+    return {
+        "added": added,
+        "removed": removed,
+        "changed": changed,
+        "summary": {
+            "added_count": len(added),
+            "removed_count": len(removed),
+            "changed_count": len(changed),
+            "unchanged_count": unchanged_count,
+        },
+    }
+
+
+def _normalize_preview_items(report: dict[str, object]) -> dict[str, object]:
+    report = _ensure_item_ids(report)
+    normalized_items: list[dict[str, object]] = []
+    missing_price_items = []
+    recognized_days = set(str(day) for day in report.get("recognized_days", []) if str(day) in ALLOWED_DAYS)
+
+    for raw in list(report.get("items", []) or []):
+        item = dict(raw)
+        day = str(item.get("day") or "").strip()
+        dish_name = normalize_spaces(str(item.get("dish_name") or ""))
+        if day not in ALLOWED_DAYS or not dish_name:
+            continue
+
+        raw_price_source = normalize_spaces(str(item.get("price_source") or ""))
+        raw_price_text = normalize_spaces(str(item.get("price_text") or ""))
+        stored_had_explicit = item.get("had_explicit_price")
+
+        if stored_had_explicit is False:
+            raw_price = raw_price_source
+            had_explicit_price = False
+            price_cents = extract_price_cents(raw_price)
+            if price_cents <= 0:
+                price_cents = DEFAULT_PRICE_CENTS
+        else:
+            raw_price = raw_price_source or raw_price_text
+            price_cents = extract_price_cents(raw_price)
+            had_explicit_price = bool(raw_price and price_cents > 0)
+            if price_cents <= 0:
+                price_cents = DEFAULT_PRICE_CENTS
+                raw_price = ""
+                had_explicit_price = False
+
+        source_line = item.get("source_line")
+        try:
+            source_line = int(source_line) if source_line not in (None, "", 0) else ""
+        except (TypeError, ValueError):
+            source_line = ""
+
+        source_text = normalize_spaces(str(item.get("source_text") or ""))
+        source_text = source_text or ("Manuálně upraveno v preview" if source_line == "" else "")
+        continued_lines = list(item.get("continued_lines") or [])
+        manual = bool(item.get("manual")) or source_line == ""
+
+        normalized = {
+            "item_id": str(item.get("item_id") or uuid.uuid4().hex[:12]),
+            "day": day,
+            "dish_name": dish_name,
+            "price_cents": int(price_cents),
+            "price_text": format_price_czk(int(price_cents)),
+            "source_line": source_line,
+            "source_text": source_text,
+            "had_explicit_price": had_explicit_price,
+            "price_source": raw_price_source if had_explicit_price else "",
+            "continued_lines": continued_lines,
+            "manual": manual,
+        }
+        if item.get("edited") or manual:
+            normalized["edited"] = True
+        normalized_items.append(normalized)
+        recognized_days.add(day)
+
+        if not had_explicit_price:
+            missing_price_items.append({
+                "item_id": normalized["item_id"],
+                "day": day,
+                "line_no": source_line or "—",
+                "text": source_text or dish_name,
+                "dish_name": dish_name,
+                "fallback_price_text": normalized["price_text"],
+            })
+
+    normalized_items.sort(key=_item_sort_key)
+    report["items"] = normalized_items
+    report["recognized_days"] = [day for day in ALLOWED_DAYS if day in recognized_days]
+    report["missing_days"] = [day for day in ALLOWED_DAYS if day not in recognized_days]
+    report["missing_price_items"] = missing_price_items
+    current_rows = _ordered_menu_rows()
+    report["current_menu"] = [
+        {
+            "id": row["id"],
+            "day": row["day"],
+            "dish_name": row["dish_name"],
+            "price_text": row["price_text"],
+            "price_cents": row["price_cents"],
+        }
+        for row in current_rows
+    ]
+    report["diff"] = build_menu_diff(normalized_items, current_rows)
+    report["summary"] = {
+        "recognized_day_count": len(report["recognized_days"]),
+        "parsed_item_count": len(normalized_items),
+        "missing_price_count": len(missing_price_items),
+        "skipped_line_count": len(report.get("skipped_lines", []) or []),
+        "suspicious_line_count": len(report.get("suspicious_lines", []) or []),
+    }
+    return report
+
+
+def parse_menu_pdf_preview(file_path: str, *, original_filename: str = "menu.pdf") -> dict[str, object]:
+    from pdfminer.high_level import extract_text
+
+    text = extract_text(file_path) or ""
+    report = analyze_menu_text(text)
+    report["meta"] = {
+        "original_filename": original_filename,
+        "parsed_with": "pdfminer",
+    }
+    return _normalize_preview_items(report)
+
+
+def get_preview_dir() -> Path:
+    from flask import current_app
+
+    path = Path(current_app.config["UPLOAD_FOLDER"]) / "import_previews"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def get_menu_pdf_dir() -> Path:
+    from flask import current_app
+
+    path = Path(current_app.config["UPLOAD_FOLDER"]) / "menu_originals"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def get_preview_pdf_path(preview_id: str) -> Path:
+    return get_preview_dir() / f"{preview_id}.pdf"
+
+
+def get_current_menu_pdf_path() -> Path:
+    return get_menu_pdf_dir() / CURRENT_MENU_PDF_NAME
+
+
+def save_preview_report(report: dict[str, object], preview_id: str | None = None) -> str:
+    preview_id = preview_id or uuid.uuid4().hex
+    report = _normalize_preview_items(dict(report))
+    path = get_preview_dir() / f"{preview_id}.json"
+    path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    return preview_id
+
+
+def load_preview_report(preview_id: str) -> dict[str, object] | None:
+    path = get_preview_dir() / f"{preview_id}.json"
+    if not path.exists():
+        return None
+    report = json.loads(path.read_text(encoding="utf-8"))
+    return _normalize_preview_items(report)
+
+
+def save_preview_pdf(preview_id: str, source_path: str | Path) -> None:
+    shutil.copyfile(str(source_path), get_preview_pdf_path(preview_id))
+
+
+def preview_pdf_exists(preview_id: str) -> bool:
+    return get_preview_pdf_path(preview_id).exists()
+
+
+def discard_preview_report(preview_id: str) -> None:
+    path = get_preview_dir() / f"{preview_id}.json"
+    path.unlink(missing_ok=True)
+    get_preview_pdf_path(preview_id).unlink(missing_ok=True)
+
+
+def promote_preview_pdf(preview_id: str, *, original_filename: str = "menu.pdf") -> bool:
+    source = get_preview_pdf_path(preview_id)
+    if not source.exists():
+        return False
+    target = get_current_menu_pdf_path()
+    shutil.copyfile(source, target)
+    set_setting("current_menu_pdf_filename", original_filename)
+    return True
+
+
+def get_current_menu_pdf_meta() -> dict[str, object]:
+    path = get_current_menu_pdf_path()
+    return {
+        "available": path.exists(),
+        "filename": get_setting("current_menu_pdf_filename", "menu.pdf") or "menu.pdf",
+    }
+
+
+def update_preview_item(preview_id: str, item_id: str, *, day: str, dish_name: str, price_text: str) -> dict[str, object] | None:
+    report = load_preview_report(preview_id)
+    if not report:
+        return None
+    updated = False
+    for item in report.get("items", []):
+        if str(item.get("item_id")) == str(item_id):
+            item["day"] = day
+            item["dish_name"] = dish_name
+            item["price_text"] = price_text
+            item["price_source"] = price_text.strip()
+            item["had_explicit_price"] = bool(price_text.strip())
+            item["manual"] = bool(item.get("manual")) or item.get("source_line") in (None, "")
+            item["edited"] = True
+            updated = True
+            break
+    if not updated:
+        return None
+    save_preview_report(report, preview_id=preview_id)
+    return load_preview_report(preview_id)
+
+
+def delete_preview_item(preview_id: str, item_id: str) -> dict[str, object] | None:
+    report = load_preview_report(preview_id)
+    if not report:
+        return None
+    report["items"] = [item for item in report.get("items", []) if str(item.get("item_id")) != str(item_id)]
+    save_preview_report(report, preview_id=preview_id)
+    return load_preview_report(preview_id)
+
+
+def add_preview_item(preview_id: str, *, day: str, dish_name: str, price_text: str) -> dict[str, object] | None:
+    report = load_preview_report(preview_id)
+    if not report:
+        return None
+    report.setdefault("items", []).append({
+        "item_id": uuid.uuid4().hex[:12],
+        "day": day,
+        "dish_name": dish_name,
+        "price_text": price_text,
+        "price_source": price_text.strip(),
+        "source_line": "",
+        "source_text": "Manuálně přidané v preview",
+        "had_explicit_price": bool(price_text.strip()),
+        "continued_lines": [],
+        "manual": True,
+        "edited": True,
+    })
+    save_preview_report(report, preview_id=preview_id)
+    return load_preview_report(preview_id)
+
+
+def replace_menu_from_items(account, items: list[tuple[str, str, int]]) -> int:
+    execute("DELETE FROM menu")
+    count = 0
+    for day, dish_name, price_cents in items:
+        execute(
+            "INSERT INTO menu(day, dish_name, price_text, price_cents) VALUES (?, ?, ?, ?)",
+            (day, dish_name, format_price_czk(price_cents), price_cents),
+        )
+        count += 1
+    log_event(
+        "menu_imported",
+        account_id=account["id"],
+        actor=account_full_name(account),
+        role=account["role"],
+        detail=f"count={count}",
+    )
+    return count
+
+
+def apply_preview_import(account, preview_report: dict[str, object], *, preview_id: str | None = None) -> int:
+    items = [
+        (str(item["day"]), str(item["dish_name"]), int(item["price_cents"]))
+        for item in _normalize_preview_items(dict(preview_report)).get("items", [])
+    ]
+    count = replace_menu_from_items(account, items)
+    if preview_id:
+        promote_preview_pdf(preview_id, original_filename=str(preview_report.get("meta", {}).get("original_filename", "menu.pdf")))
+    return count

@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+{% block title %}Import preview · FINAL Lunch{% endblock %}
+{% block content %}
+<section class="card pad-lg stack">
+    <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap">
+        <div>
+            <span class="badge badge-gold label">Preview before save</span>
+            <h1 class="display" style="color:#fff;font-size:clamp(2.2rem,6vw,3.6rem);margin:.2rem 0 .4rem">PDF preview before save</h1>
+            <p class="muted">Soubor: {{ report.meta.original_filename }} · parser: {{ report.meta.parsed_with }}</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a class="btn-ghost label" href="{{ url_for('admin.dashboard') }}">Zpět do adminu</a>
+            {% if preview_pdf_available %}
+            <a class="btn-blue label" href="{{ url_for('imports.preview_menu_pdf_file', preview_id=preview_id) }}" target="_blank" rel="noopener">Otevřít nahrané PDF</a>
+            {% endif %}
+            {% if current_menu_pdf_meta.available %}
+            <a class="btn-ghost label" href="{{ url_for('imports.current_menu_pdf') }}" target="_blank" rel="noopener">Aktuální originální PDF</a>
+            {% endif %}
+            <form method="post" action="{{ url_for('imports.discard_preview', preview_id=preview_id) }}" class="inline-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn-ghost label">Zahodit preview</button>
+            </form>
+            <form method="post" action="{{ url_for('imports.apply_preview', preview_id=preview_id) }}" class="inline-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="btn-gold label">Potvrdit import</button>
+            </form>
+        </div>
+    </div>
+    <div class="kpi-grid">
+        <div class="kpi"><div class="label muted">Rozpoznané dny</div><div class="display" style="font-size:2rem;color:#fff">{{ report.summary.recognized_day_count }}/5</div></div>
+        <div class="kpi"><div class="label muted">Načtené položky</div><div class="display" style="font-size:2rem;color:#fff">{{ report.summary.parsed_item_count }}</div></div>
+        <div class="kpi"><div class="label muted">Chybějící ceny</div><div class="display" style="font-size:2rem;color:#fff">{{ report.summary.missing_price_count }}</div></div>
+        <div class="kpi"><div class="label muted">Podezřelé řádky</div><div class="display" style="font-size:2rem;color:#fff">{{ report.summary.suspicious_line_count }}</div></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+        {% for day in report.recognized_days %}
+        <span class="badge badge-green label">{{ day }}</span>
+        {% endfor %}
+        {% for day in report.missing_days %}
+        <span class="badge badge-red label">chybí {{ day }}</span>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="layout-two">
+    <div class="stack">
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Diff proti aktuálnímu menu</h2></div>
+            <div class="kpi-grid">
+                <div class="kpi"><div class="label muted">Nové</div><div class="display" style="font-size:1.8rem;color:#fff">{{ report.diff.summary.added_count }}</div></div>
+                <div class="kpi"><div class="label muted">Změněná cena</div><div class="display" style="font-size:1.8rem;color:#fff">{{ report.diff.summary.changed_count }}</div></div>
+                <div class="kpi"><div class="label muted">Zmizí po importu</div><div class="display" style="font-size:1.8rem;color:#fff">{{ report.diff.summary.removed_count }}</div></div>
+                <div class="kpi"><div class="label muted">Beze změny</div><div class="display" style="font-size:1.8rem;color:#fff">{{ report.diff.summary.unchanged_count }}</div></div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Typ</th><th>Den</th><th>Jídlo</th><th>Cena</th></tr>
+                    {% for row in report.diff.added %}
+                    <tr><td><span class="badge badge-green label">new</span></td><td>{{ row.day }}</td><td>{{ row.dish_name }}</td><td>{{ row.price_text }}</td></tr>
+                    {% endfor %}
+                    {% for row in report.diff.changed %}
+                    <tr><td><span class="badge badge-gold label">price</span></td><td>{{ row.day }}</td><td>{{ row.dish_name }}</td><td>{{ row.old_price_text }} → {{ row.new_price_text }}</td></tr>
+                    {% endfor %}
+                    {% for row in report.diff.removed %}
+                    <tr><td><span class="badge badge-red label">remove</span></td><td>{{ row.day }}</td><td>{{ row.dish_name }}</td><td>{{ row.price_text }}</td></tr>
+                    {% endfor %}
+                    {% if not report.diff.added and not report.diff.changed and not report.diff.removed %}
+                    <tr><td colspan="4">Žádný rozdíl oproti aktuálnímu menu.</td></tr>
+                    {% endif %}
+                </table>
+            </div>
+        </section>
+
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Editace preview před potvrzením</h2></div>
+            <p class="muted">Každou položku můžeš upravit přímo tady. Po uložení se okamžitě přepočítá diff i warningy. Umíš také přidat chybějící jídlo nebo odstranit špatně rozpoznanou položku.</p>
+            <div class="table-wrap preview-edit-table">
+                <table>
+                    <tr><th>Editor preview</th></tr>
+                    {% for row in report["items"] %}
+                    <tr>
+                        <td>
+                            <form method="post" action="{{ url_for('imports.update_preview_item_route', preview_id=preview_id, item_id=row.item_id) }}" class="preview-inline-grid">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <select class="select-dark" name="day">
+                                    {% for day_name in ['Pondělí','Úterý','Středa','Čtvrtek','Pátek'] %}
+                                    <option value="{{ day_name }}" {{ 'selected' if row.day == day_name else '' }}>{{ day_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <input class="input-dark" name="dish_name" value="{{ row.dish_name }}" placeholder="Název jídla">
+                                <input class="input-dark" name="price_text" value="{{ row.price_text if row.had_explicit_price else '' }}" placeholder="150 Kč">
+                                <button class="btn-blue label">Uložit</button>
+                                <button formaction="{{ url_for('imports.delete_preview_item_route', preview_id=preview_id, item_id=row.item_id) }}" class="btn-ghost label">Smazat</button>
+                            </form>
+                            <div class="muted small" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+                                <span>zdroj: {{ row.source_line or 'manuální položka' }}</span>
+                                {% if row.manual %}<span class="badge badge-ice label">manuální/editované</span>{% endif %}
+                                {% if not row.had_explicit_price %}<span class="badge badge-red label">fallback cena</span>{% endif %}
+                                {% if row.continued_lines %}<span class="badge badge-blue label">{{ row.continued_lines|length + 1 }} řádky</span>{% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td>Parser nenačetl žádné položky.</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <form method="post" action="{{ url_for('imports.add_preview_item_route', preview_id=preview_id) }}" class="preview-add-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <select class="select-dark" name="day">
+                    {% for day_name in ['Pondělí','Úterý','Středa','Čtvrtek','Pátek'] %}
+                    <option value="{{ day_name }}">{{ day_name }}</option>
+                    {% endfor %}
+                </select>
+                <input class="input-dark" name="dish_name" placeholder="Nové jídlo z PDF nebo ruční doplnění">
+                <input class="input-dark" name="price_text" placeholder="150 Kč">
+                <button class="btn-gold label">Přidat položku</button>
+            </form>
+        </section>
+    </div>
+
+    <div class="stack">
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Warningy</h2></div>
+            {% if report.missing_price_items %}
+            <div class="stack">
+                {% for row in report.missing_price_items %}
+                <div class="card" style="padding:14px;border-color:rgba(239,68,68,.25)">
+                    <div><span class="badge badge-red label">Chybí cena</span></div>
+                    <div style="color:#fff"><strong>{{ row.day }}</strong> · {{ row.dish_name }}</div>
+                    <div class="muted small">řádek {{ row.line_no }} · použit fallback {{ row.fallback_price_text }}</div>
+                    <div class="muted small">{{ row.text }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="muted">Žádné chybějící ceny.</p>
+            {% endif %}
+        </section>
+
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Přeskočené řádky</h2></div>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Den</th><th>Řádek</th><th>Důvod</th><th>Text</th></tr>
+                    {% for row in report.skipped_lines %}
+                    <tr><td>{{ row.day or '—' }}</td><td>{{ row.line_no }}</td><td>{{ row.reason }}</td><td>{{ row.text }}</td></tr>
+                    {% else %}
+                    <tr><td colspan="4">Nic se nepřeskočilo.</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </section>
+
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Podezřelé řádky</h2></div>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Den</th><th>Řádek</th><th>Důvod</th><th>Text</th></tr>
+                    {% for row in report.suspicious_lines %}
+                    <tr><td>{{ row.day or '—' }}</td><td>{{ row.line_no }}</td><td>{{ row.reason }}</td><td>{{ row.text }}</td></tr>
+                    {% else %}
+                    <tr><td colspan="4">Nic podezřelého.</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </section>
+    </div>
+</section>
+
+<section class="card pad-lg stack">
+    <div class="section-title"><h2 class="display">Rozpad po dnech</h2></div>
+    <div class="stack">
+        {% for section in report.day_sections %}
+        <div class="card" style="padding:18px">
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+                <div style="color:#fff"><strong>{{ section.day }}</strong></div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    {% if section.recognized %}<span class="badge badge-green label">rozpoznán</span>{% else %}<span class="badge badge-red label">chybí</span>{% endif %}
+                    <span class="badge badge-ice label">raw {{ section.raw_lines|length }}</span>
+                    <span class="badge badge-ice label">logical {{ section.logical_lines|length }}</span>
+                    <span class="badge badge-ice label">items {{ section.parsed_items|length }}</span>
+                </div>
+            </div>
+            {% if section.logical_lines %}
+            <div class="table-wrap" style="margin-top:14px">
+                <table>
+                    <tr><th>Řádek</th><th>Logical line</th></tr>
+                    {% for row in section.logical_lines %}
+                    <tr><td>{{ row.line_no }}</td><td>{{ row.text }}</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% else %}
+            <p class="muted" style="margin-top:14px">Žádné logical lines.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

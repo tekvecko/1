@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% block title %}Menu · FINAL Lunch{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="card hero-copy">
+        <span class="badge badge-gold label">Food for everyone</span>
+        <h1 class="display">Týdenní menu</h1>
+        <p>Mobilní výběr je teď přehlednější: dny s datem zůstávají po ruce, jednotlivé sekce jsou rozbalovací a košík se na telefonu chytře roztahuje.</p>
+        <div class="day-tabs desktop-day-tabs">
+            {% for day in state.menu_days %}
+            {% set tab_state = state.day_status_by_day.get(day, 'none') %}
+            <a class="day-tab day-tab-state-{{ tab_state }}" href="#day-{{ day }}" data-day-link="{{ day }}" data-order-state="{{ tab_state }}">
+                <div class="display abbr">{{ day[:2] }}</div>
+                <div class="date">{{ week_dates.get(day, '') }}</div>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="hero-actions">
+            <a href="{{ url_for('orders.profile') }}" class="btn-ghost label">Upravit profil</a>
+            {% if current_menu_pdf_meta.available %}
+            <a href="{{ url_for('imports.current_menu_pdf') }}" target="_blank" rel="noopener" class="btn-blue label">Otevřít originální PDF</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card pad-lg stack desktop-summary-card">
+        <div class="stat-grid">
+            <div class="stat">
+                <div class="label muted">Vybrané dny</div>
+                <div class="display value" data-cart-count>{{ state.cart_count }}</div>
+            </div>
+            <div class="stat">
+                <div class="label muted">Týdenní součet</div>
+                <div class="display value" data-cart-total>{{ state.cart_total_text }}</div>
+            </div>
+            <div class="stat">
+                <div class="label muted">Bezpečnost</div>
+                <div class="display value">v2</div>
+            </div>
+        </div>
+        <div>
+            <div class="label muted" style="margin-bottom:8px">Progress týdne</div>
+            <div class="week-progress"><span data-week-progress-fill style="width: {{ ((state.cart_count / (state.menu_days|length or 1)) * 100)|round|int }}%"></span></div>
+        </div>
+        <div class="stack small muted">
+            <div>Profil alergií: <strong style="color:#fff">{{ user_row['allergens'] if user_row and user_row['allergens'] else 'nenastaveno' }}</strong></div>
+            <div>Na telefonu jsou dny sbalené do accordionu, aby bylo při prvním načtení vidět víc obsahu.</div>
+        </div>
+    </div>
+</section>
+
+<section class="mobile-day-rail" aria-label="Rychlá navigace po dnech">
+    <div class="mobile-day-rail-inner">
+        {% for day in state.menu_days %}
+        {% set tab_state = state.day_status_by_day.get(day, 'none') %}
+        <a class="day-tab day-tab-state-{{ tab_state }}" href="#day-{{ day }}" data-day-link="{{ day }}" data-order-state="{{ tab_state }}">
+            <div class="display abbr">{{ day[:2] }}</div>
+            <div class="date">{{ week_dates.get(day, '') }}</div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<div class="menu-tools sticky-filters" data-menu-tools>
+    <button type="button" class="menu-tools-trigger label" data-menu-tools-toggle aria-expanded="false" aria-controls="menu-tools-panel">
+        <span class="menu-tools-trigger-copy">Hledat / filtrovat</span>
+        <span class="menu-tools-trigger-dots" aria-hidden="true">⋮</span>
+    </button>
+    <div id="menu-tools-panel" class="menu-tools-panel" data-menu-tools-panel hidden>
+        <div class="menu-tools-panel-head">
+            <div>
+                <div class="label muted">Menu nástroje</div>
+                <div class="display" style="color:#fff;font-size:1.5rem;line-height:1">Filtry a hledání</div>
+            </div>
+            <button type="button" class="btn-ghost label menu-tools-close" data-menu-tools-close>Zavřít</button>
+        </div>
+        <div class="filters">
+            <input id="menu-search" class="search-input" placeholder="Hledat jídlo, den nebo tag...">
+            <button id="filter-selected" data-filter-chip class="chip label">✅ Vybrané</button>
+            <button id="filter-safe" data-filter-chip class="chip label">🛡️ Bez alergenů</button>
+            <button id="filter-recommended" data-filter-chip class="chip label">⭐ Pro mě</button>
+            <button id="filter-popular" data-filter-chip class="chip label">🔥 Populární</button>
+        </div>
+    </div>
+</div>
+<div id="menu-empty-state" class="card hidden" style="text-align:center">
+    <div class="display" style="font-size:2rem;color:#fff">Žádné výsledky</div>
+    <p class="muted">Změň hledání nebo vypni některý z filtrů.</p>
+</div>
+
+<div class="layout-two menu-layout">
+    <section class="menu-sections">
+        {% for day, dishes in menu.items() %}
+        {% set default_open = loop.first or dishes|selectattr('selected')|list|length > 0 %}
+        <section id="day-{{ day }}" class="day-section {% if default_open %}is-open{% endif %}" data-day-section="{{ day }}">
+            <button class="day-accordion-toggle" type="button" data-day-toggle="{{ day }}" aria-expanded="{{ 'true' if default_open else 'false' }}">
+                <div class="day-header">
+                    <span class="accent" style="background: {% if loop.index == 1 %}#3b82f6{% elif loop.index == 2 %}#10b981{% elif loop.index == 3 %}#f59e0b{% elif loop.index == 4 %}#f97316{% else %}#f43f5e{% endif %}"></span>
+                    <div>
+                        <div class="section-title"><h2 class="display">{{ day }}</h2></div>
+                        <div class="muted small">{{ dishes|length }} možností · {{ week_dates.get(day, '') }}</div>
+                    </div>
+                </div>
+                <span class="accordion-indicator" aria-hidden="true">⌄</span>
+            </button>
+            <div class="day-content" data-day-content="{{ day }}">
+                <div class="dish-grid">
+                    {% for dish in dishes %}
+                    <article class="dish-card {% if dish.selected %}selected{% endif %}"
+                             data-day="{{ day }}"
+                             data-dish-id="{{ dish.id }}"
+                             data-recommended="{{ 1 if dish.recommended else 0 }}"
+                             data-safe="{{ 1 if dish.safe else 0 }}"
+                             data-popularity="{{ dish.popularity }}"
+                             data-search="{{ (day ~ ' ' ~ dish.dish_name)|lower }}"
+                             data-dish-payload='{{ dish|tojson|forceescape }}'>
+                        <div class="dish-top" data-open-dish-modal="1" tabindex="0" role="button" aria-label="Zobrazit detail jídla {{ dish.dish_name }}">
+                            <div class="emoji-bubble">{{ dish.emoji }}</div>
+                            <div style="min-width:0;flex:1">
+                                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                                    {% if dish.recommended %}<span class="badge badge-gold">⭐ Pro mě</span>{% endif %}
+                                    {% if not dish.safe %}<span class="badge badge-red">⚠️ Alergen</span>{% endif %}
+                                    {% if dish.popularity %}<span class="badge badge-blue">🔥 {{ dish.popularity }}×</span>{% endif %}
+                                    {% if dish.thumbs %}<span class="badge badge-gold">👍 {{ dish.thumbs }}</span>{% endif %}
+                                </div>
+                                <div class="dish-name"><strong>{{ dish.dish_name }}</strong></div>
+                                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+                                    <span class="price-tag">{{ dish.price_text }}</span>
+                                    <span data-card-status class="badge {{ 'badge-gold' if dish.selected else 'badge-blue' }}">{{ 'Vybráno' if dish.selected else 'K dispozici' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-actions" data-action-slot>
+                            {% if dish.selected %}
+                            <button type="button" class="btn-gold label">Vybráno ✅</button>
+                            <button type="button" class="btn-ghost label" data-cancel-day="{{ day }}">Zrušit ✕</button>
+                            {% else %}
+                            <button type="button" class="btn-blue label" data-select-day="{{ day }}" data-select-dish-id="{{ dish.id }}">Vybrat jídlo</button>
+                            {% endif %}
+                            <button type="button" class="btn-ghost label" data-open-dish-modal="1">Detail</button>
+                        </div>
+                        <div style="margin-top:10px">
+                            <button type="button" data-rate-dish="{{ dish.dish_name }}" class="{{ 'btn-gold' if dish.rated else 'btn-ghost' }} label" {% if dish.rated %}disabled{% endif %}>{{ '👍 Hodnoceno' if dish.rated else '👍 Ohodnotit' }}</button>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+    </section>
+
+    <aside class="side-card stack desktop-cart-panel">
+        <section class="card pad-lg">
+            <div class="section-title"><h2 class="display">Košík</h2></div>
+            <div class="muted small">Vybrané dny: <strong style="color:#fff" data-cart-count>{{ state.cart_count }}</strong> · Celkem: <strong style="color:#fff" data-cart-total>{{ state.cart_total_text }}</strong></div>
+            <div class="cart-list" style="margin-top:12px" data-cart-list-desktop>
+                {% for item in state.cart_items %}
+                <div class="cart-item">
+                    <div class="emoji-bubble" style="width:50px;height:50px;flex-basis:50px;font-size:1.5rem">{{ item.emoji }}</div>
+                    <div style="flex:1">
+                        <div class="badge badge-ice">{{ item.day }}</div>
+                        <div style="color:#fff;margin-top:6px"><strong>{{ item.dish_name }}</strong></div>
+                        <div class="muted small">{{ item.price_text }}</div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="muted" data-cart-empty-desktop>Košík je zatím prázdný.</div>
+                {% endfor %}
+            </div>
+        </section>
+        <section class="card pad-lg stack">
+            <div class="section-title"><h2 class="display">Report</h2></div>
+            <p class="muted">Potřebuješ historii nebo finance? Otevři přehled objednávek a billing stavů.</p>
+            <a href="{{ url_for('orders.orders_report') }}" class="btn-blue label" style="text-align:center">Přejít na report</a>
+            {% if current_menu_pdf_meta.available %}
+            <a href="{{ url_for('imports.current_menu_pdf') }}" target="_blank" rel="noopener" class="btn-ghost label" style="text-align:center">Originální PDF menu</a>
+            {% endif %}
+        </section>
+    </aside>
+</div>
+
+<section class="mobile-smart-cart {% if state.cart_count %}has-items{% endif %}" data-smart-cart>
+    <button type="button" class="mobile-smart-cart-summary" data-smart-cart-toggle aria-expanded="false">
+        <div>
+            <div class="label muted">Košík</div>
+            <div class="display mobile-smart-cart-title"><span data-cart-count>{{ state.cart_count }}</span> dní · <span data-cart-total>{{ state.cart_total_text }}</span></div>
+        </div>
+        <span class="mobile-smart-cart-arrow">⌃</span>
+    </button>
+    <div class="mobile-smart-cart-body">
+        <div class="cart-list" data-cart-list-mobile>
+            {% for item in state.cart_items %}
+            <div class="cart-item">
+                <div class="emoji-bubble" style="width:46px;height:46px;flex-basis:46px;font-size:1.4rem">{{ item.emoji }}</div>
+                <div style="flex:1">
+                    <div class="badge badge-ice">{{ item.day }}</div>
+                    <div style="color:#fff;margin-top:6px"><strong>{{ item.dish_name }}</strong></div>
+                    <div class="muted small">{{ item.price_text }}</div>
+                </div>
+            </div>
+            {% else %}
+            <div class="muted">Košík je zatím prázdný.</div>
+            {% endfor %}
+        </div>
+        <div class="mobile-smart-cart-actions">
+            <a href="{{ url_for('orders.orders_report') }}" class="btn-blue label" style="text-align:center">Otevřít report</a>
+            {% if current_menu_pdf_meta.available %}
+            <a href="{{ url_for('imports.current_menu_pdf') }}" target="_blank" rel="noopener" class="btn-ghost label" style="text-align:center">Originální PDF</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<div class="dish-modal" data-dish-modal hidden>
+    <div class="dish-modal-backdrop" data-close-dish-modal></div>
+    <div class="dish-modal-panel" role="dialog" aria-modal="true" aria-labelledby="dish-modal-title">
+        <button type="button" class="dish-modal-close btn-ghost label" data-close-dish-modal>✕ Zavřít</button>
+        <div class="dish-modal-hero">
+            <div class="emoji-bubble dish-modal-emoji" data-modal-emoji>🍽️</div>
+            <div class="stack" style="gap:10px;min-width:0">
+                <div style="display:flex;gap:8px;flex-wrap:wrap" data-modal-badges></div>
+                <h2 id="dish-modal-title" class="display dish-modal-title" data-modal-name>Detail jídla</h2>
+                <div class="muted" data-modal-day></div>
+            </div>
+        </div>
+        <div class="dish-modal-grid">
+            <section class="card pad-lg stack" style="min-height:100%">
+                <div class="section-title"><h3 class="display">Přehled</h3></div>
+                <div class="stack small">
+                    <div class="price-tag" data-modal-price>0 Kč</div>
+                    <div class="muted" data-modal-description>Detail položky a doporučení.</div>
+                    <div data-modal-source-wrap class="muted small hidden">Zdroj PDF řádek: <strong style="color:#fff" data-modal-source-line></strong></div>
+                </div>
+                <div>
+                    <div class="label muted" style="margin-bottom:8px">Alergeny</div>
+                    <div data-modal-allergens class="dish-modal-tags"></div>
+                </div>
+            </section>
+            <section class="card pad-lg stack">
+                <div class="section-title"><h3 class="display">Akce</h3></div>
+                <div class="stack">
+                    <button type="button" class="btn-blue label" data-modal-select>Vybrat jídlo</button>
+                    <button type="button" class="btn-ghost label" data-modal-cancel>Zrušit výběr pro den</button>
+                    <button type="button" class="btn-ghost label" data-modal-rate>👍 Ohodnotit</button>
+                    {% if current_menu_pdf_meta.available %}
+                    <a href="{{ url_for('imports.current_menu_pdf') }}" target="_blank" rel="noopener" class="btn-ghost label" style="text-align:center">Otevřít originální PDF menu</a>
+                    {% endif %}
+                </div>
+                <div class="stack small muted">
+                    <div data-modal-recommendation></div>
+                    <div data-modal-popularity></div>
+                    <div data-modal-safe></div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
