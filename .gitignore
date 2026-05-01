@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.log
+logs/
+instance/*.db
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+_backup_*/
+_backup*/
+*.bak_*
+*.bak
+cleanup_audit_*.txt

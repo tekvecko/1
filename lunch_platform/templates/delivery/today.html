@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Výdej obědů · FINAL Lunch{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="card hero-copy">
+    <span class="badge badge-gold label">Delivery v3</span>
+    <h1 class="display">Výdej dnes</h1>
+    <p>Kontrola fyzicky doručených obědů a jejich rozdělení zaměstnancům.</p>
+
+    <form method="post" action="{{ url_for('delivery.received') }}" style="margin-top:16px">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="btn-gold label" type="submit">Obědy dorazily</button>
+    </form>
+  </div>
+
+  <div class="card pad-lg stack">
+    <div class="section-title"><h2 class="display">Kontrola boxu</h2></div>
+    {% for item in summary %}
+      <div class="cart-item">
+        <div class="emoji-bubble" style="width:48px;height:48px;flex-basis:48px">🍽️</div>
+        <div style="flex:1">
+          <strong style="color:#fff">{{ item.dish_name }}</strong>
+          <div class="muted small">{{ item.price_text }}</div>
+        </div>
+        <span class="badge badge-blue">{{ item.count }} ks</span>
+      </div>
+    {% else %}
+      <p class="muted">Pro dnešek nejsou žádné uzamčené nebo doručené objednávky.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="card pad-lg" style="margin-top:18px">
+  <div class="section-title"><h2 class="display">Checklist výdeje</h2></div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Zaměstnanec</th>
+          <th>Jídlo</th>
+          <th>Cena</th>
+          <th>Stav</th>
+          <th>Akce</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>
+            <strong style="color:#fff">{{ row.first_name }} {{ row.last_name }}</strong>
+            <div class="muted small">{{ row.email }}</div>
+          </td>
+          <td>{{ row.delivery_dish_name }}</td>
+          <td>{{ row.delivery_price_text }}</td>
+          <td>
+            {% if row.delivery_state == 'handed_over' or row.status == 'handed_over' %}
+              <span class="badge badge-green">Vydáno</span>
+            {% elif row.delivery_state == 'issue' %}
+              <span class="badge badge-red">Problém</span>
+            {% elif row.delivery_state == 'not_picked_up' %}
+              <span class="badge badge-gold">Nepřevzato</span>
+            {% elif row.status == 'delivered' %}
+              <span class="badge badge-blue">Doručeno</span>
+            {% else %}
+              <span class="badge badge-ice">{{ row.status }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <form method="post" action="{{ url_for('delivery.order_event', order_id=row.id) }}" style="display:flex;gap:8px;flex-wrap:wrap">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button class="btn-blue label" name="event_type" value="handed_over" type="submit">Vydáno</button>
+              <button class="btn-ghost label" name="event_type" value="not_picked_up" type="submit">Nepřevzato</button>
+              <button class="btn-ghost label" name="event_type" value="issue" type="submit">Problém</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" class="muted">Žádné položky k výdeji.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% endblock %}

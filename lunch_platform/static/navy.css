@@ -235,103 +235,3893 @@ body.menu-tools-open .mobile-smart-cart{transform:translateY(calc(100% + 24px));
 }
 
 
-
-/* === UX V3 Sticky Planner === */
-.v3-planner {
-  position: fixed;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
-  z-index: 90;
-  border-radius: 24px;
-  background: rgba(6,13,26,.94);
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 22px 56px rgba(0,0,0,.42);
-  backdrop-filter: blur(18px);
-  overflow: hidden;
+/* === UX V3 cleanup: disable removed legacy mobile components === */
+.mobile-day-rail,
+.mobile-day-rail-inner,
+.mobile-smart-cart,
+.mobile-smart-cart-summary,
+.mobile-smart-cart-body,
+.mobile-smart-cart-actions {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
-.v3-planner-head {
-  width: 100%;
-  min-height: 58px;
-  border: 0;
-  background: linear-gradient(135deg, rgba(245,197,24,.98), rgba(245,158,11,.92));
-  color: #07111f;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  font-weight: 900;
-  cursor: pointer;
-}
 
-.v3-planner-days {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  padding: 10px;
-}
 
-.v3-planner-day {
-  min-width: 0;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(255,255,255,.05);
-  color: rgba(255,255,255,.82);
-  border-radius: 16px;
-  padding: 8px 6px;
-  cursor: pointer;
-}
-
-.v3-planner-day.active {
-  background: rgba(37,99,235,.22);
-  border-color: rgba(96,165,250,.44);
-  color: #fff;
-}
-
-.v3-planner-day-name {
-  display: block;
-  font-weight: 900;
-  font-size: .9rem;
-}
-
-.v3-planner-day-food {
-  display: block;
-  margin-top: 3px;
-  font-size: .72rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.v3-planner.pulse {
-  animation: v3PlannerPulse .55s cubic-bezier(.2,.9,.22,1.2);
-}
-
-@keyframes v3PlannerPulse {
-  0% { transform: scale(1); }
-  35% { transform: scale(1.035); }
-  100% { transform: scale(1); }
+/* === UX V3 Mobile Command Center === */
+.v3-mobile-command {
+  display: none;
 }
 
 @media (max-width: 900px) {
-  .container {
-    padding-bottom: 156px !important;
+  body[data-active-page="menu"] .menu-hero {
+    display: none !important;
   }
 
-  .v3-planner:not(.expanded) .v3-planner-days {
-    display: none;
+  body[data-active-page="menu"] .desktop-day-tabs,
+  body[data-active-page="menu"] .desktop-summary-card,
+  body[data-active-page="menu"] .desktop-cart-panel {
+    display: none !important;
   }
 
-  .v3-planner.expanded .v3-planner-days {
+  body[data-active-page="menu"] .container {
+    padding-top: 8px !important;
+    padding-bottom: 116px !important;
+  }
+
+  .v3-mobile-command {
     display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .v3-today-card {
+    border-radius: clamp(18px, 5vw, 26px);
+    padding: clamp(12px, 4vw, 18px);
+    background:
+      radial-gradient(circle at top left, rgba(245,197,24,.22), transparent 45%),
+      rgba(14,31,56,.96);
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 18px 44px rgba(0,0,0,.24);
+  }
+
+  .v3-today-kicker {
+    color: var(--ice-dim);
+    font-size: clamp(.72rem, 2.8vw, .88rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 8px;
+  }
+
+  .v3-today-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .v3-today-emoji {
+    width: clamp(48px, 14vw, 68px);
+    height: clamp(48px, 14vw, 68px);
+    flex: 0 0 auto;
+    border-radius: clamp(16px, 4vw, 22px);
+    display: grid;
+    place-items: center;
+    font-size: clamp(1.65rem, 7vw, 2.4rem);
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.10);
+  }
+
+  .v3-today-copy {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .v3-today-title {
+    color: #fff;
+    font-weight: 900;
+    font-size: clamp(1.05rem, 5vw, 1.45rem);
+    line-height: 1.08;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .v3-today-sub {
+    margin-top: 4px;
+    color: var(--ice-dim);
+    font-size: clamp(.78rem, 3.4vw, .95rem);
+    line-height: 1.3;
+  }
+
+  .v3-today-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .v3-today-actions .btn-blue,
+  .v3-today-actions .btn-ghost {
+    min-height: clamp(42px, 11vw, 52px);
+    padding: 9px 10px;
+    border-radius: 16px;
+    text-align: center;
+    font-size: clamp(.78rem, 3.1vw, .95rem);
+  }
+
+  .v3-week-strip {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 7px;
+    position: sticky;
+    top: 64px;
+    z-index: 36;
+    padding: 8px;
+    border-radius: 20px;
+    background: rgba(6,13,26,.86);
+    border: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(16px);
+  }
+
+  .v3-day-chip {
+    min-width: 0;
+    min-height: clamp(42px, 11vw, 54px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(255,255,255,.05);
+    color: var(--ice);
+    display: grid;
+    place-items: center;
+    gap: 1px;
+    padding: 6px 4px;
+    cursor: pointer;
+  }
+
+  .v3-day-chip.active {
+    background: rgba(37,99,235,.22);
+    border-color: rgba(96,165,250,.44);
+    color: #fff;
+  }
+
+  .v3-day-chip.current {
+    background: linear-gradient(135deg, var(--gold), #f59e0b);
+    color: #07111f;
+    border-color: transparent;
+    box-shadow: var(--glow-gold);
+  }
+
+  .v3-day-abbr {
+    font-weight: 900;
+    font-size: clamp(.8rem, 3.5vw, 1rem);
+  }
+
+  .v3-day-state {
+    font-size: clamp(.68rem, 2.8vw, .82rem);
+    opacity: .9;
+  }
+
+  .v3-review-panel {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    z-index: 95;
+    max-height: min(74vh, 540px);
+    overflow: auto;
+    border-radius: 24px;
+    padding: 12px;
+    background: rgba(6,13,26,.97);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 26px 72px rgba(0,0,0,.46);
+    backdrop-filter: blur(18px);
+  }
+
+  .v3-review-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .v3-review-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .v3-review-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 10px;
+    text-align: left;
+    align-items: center;
+    min-height: 48px;
+    padding: 9px 10px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.04);
+    color: var(--ice);
+    cursor: pointer;
+  }
+
+  .v3-review-row.active {
+    background: rgba(37,99,235,.18);
+    border-color: rgba(96,165,250,.36);
+    color: #fff;
+  }
+
+  .v3-review-day {
+    font-weight: 900;
+  }
+
+  .v3-review-food {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  body[data-active-page="menu"] .menu-sections {
+    gap: 8px !important;
+  }
+
+  body[data-active-page="menu"] .day-section {
+    padding: 10px 12px !important;
+    border-radius: 20px !important;
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] .day-accordion-toggle {
+    min-height: 44px;
+  }
+
+  body[data-active-page="menu"] .section-title {
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] .section-title h2 {
+    font-size: clamp(1.2rem, 5vw, 1.7rem) !important;
+  }
+
+  body[data-active-page="menu"] .day-header .muted.small {
+    font-size: clamp(.72rem, 3vw, .86rem) !important;
+  }
+
+  body[data-active-page="menu"] .dish-card {
+    padding: clamp(12px, 4vw, 16px) !important;
+    border-radius: clamp(18px, 5vw, 24px) !important;
+  }
+
+  body[data-active-page="menu"] .emoji-bubble {
+    width: clamp(46px, 13vw, 62px) !important;
+    height: clamp(46px, 13vw, 62px) !important;
+    flex-basis: clamp(46px, 13vw, 62px) !important;
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+  }
+
+  body[data-active-page="menu"] .dish-name {
+    font-size: clamp(.98rem, 4.2vw, 1.16rem) !important;
+  }
+
+  body[data-active-page="menu"] .price-tag {
+    font-size: clamp(1.35rem, 6vw, 1.9rem) !important;
+  }
+
+  body[data-active-page="menu"] .card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
+    margin-top: 12px !important;
+  }
+
+  body[data-active-page="menu"] [data-select-day] {
+    grid-column: 1 / -1;
+  }
+
+  body[data-active-page="menu"] .btn-blue,
+  body[data-active-page="menu"] .btn-ghost,
+  body[data-active-page="menu"] .btn-gold {
+    min-height: clamp(40px, 10vw, 48px);
+    padding: 9px 10px;
+    font-size: clamp(.76rem, 3.1vw, .92rem);
+    border-radius: 14px;
   }
 }
 
-@media (min-width: 901px) {
-  .v3-planner {
-    left: auto;
-    right: 24px;
-    bottom: 24px;
-    width: min(480px, calc(100vw - 48px));
+
+
+
+/* === Mobile UI match reference image === */
+@media (max-width: 900px) {
+  /* horní panel: schovat text FINAL LUNCH, ponechat ikonu */
+  body[data-active-page="menu"] .brand-copy {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .brand {
+    margin-right: 0 !important;
+  }
+
+  body[data-active-page="menu"] .nav-inner {
+    display: grid !important;
+    grid-template-columns: auto 1fr;
+    gap: 10px !important;
+    align-items: center;
+    padding: 10px 14px !important;
+  }
+
+  body[data-active-page="menu"] .nav-links {
+    display: flex !important;
+    justify-content: flex-end;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  /* aktivní MENU tlačítko na stránce menu nezabírá místo */
+  body[data-active-page="menu"] .nav-pill.active {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .nav-pill,
+  body[data-active-page="menu"] .btn-ghost,
+  body[data-active-page="menu"] .icon-pill,
+  body[data-active-page="menu"] .avatar-pill {
+    min-height: 46px !important;
+    height: 46px !important;
+    padding: 0 14px !important;
+    border-radius: 18px !important;
+    font-size: clamp(.82rem, 3.3vw, 1rem) !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-active-page="menu"] .brand-mark {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 18px !important;
+  }
+
+  /* hero karta podle obrázku */
+  body[data-active-page="menu"] .menu-hero {
+    display: block !important;
+    margin-bottom: 10px !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy {
+    display: block !important;
+    padding: clamp(18px, 6vw, 26px) !important;
+    border-radius: clamp(24px, 7vw, 32px) !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy h1 {
+    font-size: clamp(2.35rem, 11vw, 3.55rem) !important;
+    line-height: .9 !important;
+    margin: 10px 0 22px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy > p {
+    display: none !important;
+  }
+
+  .v3-hero-features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(8px, 2.7vw, 14px);
+    padding: 14px 0;
+    margin: 0 0 16px;
+    border-top: 1px solid rgba(255,255,255,.10);
+    border-bottom: 1px solid rgba(255,255,255,.10);
+  }
+
+  .v3-hero-feature {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 7px;
+    align-items: start;
+    color: #fff;
+  }
+
+  .v3-hero-feature-icon {
+    font-size: clamp(1rem, 4.5vw, 1.35rem);
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .v3-hero-feature strong {
+    display: block;
+    font-size: clamp(.7rem, 3vw, .88rem);
+    line-height: 1.12;
+    color: #fff;
+  }
+
+  .v3-hero-feature span:not(.v3-hero-feature-icon) {
+    display: block;
+    margin-top: 3px;
+    font-size: clamp(.64rem, 2.7vw, .78rem);
+    line-height: 1.24;
+    color: var(--ice-dim);
+  }
+
+  body[data-active-page="menu"] .menu-hero-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 10px !important;
+    margin-top: 14px !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-actions .btn-ghost,
+  body[data-active-page="menu"] .menu-hero-actions .btn-blue {
+    min-height: 48px !important;
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  /* v3 command center: nejdřív ouška, potom dnešní objednávka */
+  body[data-active-page="menu"] .v3-mobile-command {
+    display: grid !important;
+    gap: 10px !important;
+    margin-top: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    order: 1 !important;
+    position: sticky !important;
+    top: 68px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 10px !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    background: rgba(6,13,26,.82) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    backdrop-filter: blur(18px) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip {
+    min-height: clamp(54px, 13vw, 66px) !important;
+    border-radius: 20px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-right: 1px solid rgba(255,255,255,.08) !important;
+    background: transparent !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip:last-child {
+    border-right: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.active,
+  body[data-active-page="menu"] .v3-day-chip.current {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    color: #fff !important;
+    box-shadow: inset 0 -3px 0 rgba(147,197,253,.95) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    font-size: clamp(1rem, 5vw, 1.3rem) !important;
+    line-height: 1 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    font-size: clamp(.68rem, 3vw, .82rem) !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-card {
+    order: 2 !important;
+    padding: 4px 0 8px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-kicker {
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-size: clamp(1rem, 4.4vw, 1.25rem) !important;
+    color: var(--ice) !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-main {
+    gap: 8px !important;
+    align-items: flex-start !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-emoji {
+    width: auto !important;
+    height: auto !important;
+    flex-basis: auto !important;
+    border: 0 !important;
+    background: transparent !important;
+    font-size: 1.35rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-title {
+    font-size: clamp(.95rem, 4vw, 1.15rem) !important;
+    font-weight: 500 !important;
+    color: var(--ice) !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-sub {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-actions {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-panel {
+    order: 3 !important;
+  }
+}
+
+
+
+
+/* === Mobile exact visual correction === */
+@media (max-width: 900px) {
+  /* horní navigace přesněji: logo ikona + profil + zvonek + avatar + odhlásit */
+  body[data-active-page="menu"] .nav-links a[href*="report"],
+  body[data-active-page="menu"] .nav-links .nav-pill[href*="report"],
+  body[data-active-page="menu"] .nav-links a:nth-of-type(1):not(.active) {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .glass-nav {
+    border-bottom: 1px solid rgba(255,255,255,.07) !important;
+  }
+
+  body[data-active-page="menu"] .nav-inner {
+    grid-template-columns: 54px 1fr !important;
+    padding: 9px 14px !important;
+  }
+
+  body[data-active-page="menu"] .nav-links {
+    justify-content: flex-end !important;
+    gap: 8px !important;
+  }
+
+  body[data-active-page="menu"] .nav-pill,
+  body[data-active-page="menu"] .avatar-pill,
+  body[data-active-page="menu"] .icon-pill {
+    height: 46px !important;
+    min-height: 46px !important;
+    border-radius: 18px !important;
+  }
+
+  /* hero karta bez dlouhého popisu */
+  body[data-active-page="menu"] .menu-hero {
+    margin-top: 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy {
+    padding: 24px 22px 22px !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy h1 {
+    margin-bottom: 26px !important;
+  }
+
+  .v3-hero-features {
+    margin-top: 0 !important;
+    margin-bottom: 18px !important;
+    padding: 16px 0 !important;
+    gap: 12px !important;
+  }
+
+  .v3-hero-feature {
+    grid-template-columns: 28px 1fr !important;
+    gap: 9px !important;
+  }
+
+  .v3-hero-feature-icon {
+    font-size: 1.35rem !important;
+  }
+
+  .v3-hero-feature strong {
+    font-size: .88rem !important;
+    line-height: 1.12 !important;
+  }
+
+  .v3-hero-feature span:not(.v3-hero-feature-icon) {
+    font-size: .78rem !important;
+    line-height: 1.26 !important;
+  }
+
+  /* command center pořadí */
+  body[data-active-page="menu"] .v3-mobile-command {
+    margin-top: 0 !important;
+    gap: 8px !important;
+  }
+
+  /* denní ouška přesně jako rounded tab rail */
+  body[data-active-page="menu"] .v3-week-strip {
+    order: 1 !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    position: sticky !important;
+    top: 64px !important;
+    z-index: 35 !important;
+    margin: 0 0 14px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    overflow: visible !important;
+    backdrop-filter: none !important;
+  }
+
+  body[data-active-page="menu"] button.v3-day-chip,
+  body[data-active-page="menu"] .v3-day-chip {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    margin: 0 !important;
+    padding: 9px 4px !important;
+    border-radius: 22px !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    background: rgba(255,255,255,.055) !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 3px !important;
+    font-family: inherit !important;
+    text-align: center !important;
+  }
+
+  body[data-active-page="menu"] button.v3-day-chip.current,
+  body[data-active-page="menu"] button.v3-day-chip.active.current,
+  body[data-active-page="menu"] .v3-day-chip.current {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(147,197,253,.55) !important;
+    color: #fff !important;
+    box-shadow: 0 10px 24px rgba(37,99,235,.32), inset 0 -3px 0 rgba(191,219,254,.9) !important;
+  }
+
+  body[data-active-page="menu"] button.v3-day-chip.active:not(.current),
+  body[data-active-page="menu"] .v3-day-chip.active:not(.current) {
+    background: rgba(37,99,235,.20) !important;
+    border-color: rgba(96,165,250,.40) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    display: block !important;
+    font-size: 1.22rem !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    color: inherit !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    display: block !important;
+    font-size: .82rem !important;
+    line-height: 1 !important;
+    color: rgba(200,222,255,.95) !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current .v3-day-state {
+    color: rgba(255,255,255,.92) !important;
+  }
+
+  /* dnešní / nejbližší objednávka těsně pod oušky */
+  body[data-active-page="menu"] .v3-today-card {
+    order: 2 !important;
+    margin: 0 0 12px !important;
+    padding: 0 6px 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-kicker {
+    margin: 0 0 8px !important;
+    font-size: 1.15rem !important;
+    line-height: 1.15 !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-main {
+    gap: 7px !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-title {
+    font-size: 1.05rem !important;
+    line-height: 1.18 !important;
+  }
+
+  /* floating 3-dot review button více jako obrázek */
+  body[data-active-page="menu"] [data-v3-review-open] {
+    position: absolute !important;
+    right: 18px !important;
+    top: calc(100% - 88px) !important;
+    width: 64px !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    border-radius: 999px !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    background: linear-gradient(135deg, rgba(37,99,235,.55), rgba(30,64,175,.75)) !important;
+    border: 1px solid rgba(147,197,253,.26) !important;
+    box-shadow: 0 18px 34px rgba(0,0,0,.32) !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-review-open]::before {
+    content: "⋮";
+    font-size: 2.1rem;
+    line-height: 1;
+    color: #fff;
+  }
+
+  body[data-active-page="menu"] .v3-today-actions {
+    display: block !important;
+    position: relative !important;
+    height: 0 !important;
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-jump-current] {
+    display: none !important;
+  }
+
+  /* stáhnout dny nahoru, méně prázdna */
+  body[data-active-page="menu"] .menu-layout {
+    margin-top: 0 !important;
+  }
+
+  body[data-active-page="menu"] .menu-sections {
+    gap: 9px !important;
+  }
+}
+
+
+
+
+/* === MOBILE V3 FINAL POLISH === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] {
+    background:
+      radial-gradient(circle at 50% -8%, rgba(37,99,235,.24), transparent 42%),
+      #06101f !important;
+  }
+
+  body[data-active-page="menu"] .container {
+    padding: 14px 14px 112px !important;
+  }
+
+  /* horní navigace: méně chaosu, bez brand textu */
+  body[data-active-page="menu"] .brand-copy,
+  body[data-active-page="menu"] .nav-pill.active,
+  body[data-active-page="menu"] .nav-links a[href*="report"] {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .glass-nav {
+    background: rgba(6,13,26,.94) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  body[data-active-page="menu"] .nav-inner {
+    display: grid !important;
+    grid-template-columns: 52px 1fr !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+  }
+
+  body[data-active-page="menu"] .nav-links {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .brand-mark {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-active-page="menu"] .nav-pill,
+  body[data-active-page="menu"] .avatar-pill,
+  body[data-active-page="menu"] .icon-pill {
+    height: 48px !important;
+    min-height: 48px !important;
+    border-radius: 18px !important;
+    padding: 0 14px !important;
+    font-size: clamp(.78rem, 3.2vw, .96rem) !important;
+  }
+
+  /* hero karta */
+  body[data-active-page="menu"] .menu-hero {
+    display: block !important;
+    margin: 12px 0 12px !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy {
+    padding: 24px 22px 22px !important;
+    border-radius: 28px !important;
+    background:
+      radial-gradient(circle at 72% 8%, rgba(37,99,235,.20), transparent 44%),
+      rgba(14,31,56,.96) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: 0 22px 54px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-head {
+    display: block !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy h1 {
+    font-size: clamp(2.45rem, 11vw, 3.5rem) !important;
+    line-height: .88 !important;
+    margin: 10px 0 24px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-copy > p {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .badge.badge-gold.label {
+    font-size: clamp(.72rem, 3vw, .9rem) !important;
+    padding: 7px 14px !important;
+    border-radius: 999px !important;
+  }
+
+  .v3-hero-features {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    padding: 16px 0 !important;
+    margin: 0 0 16px !important;
+    border-top: 1px solid rgba(255,255,255,.11) !important;
+    border-bottom: 1px solid rgba(255,255,255,.11) !important;
+  }
+
+  .v3-hero-feature {
+    display: grid !important;
+    grid-template-columns: 28px 1fr !important;
+    gap: 8px !important;
+    align-items: start !important;
+    min-width: 0 !important;
+  }
+
+  .v3-hero-feature-icon {
+    font-size: 1.28rem !important;
+    line-height: 1 !important;
+    margin-top: 2px !important;
+  }
+
+  .v3-hero-feature strong {
+    display: block !important;
+    color: #fff !important;
+    font-size: clamp(.74rem, 3vw, .9rem) !important;
+    line-height: 1.12 !important;
+  }
+
+  .v3-hero-feature span:not(.v3-hero-feature-icon) {
+    display: block !important;
+    margin-top: 3px !important;
+    color: var(--ice-dim) !important;
+    font-size: clamp(.64rem, 2.65vw, .78rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1.35fr !important;
+    gap: 12px !important;
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] .menu-hero-actions a,
+  body[data-active-page="menu"] .menu-hero-actions button {
+    min-height: 52px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    text-align: center !important;
+  }
+
+  /* hlavní problém: ouška jako skutečný tab rail, ne default buttony */
+  body[data-active-page="menu"] .v3-mobile-command {
+    display: grid !important;
+    gap: 0 !important;
+    margin: 0 0 10px !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    order: 1 !important;
+    position: sticky !important;
+    top: 70px !important;
+    z-index: 35 !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 0 16px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    backdrop-filter: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    width: 100% !important;
+    border-radius: 22px !important;
+    border: 1px solid rgba(255,255,255,.13) !important;
+    background: rgba(255,255,255,.055) !important;
+    color: #fff !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 5px !important;
+    cursor: pointer !important;
+    text-align: center !important;
+    box-shadow: 0 12px 24px rgba(0,0,0,.16) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(147,197,253,.55) !important;
+    box-shadow:
+      0 16px 32px rgba(37,99,235,.30),
+      inset 0 -3px 0 rgba(191,219,254,.95) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.active:not(.current) {
+    background: rgba(37,99,235,.20) !important;
+    border-color: rgba(96,165,250,.42) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    display: block !important;
+    color: inherit !important;
+    font-family: var(--font-brand-display, 'Barlow Condensed', sans-serif) !important;
+    font-weight: 900 !important;
+    font-size: clamp(1.06rem, 5vw, 1.34rem) !important;
+    line-height: .95 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    display: block !important;
+    color: rgba(200,222,255,.92) !important;
+    font-size: clamp(.74rem, 3.2vw, .88rem) !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current .v3-day-state {
+    color: rgba(255,255,255,.92) !important;
+  }
+
+  /* dnešní objednávka */
+  body[data-active-page="menu"] .v3-today-card {
+    order: 2 !important;
+    position: relative !important;
+    margin: 0 0 14px !important;
+    padding: 0 76px 0 6px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-kicker {
+    margin: 0 0 8px !important;
+    color: #fff !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-size: clamp(1rem, 4.4vw, 1.22rem) !important;
+    line-height: 1.14 !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-main {
+    gap: 6px !important;
+    align-items: flex-start !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-emoji {
+    width: auto !important;
+    height: auto !important;
+    flex-basis: auto !important;
+    font-size: 1.25rem !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-title {
+    color: var(--ice) !important;
+    font-size: clamp(.95rem, 4vw, 1.1rem) !important;
+    font-weight: 500 !important;
+    line-height: 1.22 !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-sub {
+    display: block !important;
+    color: var(--ice) !important;
+    font-size: clamp(.95rem, 4vw, 1.08rem) !important;
+    line-height: 1.28 !important;
+    margin-top: 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-actions {
+    display: block !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: 10px !important;
+    width: 64px !important;
+    height: 64px !important;
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-jump-current] {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-review-open] {
+    all: unset !important;
+    box-sizing: border-box !important;
+    width: 64px !important;
+    height: 64px !important;
+    border-radius: 999px !important;
+    display: grid !important;
+    place-items: center !important;
+    background: linear-gradient(135deg, rgba(37,99,235,.62), rgba(30,64,175,.82)) !important;
+    border: 1px solid rgba(147,197,253,.26) !important;
+    box-shadow: 0 18px 34px rgba(0,0,0,.32) !important;
+    cursor: pointer !important;
+    font-size: 0 !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-review-open]::before {
+    content: "⋮";
+    color: #fff;
+    font-size: 2.2rem;
+    line-height: 1;
+  }
+
+  /* accordion karty dnů */
+  body[data-active-page="menu"] .menu-layout {
+    margin-top: 0 !important;
+  }
+
+  body[data-active-page="menu"] .menu-sections {
+    gap: 10px !important;
+  }
+
+  body[data-active-page="menu"] .day-section {
+    border-radius: 22px !important;
+    padding: 12px 14px !important;
+    background: rgba(14,31,56,.82) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.12) !important;
+  }
+
+  body[data-active-page="menu"] .day-accordion-toggle {
+    min-height: 58px !important;
+  }
+
+  body[data-active-page="menu"] .day-header {
+    gap: 12px !important;
+  }
+
+  body[data-active-page="menu"] .day-header .accent {
+    width: 7px !important;
+    height: 44px !important;
+  }
+
+  body[data-active-page="menu"] .section-title h2 {
+    font-size: clamp(1.35rem, 6vw, 1.9rem) !important;
+    line-height: .95 !important;
+  }
+
+  body[data-active-page="menu"] .day-header .muted.small {
+    font-size: clamp(.78rem, 3.4vw, .92rem) !important;
+  }
+
+  body[data-active-page="menu"] .accordion-indicator {
+    font-size: 1.75rem !important;
+    color: #93c5fd !important;
+  }
+
+  /* footer méně dominantní */
+  body[data-active-page="menu"] footer.page-foot {
+    margin-top: 24px !important;
+    font-size: .78rem !important;
+    opacity: .55 !important;
+  }
+}
+
+
+
+
+/* === MOBILE FOOD-FIRST UX === */
+@media (max-width: 900px) {
+  /* hlavní princip: jídla první, marketing pryč */
+  body[data-active-page="menu"] .menu-hero {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .container {
+    padding: 10px 10px 112px !important;
+  }
+
+  /* horní navigace kompaktní */
+  body[data-active-page="menu"] .glass-nav {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+  }
+
+  body[data-active-page="menu"] .nav-inner {
+    padding: 8px 10px !important;
+    grid-template-columns: 46px 1fr !important;
+  }
+
+  body[data-active-page="menu"] .brand-mark {
+    width: 44px !important;
+    height: 44px !important;
+  }
+
+  body[data-active-page="menu"] .nav-pill,
+  body[data-active-page="menu"] .avatar-pill,
+  body[data-active-page="menu"] .icon-pill {
+    height: 42px !important;
+    min-height: 42px !important;
+    border-radius: 15px !important;
+    padding: 0 11px !important;
+    font-size: .82rem !important;
+  }
+
+  /* command center jako čistý týdenní přepínač */
+  body[data-active-page="menu"] .v3-mobile-command {
+    margin: 0 0 8px !important;
+    gap: 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-today-card {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    position: sticky !important;
+    top: 61px !important;
+    z-index: 45 !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    margin: 0 0 10px !important;
+    padding: 8px !important;
+    border-radius: 22px !important;
+    background: rgba(6,13,26,.92) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    backdrop-filter: blur(16px) !important;
+    box-shadow: 0 14px 34px rgba(0,0,0,.28) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    background: rgba(255,255,255,.045) !important;
+    color: #fff !important;
+    display: grid !important;
+    place-items: center !important;
+    text-align: center !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(147,197,253,.55) !important;
+    box-shadow: 0 12px 26px rgba(37,99,235,.30) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    font-size: 1.12rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    font-size: .72rem !important;
+    line-height: 1 !important;
+    color: rgba(200,222,255,.9) !important;
+  }
+
+  /* přehled výběru jako malý floating button */
+  body[data-active-page="menu"] .v3-review-panel {
+    z-index: 100 !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-review-open] {
+    position: fixed !important;
+    right: 14px !important;
+    bottom: 76px !important;
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 999px !important;
+    z-index: 80 !important;
+  }
+
+  /* seznam dnů — compact režim */
+  body[data-active-page="menu"] .menu-layout {
+    margin-top: 0 !important;
+  }
+
+  body[data-active-page="menu"] .menu-sections {
+    gap: 8px !important;
+  }
+
+  body[data-active-page="menu"] .day-section {
+    border-radius: 20px !important;
+    padding: 10px 12px !important;
+    background: rgba(14,31,56,.82) !important;
+    border: 1px solid rgba(255,255,255,.075) !important;
+    box-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .day-section:not(.is-open) {
+    min-height: 74px !important;
+  }
+
+  body[data-active-page="menu"] .day-accordion-toggle {
+    min-height: 54px !important;
+  }
+
+  body[data-active-page="menu"] .day-header .accent {
+    width: 6px !important;
+    height: 42px !important;
+  }
+
+  body[data-active-page="menu"] .section-title {
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] .section-title h2 {
+    font-size: clamp(1.35rem, 6vw, 1.85rem) !important;
+    line-height: .95 !important;
+  }
+
+  body[data-active-page="menu"] .day-header .muted.small {
+    font-size: .88rem !important;
+  }
+
+  /* otevřený den = jídla přes hlavní displej */
+  body[data-active-page="menu"] .day-section.is-open {
+    min-height: calc(100vh - 150px) !important;
+    padding: 12px !important;
+    border-color: rgba(96,165,250,.28) !important;
+    background:
+      radial-gradient(circle at top right, rgba(37,99,235,.16), transparent 38%),
+      rgba(14,31,56,.94) !important;
+  }
+
+  body[data-active-page="menu"] .day-section.is-open .day-content {
+    padding-top: 12px !important;
+  }
+
+  body[data-active-page="menu"] .day-section.is-open .dish-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* jídla čitelnější a méně roztahaná */
+  body[data-active-page="menu"] .dish-card {
+    padding: 13px !important;
+    border-radius: 20px !important;
+  }
+
+  body[data-active-page="menu"] .dish-top {
+    gap: 12px !important;
+  }
+
+  body[data-active-page="menu"] .emoji-bubble {
+    width: 54px !important;
+    height: 54px !important;
+    flex-basis: 54px !important;
+    font-size: 1.75rem !important;
+    border-radius: 17px !important;
+  }
+
+  body[data-active-page="menu"] .dish-name {
+    font-size: 1.03rem !important;
+    line-height: 1.18 !important;
+    margin: 6px 0 !important;
+  }
+
+  body[data-active-page="menu"] .price-tag {
+    font-size: 1.62rem !important;
+  }
+
+  body[data-active-page="menu"] .card-actions {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  body[data-active-page="menu"] [data-select-day] {
+    grid-column: 1 / -1 !important;
+  }
+
+  body[data-active-page="menu"] .btn-blue,
+  body[data-active-page="menu"] .btn-ghost,
+  body[data-active-page="menu"] .btn-gold {
+    min-height: 42px !important;
+    border-radius: 14px !important;
+    padding: 8px 10px !important;
+    font-size: .82rem !important;
+  }
+
+  /* footer pryč z rozhodovací části */
+  body[data-active-page="menu"] footer.page-foot {
+    display: none !important;
+  }
+}
+
+/* === Current day highlight polish === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    position: relative !important;
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(147,197,253,.65) !important;
+    color: #fff !important;
+    box-shadow:
+      0 0 0 1px rgba(147,197,253,.18),
+      0 12px 28px rgba(37,99,235,.36),
+      inset 0 -3px 0 rgba(219,234,254,.95) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current::after,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: -5px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(219,234,254,.95);
+    box-shadow: 0 0 16px rgba(96,165,250,.65);
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current .v3-day-abbr,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day .v3-day-abbr {
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current .v3-day-state,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day .v3-day-state {
+    color: rgba(255,255,255,.92) !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-row.current-day {
+    background: rgba(37,99,235,.18) !important;
+    border-color: rgba(96,165,250,.38) !important;
+    box-shadow: inset 4px 0 0 #3b82f6 !important;
+  }
+
+  body[data-active-page="menu"] .day-section.current-day {
+    border-color: rgba(96,165,250,.34) !important;
+    box-shadow:
+      0 0 0 1px rgba(96,165,250,.10),
+      0 14px 34px rgba(37,99,235,.12) !important;
+  }
+
+  body[data-active-page="menu"] .day-section.current-day .section-title h2 {
+    color: #fff !important;
+    text-shadow: 0 0 18px rgba(96,165,250,.20);
+  }
+}
+
+/* === FIXED DAY TABS LAYER === */
+@media (max-width: 900px) {
+
+  .v3-week-strip {
+    position: sticky !important;
+    top: 64px !important;
+    z-index: 60 !important;
+
+    margin: 0 0 12px !important;
+    padding: 10px !important;
+
+    border-radius: 22px !important;
+
+    background:
+      linear-gradient(180deg, rgba(10,22,40,.95), rgba(10,22,40,.82)) !important;
+
+    border: 1px solid rgba(255,255,255,.08) !important;
+    backdrop-filter: blur(18px) !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 8px !important;
+
+    box-shadow: 0 18px 40px rgba(0,0,0,.35) !important;
+  }
+
+  .v3-day-chip {
+    height: 64px !important;
+    border-radius: 18px !important;
+
+    background: rgba(255,255,255,.04) !important;
+    border: 1px solid rgba(255,255,255,.1) !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    transition: all .18s ease !important;
+  }
+
+  .v3-day-chip:hover {
+    background: rgba(255,255,255,.08) !important;
+  }
+
+  .v3-day-chip.current {
+    background: linear-gradient(135deg,#4f95ff,#1d4ed8) !important;
+    box-shadow: 0 10px 26px rgba(37,99,235,.35) !important;
+    border-color: rgba(147,197,253,.5) !important;
+  }
+
+  .v3-day-abbr {
+    font-weight: 900 !important;
+    font-size: 1.15rem !important;
+  }
+
+  .v3-day-state {
+    font-size: .72rem !important;
+    opacity: .9 !important;
+  }
+
+}
+
+/* === SAFE MOBILE TABS POSITION FIX === */
+@media (max-width: 900px) {
+  /*
+    Starý prostor po ouškách je .desktop-day-tabs uvnitř hero.
+    Na mobilu ho necháme jako layout slot, ale jeho původní odkazy schováme.
+  */
+  body[data-active-page="menu"] .desktop-day-tabs {
+    display: block !important;
+    height: 74px !important;
+    margin: 12px 0 10px !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body[data-active-page="menu"] .desktop-day-tabs > * {
+    display: none !important;
+  }
+
+  /*
+    Současná ouška v3-week-strip vytáhneme nahoru do prostoru po desktop-day-tabs.
+    Nezasahujeme do Jinja struktury, takže nehrozí rozbitý endfor.
+  */
+  body[data-active-page="menu"] .v3-mobile-command {
+    display: block !important;
+    margin-top: -86px !important;
+    margin-bottom: 10px !important;
+    position: relative !important;
+    z-index: 25 !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    position: sticky !important;
+    top: 62px !important;
+    z-index: 45 !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+
+    margin: 0 0 12px !important;
+    padding: 8px !important;
+    border-radius: 24px !important;
+
+    background: rgba(6,13,26,.72) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    backdrop-filter: blur(18px) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.30) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+
+    width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    border-radius: 19px !important;
+
+    display: grid !important;
+    place-items: center !important;
+    gap: 3px !important;
+
+    background: rgba(255,255,255,.055) !important;
+    border: 1px solid rgba(255,255,255,.105) !important;
+    color: #dbeafe !important;
+
+    text-align: center !important;
+    cursor: pointer !important;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.015) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(147,197,253,.60) !important;
+    color: #fff !important;
+    box-shadow:
+      0 12px 28px rgba(37,99,235,.34),
+      inset 0 -3px 0 rgba(219,234,254,.92) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.active:not(.current):not(.mobile-active-day) {
+    background: rgba(37,99,235,.18) !important;
+    border-color: rgba(96,165,250,.38) !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    display: block !important;
+    font-weight: 900 !important;
+    font-size: 1.12rem !important;
+    line-height: 1 !important;
+    color: inherit !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    display: block !important;
+    font-size: .72rem !important;
+    line-height: 1 !important;
+    color: rgba(200,222,255,.9) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current .v3-day-state,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day .v3-day-state {
+    color: rgba(255,255,255,.92) !important;
+  }
+
+  /*
+    Přehled objednávek pod oušky sjednotit se zbytkem UI.
+  */
+  body[data-active-page="menu"] .v3-mobile-today-card,
+  body[data-active-page="menu"] .v3-today-card {
+    margin: 0 2px 12px !important;
+    padding: 12px 14px !important;
+    border-radius: 22px !important;
+    background: rgba(14,31,56,.80) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.14) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-kicker,
+  body[data-active-page="menu"] .v3-today-kicker {
+    margin: 0 0 8px !important;
+    color: #fff !important;
+    font-size: .95rem !important;
+    font-weight: 800 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-main,
+  body[data-active-page="menu"] .v3-today-main {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-emoji,
+  body[data-active-page="menu"] .v3-today-emoji {
+    width: 42px !important;
+    height: 42px !important;
+    flex: 0 0 42px !important;
+    border-radius: 15px !important;
+    display: grid !important;
+    place-items: center !important;
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    font-size: 1.35rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-title,
+  body[data-active-page="menu"] .v3-today-title {
+    color: #fff !important;
+    font-size: .98rem !important;
+    line-height: 1.18 !important;
+    font-weight: 800 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-sub,
+  body[data-active-page="menu"] .v3-today-sub {
+    color: var(--ice-dim) !important;
+    font-size: .82rem !important;
+    line-height: 1.25 !important;
+    margin-top: 2px !important;
+  }
+}
+
+/* === SAFE MOBILE TABS POSITION FIX === */
+@media (max-width: 900px) {
+  /*
+    Starý prostor po ouškách je .desktop-day-tabs uvnitř hero.
+    Na mobilu ho necháme jako layout slot, ale jeho původní odkazy schováme.
+  */
+  body[data-active-page="menu"] .desktop-day-tabs {
+    display: block !important;
+    height: 74px !important;
+    margin: 12px 0 10px !important;
+    padding: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body[data-active-page="menu"] .desktop-day-tabs > * {
+    display: none !important;
+  }
+
+  /*
+    Současná ouška v3-week-strip vytáhneme nahoru do prostoru po desktop-day-tabs.
+    Nezasahujeme do Jinja struktury, takže nehrozí rozbitý endfor.
+  */
+  body[data-active-page="menu"] .v3-mobile-command {
+    display: block !important;
+    margin-top: -86px !important;
+    margin-bottom: 10px !important;
+    position: relative !important;
+    z-index: 25 !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    position: sticky !important;
+    top: 62px !important;
+    z-index: 45 !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+
+    margin: 0 0 12px !important;
+    padding: 8px !important;
+    border-radius: 24px !important;
+
+    background: rgba(6,13,26,.72) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    backdrop-filter: blur(18px) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.30) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+
+    width: 100% !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    border-radius: 19px !important;
+
+    display: grid !important;
+    place-items: center !important;
+    gap: 3px !important;
+
+    background: rgba(255,255,255,.055) !important;
+    border: 1px solid rgba(255,255,255,.105) !important;
+    color: #dbeafe !important;
+
+    text-align: center !important;
+    cursor: pointer !important;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.015) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(147,197,253,.60) !important;
+    color: #fff !important;
+    box-shadow:
+      0 12px 28px rgba(37,99,235,.34),
+      inset 0 -3px 0 rgba(219,234,254,.92) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.active:not(.current):not(.mobile-active-day) {
+    background: rgba(37,99,235,.18) !important;
+    border-color: rgba(96,165,250,.38) !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    display: block !important;
+    font-weight: 900 !important;
+    font-size: 1.12rem !important;
+    line-height: 1 !important;
+    color: inherit !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    display: block !important;
+    font-size: .72rem !important;
+    line-height: 1 !important;
+    color: rgba(200,222,255,.9) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current .v3-day-state,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day .v3-day-state {
+    color: rgba(255,255,255,.92) !important;
+  }
+
+  /*
+    Přehled objednávek pod oušky sjednotit se zbytkem UI.
+  */
+  body[data-active-page="menu"] .v3-mobile-today-card,
+  body[data-active-page="menu"] .v3-today-card {
+    margin: 0 2px 12px !important;
+    padding: 12px 14px !important;
+    border-radius: 22px !important;
+    background: rgba(14,31,56,.80) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.14) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-kicker,
+  body[data-active-page="menu"] .v3-today-kicker {
+    margin: 0 0 8px !important;
+    color: #fff !important;
+    font-size: .95rem !important;
+    font-weight: 800 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-main,
+  body[data-active-page="menu"] .v3-today-main {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-emoji,
+  body[data-active-page="menu"] .v3-today-emoji {
+    width: 42px !important;
+    height: 42px !important;
+    flex: 0 0 42px !important;
+    border-radius: 15px !important;
+    display: grid !important;
+    place-items: center !important;
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    font-size: 1.35rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-title,
+  body[data-active-page="menu"] .v3-today-title {
+    color: #fff !important;
+    font-size: .98rem !important;
+    line-height: 1.18 !important;
+    font-weight: 800 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-sub,
+  body[data-active-page="menu"] .v3-today-sub {
+    color: var(--ice-dim) !important;
+    font-size: .82rem !important;
+    line-height: 1.25 !important;
+    margin-top: 2px !important;
+  }
+}
+
+/* === Collapsible day tabs panel === */
+.v3-day-panel-shell {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    display: block !important;
+    position: sticky !important;
+    top: 62px !important;
+    z-index: 62 !important;
+    margin: 0 0 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    all: unset !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    border-radius: 20px !important;
+    padding: 10px 14px !important;
+    background:
+      linear-gradient(135deg, rgba(14,31,56,.98), rgba(10,22,40,.92)) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: 0 16px 36px rgba(0,0,0,.30) !important;
+    backdrop-filter: blur(18px) !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto auto !important;
+    gap: 10px !important;
+    align-items: center !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-title {
+    color: var(--ice-dim) !important;
+    font-size: .78rem !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .08em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-current {
+    color: #fff !important;
+    font-size: .98rem !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon {
+    color: #93c5fd !important;
+    font-size: 1.35rem !important;
+    line-height: 1 !important;
+    transition: transform .18s ease !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-day-panel-icon {
+    transform: rotate(180deg) !important;
+  }
+
+  /* samotná ouška jsou nyní výsuvný panel */
+  body[data-active-page="menu"] .v3-mobile-command {
+    margin-top: 0 !important;
+    position: relative !important;
+    z-index: 61 !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    display: none !important;
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    top: 124px !important;
+    z-index: 63 !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding: 10px !important;
+    border-radius: 24px !important;
+    background: rgba(6,13,26,.97) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    box-shadow: 0 26px 70px rgba(0,0,0,.48) !important;
+    backdrop-filter: blur(22px) !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-week-strip {
+    display: grid !important;
+    animation: v3DayPanelDrop .16s ease-out;
+  }
+
+  @keyframes v3DayPanelDrop {
+    from { opacity: 0; transform: translateY(-8px) scale(.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 62px !important;
+    border-radius: 19px !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 3px !important;
+    background: rgba(255,255,255,.055) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    color: #dbeafe !important;
+    text-align: center !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(147,197,253,.60) !important;
+    color: #fff !important;
+    box-shadow: 0 12px 28px rgba(37,99,235,.34) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    font-size: 1.15rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    font-size: .72rem !important;
+    color: rgba(200,222,255,.90) !important;
+  }
+
+  /* karta dnešní objednávky hned pod toggle */
+  body[data-active-page="menu"] .v3-mobile-today-card,
+  body[data-active-page="menu"] .v3-today-card {
+    margin-top: 8px !important;
+  }
+
+  /* overlay při otevření panelu */
+  body[data-active-page="menu"].v3-day-panel-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: rgba(0,0,0,.20);
+    pointer-events: none;
+  }
+}
+
+/* === Day tabs visual polish: match app design === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    background:
+      radial-gradient(circle at 15% 0%, rgba(59,130,246,.20), transparent 42%),
+      linear-gradient(135deg, rgba(14,31,56,.98), rgba(10,22,40,.94)) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow:
+      0 16px 38px rgba(0,0,0,.34),
+      inset 0 1px 0 rgba(255,255,255,.04) !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    background:
+      radial-gradient(circle at 50% -10%, rgba(59,130,246,.24), transparent 42%),
+      linear-gradient(180deg, rgba(14,31,56,.98), rgba(6,13,26,.98)) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    box-shadow:
+      0 28px 72px rgba(0,0,0,.50),
+      inset 0 1px 0 rgba(255,255,255,.04) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)) !important;
+    border: 1px solid rgba(255,255,255,.105) !important;
+    color: var(--ice) !important;
+    border-radius: 20px !important;
+    box-shadow:
+      0 10px 22px rgba(0,0,0,.20),
+      inset 0 1px 0 rgba(255,255,255,.035) !important;
+    transition:
+      transform .16s ease,
+      background .16s ease,
+      border-color .16s ease,
+      box-shadow .16s ease !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip:active {
+    transform: scale(.97) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    background:
+      radial-gradient(circle at 35% 0%, rgba(255,255,255,.30), transparent 35%),
+      linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(191,219,254,.72) !important;
+    color: #fff !important;
+    box-shadow:
+      0 16px 34px rgba(37,99,235,.42),
+      inset 0 1px 0 rgba(255,255,255,.18),
+      inset 0 -3px 0 rgba(219,234,254,.88) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.active:not(.current):not(.mobile-active-day) {
+    background:
+      linear-gradient(180deg, rgba(37,99,235,.24), rgba(37,99,235,.12)) !important;
+    border-color: rgba(96,165,250,.42) !important;
+    color: #fff !important;
+    box-shadow:
+      0 12px 26px rgba(37,99,235,.18),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    font-family: var(--font-brand-display, 'Barlow Condensed', sans-serif) !important;
+    color: inherit !important;
+    letter-spacing: .02em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    color: rgba(200,222,255,.82) !important;
+    font-weight: 700 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current .v3-day-state,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day .v3-day-state {
+    color: rgba(255,255,255,.92) !important;
+  }
+}
+
+/* === HARD FINAL MOBILE FOOD-FIRST OVERRIDE === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .hero,
+  body[data-active-page="menu"] .menu-hero,
+  body[data-active-page="menu"] .desktop-summary-card,
+  body[data-active-page="menu"] .desktop-day-tabs,
+  body[data-active-page="menu"] .menu-tools,
+  body[data-active-page="menu"] .sticky-filters {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .container {
+    padding: 10px 10px 104px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    display: block !important;
+    position: sticky !important;
+    top: 58px !important;
+    z-index: 90 !important;
+    margin: 0 0 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    all: unset !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    padding: 10px 14px !important;
+    border-radius: 20px !important;
+    background: linear-gradient(135deg, rgba(14,31,56,.98), rgba(10,22,40,.94)) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: 0 16px 36px rgba(0,0,0,.32) !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-title {
+    color: var(--ice-dim) !important;
+    font-size: .75rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .09em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-current {
+    color: #fff !important;
+    font-size: .98rem !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon {
+    color: #93c5fd !important;
+    font-size: 1.35rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-command {
+    display: block !important;
+    margin: 0 0 10px !important;
+    position: relative !important;
+    z-index: 80 !important;
+  }
+
+  body[data-active-page="menu"] .v3-week-strip {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-week-strip {
+    display: grid !important;
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    top: 116px !important;
+    z-index: 100 !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    padding: 10px !important;
+    border-radius: 24px !important;
+    background: rgba(6,13,26,.98) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    box-shadow: 0 28px 72px rgba(0,0,0,.52) !important;
+    backdrop-filter: blur(22px) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 62px !important;
+    border-radius: 20px !important;
+    background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    color: var(--ice) !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 3px !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,.20) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(191,219,254,.72) !important;
+    color: #fff !important;
+    box-shadow: 0 16px 34px rgba(37,99,235,.42) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    font-size: 1.15rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    color: inherit !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    font-size: .72rem !important;
+    color: rgba(200,222,255,.88) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-card,
+  body[data-active-page="menu"] .v3-today-card {
+    margin: 0 0 10px !important;
+    padding: 12px 74px 12px 14px !important;
+    border-radius: 22px !important;
+    background: rgba(14,31,56,.86) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.16) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-kicker,
+  body[data-active-page="menu"] .v3-today-kicker {
+    color: #fff !important;
+    font-size: 1rem !important;
+    font-weight: 900 !important;
+    margin: 0 0 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-main,
+  body[data-active-page="menu"] .v3-today-main {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-emoji,
+  body[data-active-page="menu"] .v3-today-emoji {
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 1.5rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-title,
+  body[data-active-page="menu"] .v3-today-title {
+    color: #fff !important;
+    font-size: 1rem !important;
+    line-height: 1.18 !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-sub,
+  body[data-active-page="menu"] .v3-today-sub {
+    color: var(--ice-dim) !important;
+    font-size: .85rem !important;
+    line-height: 1.25 !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-review-open] {
+    all: unset !important;
+    box-sizing: border-box !important;
+    position: fixed !important;
+    right: 12px !important;
+    bottom: 74px !important;
+    width: 58px !important;
+    height: 58px !important;
+    border-radius: 999px !important;
+    z-index: 88 !important;
+    background: linear-gradient(135deg, rgba(37,99,235,.70), rgba(30,64,175,.90)) !important;
+    border: 1px solid rgba(147,197,253,.28) !important;
+    box-shadow: 0 18px 34px rgba(0,0,0,.34) !important;
+    display: grid !important;
+    place-items: center !important;
+    color: #fff !important;
+    font-size: 0 !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] [data-v3-review-open]::before {
+    content: "⋮";
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  body[data-active-page="menu"] [data-v3-review-open]::after {
+    content: "Přehled";
+    position: absolute;
+    top: 61px;
+    right: -2px;
+    font-size: .72rem;
+    color: var(--ice);
+    white-space: nowrap;
+  }
+
+  body[data-active-page="menu"] .day-section.is-open {
+    min-height: calc(100vh - 150px) !important;
+  }
+
+  body[data-active-page="menu"] footer.page-foot {
+    display: none !important;
+  }
+}
+
+/* === MERGED DAY PANEL + REVIEW BUTTON FINAL === */
+@media (max-width: 900px) {
+  /* staré plovoucí tlačítko přehledu pryč */
+  body[data-active-page="menu"] [data-v3-review-open] {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  /* horní panel: vlevo název, vpravo jedno tlačítko se třemi tečkami */
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    grid-template-columns: 1fr auto !important;
+    min-height: 58px !important;
+    padding: 10px 12px 10px 16px !important;
+    border-radius: 22px !important;
+    background:
+      radial-gradient(circle at 85% 0%, rgba(37,99,235,.30), transparent 42%),
+      linear-gradient(135deg, rgba(14,31,56,.98), rgba(10,22,40,.95)) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.32) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-title {
+    color: var(--ice-dim) !important;
+    font-size: .82rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .09em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-current {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 999px !important;
+    display: grid !important;
+    place-items: center !important;
+    background: linear-gradient(135deg, rgba(37,99,235,.74), rgba(30,64,175,.96)) !important;
+    border: 1px solid rgba(147,197,253,.32) !important;
+    box-shadow: 0 14px 28px rgba(37,99,235,.28) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    transform: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon::before {
+    content: "⋮";
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-day-panel-icon {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+  }
+
+  /* společný vysouvací panel */
+  body[data-active-page="menu"] .v3-week-strip {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-week-strip {
+    display: grid !important;
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    z-index: auto !important;
+
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+
+    margin: 8px 0 10px !important;
+    padding: 10px !important;
+    border-radius: 24px !important;
+
+    background:
+      radial-gradient(circle at 30% 0%, rgba(37,99,235,.22), transparent 44%),
+      rgba(6,13,26,.94) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.34) !important;
+    backdrop-filter: blur(18px) !important;
+  }
+
+  /* styl oušek */
+  body[data-active-page="menu"] .v3-day-chip,
+  body[data-active-page="menu"] button.v3-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 58px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 3px !important;
+    text-align: center !important;
+    cursor: pointer !important;
+
+    background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)) !important;
+    border: 1px solid rgba(255,255,255,.105) !important;
+    color: var(--ice) !important;
+    box-shadow:
+      0 10px 22px rgba(0,0,0,.20),
+      inset 0 1px 0 rgba(255,255,255,.035) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-chip.current,
+  body[data-active-page="menu"] .v3-day-chip.mobile-active-day {
+    background:
+      radial-gradient(circle at 35% 0%, rgba(255,255,255,.30), transparent 35%),
+      linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(191,219,254,.72) !important;
+    color: #fff !important;
+    box-shadow:
+      0 16px 34px rgba(37,99,235,.42),
+      inset 0 -3px 0 rgba(219,234,254,.88) !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-abbr {
+    font-family: var(--font-brand-display, 'Barlow Condensed', sans-serif) !important;
+    font-size: 1.1rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    color: inherit !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-state {
+    font-size: .72rem !important;
+    color: rgba(200,222,255,.86) !important;
+    line-height: 1 !important;
+  }
+
+  /* týdenní přehled: inline navy panel místo bílých default buttonů */
+  body[data-active-page="menu"] .v3-review-panel {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-review-panel {
+    display: block !important;
+    position: static !important;
+    inset: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+
+    margin: 8px 0 12px !important;
+    padding: 12px !important;
+    border-radius: 24px !important;
+
+    background:
+      radial-gradient(circle at 80% 0%, rgba(37,99,235,.18), transparent 42%),
+      rgba(14,31,56,.92) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.24) !important;
+    backdrop-filter: blur(16px) !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-head strong {
+    font-size: 1rem !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-head [data-v3-review-close] {
+    min-height: 36px !important;
+    padding: 7px 12px !important;
+    border-radius: 14px !important;
+    font-size: .75rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-list {
+    display: grid !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    background: rgba(6,13,26,.30) !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-row,
+  body[data-active-page="menu"] button.v3-review-row {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 58px !important;
+    width: 100% !important;
+
+    display: grid !important;
+    grid-template-columns: 86px 1fr 22px !important;
+    gap: 10px !important;
+    align-items: center !important;
+
+    padding: 10px 12px !important;
+    background: rgba(255,255,255,.025) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    color: var(--ice) !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-row:last-child {
+    border-bottom: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-row::after {
+    content: "⌄";
+    color: #93c5fd;
+    font-size: 1.2rem;
+    justify-self: end;
+  }
+
+  body[data-active-page="menu"] .v3-review-row.active,
+  body[data-active-page="menu"] .v3-review-row.current-day {
+    background: rgba(37,99,235,.16) !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-row.current-day {
+    box-shadow: inset 4px 0 0 #3b82f6 !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-day {
+    font-weight: 900 !important;
+    color: #fff !important;
+    font-size: .92rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-review-food {
+    color: #fff !important;
+    font-size: .92rem !important;
+    line-height: 1.22 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+  }
+
+  /* žádný tmavý overlay přes stránku při otevření panelu */
+  body[data-active-page="menu"].v3-day-panel-open::after {
+    display: none !important;
+  }
+}
+
+/* === TARGETED MOBILE V4 PATCH: real class names === */
+@media (max-width: 900px) {
+  /* Mobil = food-first: hero a filtry pryč */
+  body[data-active-page="menu"] .hero,
+  body[data-active-page="menu"] .desktop-summary-card,
+  body[data-active-page="menu"] .desktop-day-tabs,
+  body[data-active-page="menu"] .menu-tools,
+  body[data-active-page="menu"] .sticky-filters {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .container {
+    padding: 10px 10px 104px !important;
+  }
+
+  /* Horní týdenní panel */
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    display: block !important;
+    position: sticky !important;
+    top: 60px !important;
+    z-index: 80 !important;
+    margin: 0 0 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    all: unset !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 58px !important;
+    padding: 10px 12px 10px 16px !important;
+    border-radius: 22px !important;
+    background:
+      radial-gradient(circle at 85% 0%, rgba(37,99,235,.30), transparent 42%),
+      linear-gradient(135deg, rgba(14,31,56,.98), rgba(10,22,40,.95)) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.32) !important;
+    backdrop-filter: blur(18px) !important;
+    display: grid !important;
+    grid-template-columns: 1fr 54px !important;
+    align-items: center !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-title {
+    color: var(--ice-dim) !important;
+    font-size: .82rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .09em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-current {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 999px !important;
+    display: grid !important;
+    place-items: center !important;
+    background: linear-gradient(135deg, rgba(37,99,235,.74), rgba(30,64,175,.96)) !important;
+    border: 1px solid rgba(147,197,253,.32) !important;
+    box-shadow: 0 14px 28px rgba(37,99,235,.28) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    transform: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon::before {
+    content: "⋮";
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  /* V3 command sekce */
+  body[data-active-page="menu"] .v3-mobile-command {
+    display: block !important;
+    margin: 0 0 10px !important;
+    position: relative !important;
+    z-index: 70 !important;
+  }
+
+  /* Today karta */
+  body[data-active-page="menu"] .v3-mobile-today-card {
+    margin: 0 0 10px !important;
+    padding: 12px 14px !important;
+    border-radius: 22px !important;
+    background:
+      radial-gradient(circle at 80% 0%, rgba(37,99,235,.14), transparent 42%),
+      rgba(14,31,56,.86) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.16) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-actions {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-kicker {
+    color: #fff !important;
+    font-size: 1rem !important;
+    font-weight: 900 !important;
+    margin: 0 0 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-main {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-emoji {
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px !important;
+    border-radius: 16px !important;
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 1.5rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-title {
+    color: #fff !important;
+    font-size: 1rem !important;
+    line-height: 1.18 !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-sub {
+    color: var(--ice-dim) !important;
+    font-size: .85rem !important;
+    line-height: 1.25 !important;
+  }
+
+  /*
+    Skutečná ouška: v3-mobile-week-strip / v3-mobile-day-chip.
+    Defaultně schovaná, zobrazí se jen přes panel.
+  */
+  body[data-active-page="menu"] .v3-mobile-week-strip {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-mobile-week-strip {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+
+    margin: 8px 0 10px !important;
+    padding: 10px !important;
+    border-radius: 24px !important;
+
+    background:
+      radial-gradient(circle at 30% 0%, rgba(37,99,235,.22), transparent 44%),
+      rgba(6,13,26,.94) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.34) !important;
+    backdrop-filter: blur(18px) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip,
+  body[data-active-page="menu"] button.v3-mobile-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 58px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 3px !important;
+    text-align: center !important;
+    cursor: pointer !important;
+
+    background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)) !important;
+    border: 1px solid rgba(255,255,255,.105) !important;
+    color: var(--ice) !important;
+    box-shadow:
+      0 10px 22px rgba(0,0,0,.20),
+      inset 0 1px 0 rgba(255,255,255,.035) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip.current,
+  body[data-active-page="menu"] .v3-mobile-day-chip.mobile-active-day,
+  body[data-active-page="menu"] .v3-mobile-day-chip.active {
+    background:
+      radial-gradient(circle at 35% 0%, rgba(255,255,255,.30), transparent 35%),
+      linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(191,219,254,.72) !important;
+    color: #fff !important;
+    box-shadow:
+      0 16px 34px rgba(37,99,235,.42),
+      inset 0 -3px 0 rgba(219,234,254,.88) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-abbr {
+    font-family: var(--font-brand-display, 'Barlow Condensed', sans-serif) !important;
+    font-size: 1.1rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    color: inherit !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-state {
+    font-size: .72rem !important;
+    color: rgba(200,222,255,.86) !important;
+    line-height: 1 !important;
+  }
+
+  /*
+    Skutečný týdenní přehled: v3-mobile-review.
+    Schovaný, zobrazí se v tom samém panelu.
+  */
+  body[data-active-page="menu"] .v3-mobile-review {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-mobile-review {
+    display: block !important;
+    margin: 8px 0 12px !important;
+    padding: 12px !important;
+    border-radius: 24px !important;
+
+    background:
+      radial-gradient(circle at 80% 0%, rgba(37,99,235,.18), transparent 42%),
+      rgba(14,31,56,.92) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.24) !important;
+    backdrop-filter: blur(16px) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-head strong {
+    font-size: 1rem !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-head [data-v3-review-close] {
+    min-height: 36px !important;
+    padding: 7px 12px !important;
+    border-radius: 14px !important;
+    font-size: .75rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-list {
+    display: grid !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    background: rgba(6,13,26,.30) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-row,
+  body[data-active-page="menu"] button.v3-mobile-review-row {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 58px !important;
+    width: 100% !important;
+
+    display: grid !important;
+    grid-template-columns: 86px 1fr 22px !important;
+    gap: 10px !important;
+    align-items: center !important;
+
+    padding: 10px 12px !important;
+    background: rgba(255,255,255,.025) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    color: var(--ice) !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-row:last-child {
+    border-bottom: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-row::after {
+    content: "⌄";
+    color: #93c5fd;
+    font-size: 1.2rem;
+    justify-self: end;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-row.active,
+  body[data-active-page="menu"] .v3-mobile-review-row.current-day {
+    background: rgba(37,99,235,.16) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-row.current-day {
+    box-shadow: inset 4px 0 0 #3b82f6 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-day {
+    font-weight: 900 !important;
+    color: #fff !important;
+    font-size: .92rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-food {
+    color: #fff !important;
+    font-size: .92rem !important;
+    line-height: 1.22 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+  }
+
+  /* dny a jídla */
+  body[data-active-page="menu"] .day-section {
+    border-radius: 22px !important;
+    background: rgba(14,31,56,.84) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  body[data-active-page="menu"] .day-section.current-day {
+    border-color: rgba(96,165,250,.36) !important;
+    box-shadow: 0 14px 34px rgba(37,99,235,.14) !important;
+  }
+
+  body[data-active-page="menu"] .day-section.is-open {
+    min-height: calc(100vh - 150px) !important;
+  }
+
+  /* žádný overlay a žádné floating review tlačítko */
+  body[data-active-page="menu"].v3-day-panel-open::after,
+  body[data-active-page="menu"] [data-v3-review-open] {
+    display: none !important;
+  }
+}
+
+/* === FIX V3 PANEL AS SINGLE COMPONENT + DAY TOGGLE === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    display: block !important;
+    position: sticky !important;
+    top: 60px !important;
+    z-index: 90 !important;
+    margin: 0 0 10px !important;
+    padding: 0 !important;
+
+    border-radius: 24px !important;
+    background:
+      radial-gradient(circle at 85% 0%, rgba(37,99,235,.20), transparent 42%),
+      linear-gradient(135deg, rgba(14,31,56,.98), rgba(10,22,40,.95)) !important;
+    border: 1px solid rgba(255,255,255,.11) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.32) !important;
+    backdrop-filter: blur(18px) !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-shell .v3-mobile-command {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 10px 10px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-shell .v3-mobile-today-card {
+    margin: 0 0 10px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-shell .v3-mobile-week-strip,
+  body[data-active-page="menu"] .v3-day-panel-shell .v3-mobile-review {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-day-panel-shell .v3-mobile-week-strip {
+    display: grid !important;
+    position: static !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+
+    margin: 0 0 10px !important;
+    padding: 10px !important;
+    border-radius: 22px !important;
+
+    background: rgba(6,13,26,.42) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-day-panel-shell .v3-mobile-review {
+    display: block !important;
+    position: static !important;
+    inset: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+
+    margin: 0 !important;
+    padding: 10px !important;
+    border-radius: 22px !important;
+
+    background: rgba(6,13,26,.34) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  }
+
+  body[data-active-page="menu"] .day-section.is-open .accordion-indicator {
+    transform: rotate(180deg) !important;
+  }
+
+  body[data-active-page="menu"] .day-section:not(.is-open) .day-content {
+    display: none !important;
+  }
+}
+
+/* === V3 compact cards + top weekly panel === */
+@media (max-width: 900px) {
+  /* týdenní výběr úplně nahoru pod navbar */
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 120 !important;
+    margin: 0 0 8px !important;
+    border-radius: 0 0 22px 22px !important;
+  }
+
+  body[data-active-page="menu"] .container {
+    padding-top: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-card {
+    margin-top: 8px !important;
+  }
+
+  /* denní accordion kompaktnější */
+  body[data-active-page="menu"] .day-section {
+    padding: 9px 11px !important;
+    border-radius: 20px !important;
+  }
+
+  body[data-active-page="menu"] .day-accordion-toggle {
+    min-height: 52px !important;
+  }
+
+  body[data-active-page="menu"] .section-title h2 {
+    font-size: clamp(1.28rem, 5.6vw, 1.78rem) !important;
+  }
+
+  body[data-active-page="menu"] .day-header .accent {
+    height: 38px !important;
+  }
+
+  /* otevřený den nezabere násilně celý viewport */
+  body[data-active-page="menu"] .day-section.is-open {
+    min-height: auto !important;
+  }
+
+  /* jídla: jednořádkové kompaktní karty */
+  body[data-active-page="menu"] .dish-grid {
+    gap: 8px !important;
+  }
+
+  body[data-active-page="menu"] .dish-card {
+    padding: 10px 12px !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .dish-card .dish-top {
+    display: grid !important;
+    grid-template-columns: 44px 1fr auto !important;
+    align-items: center !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+  }
+
+  body[data-active-page="menu"] .dish-card .emoji-bubble {
+    width: 44px !important;
+    height: 44px !important;
+    flex-basis: 44px !important;
+    font-size: 1.35rem !important;
+    border-radius: 14px !important;
+  }
+
+  body[data-active-page="menu"] .dish-card .dish-name {
+    margin: 0 !important;
+    font-size: .98rem !important;
+    line-height: 1.16 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .dish-card .price-tag {
+    font-size: 1.25rem !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-active-page="menu"] .dish-card [data-card-status],
+  body[data-active-page="menu"] .dish-card .dish-top .badge:not(.badge-gold):not(.badge-red) {
+    display: none !important;
+  }
+
+  /* detail skrytý defaultně */
+  body[data-active-page="menu"] .dish-card .card-actions,
+  body[data-active-page="menu"] .dish-card > div[style*="margin-top"] {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.mobile-dish-expanded .card-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.mobile-dish-expanded > div[style*="margin-top"] {
+    display: block !important;
+    margin-top: 8px !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.mobile-dish-expanded .dish-name {
+    -webkit-line-clamp: 4 !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.mobile-dish-expanded {
+    border-color: rgba(96,165,250,.32) !important;
+    box-shadow: 0 14px 30px rgba(37,99,235,.14) !important;
+  }
+
+  body[data-active-page="menu"] .dish-card::after {
+    content: "⌄";
+    position: absolute;
+    right: 14px;
+    top: 20px;
+    color: #93c5fd;
+    font-size: 1.15rem;
+    pointer-events: none;
+    transition: transform .16s ease;
+  }
+
+  body[data-active-page="menu"] .dish-card.mobile-dish-expanded::after {
+    transform: rotate(180deg);
+  }
+
+  body[data-active-page="menu"] .dish-card.selected::after {
+    color: var(--gold-light);
+  }
+
+  /* vybrané jídlo výrazně, ale stále kompaktně */
+  body[data-active-page="menu"] .dish-card.selected {
+    border-color: rgba(245,197,24,.42) !important;
+    background:
+      radial-gradient(circle at 92% 0%, rgba(245,197,24,.18), transparent 36%),
+      rgba(245,197,24,.045) !important;
+  }
+}
+
+/* === Compact weekly panel height === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    top: 0 !important;
+    margin: 0 0 6px !important;
+    border-radius: 0 0 16px 16px !important;
+    min-height: 42px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    min-height: 42px !important;
+    height: 42px !important;
+    padding: 5px 8px 5px 12px !important;
+    border-radius: 0 0 16px 16px !important;
+    grid-template-columns: 1fr 44px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-title {
+    font-size: .72rem !important;
+    line-height: 1 !important;
+    letter-spacing: .08em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon::before {
+    font-size: 1.55rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-command {
+    margin-bottom: 6px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-card {
+    margin: 0 0 6px !important;
+    padding: 7px 10px !important;
+    border-radius: 16px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-kicker {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-main {
+    gap: 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-emoji {
+    width: 36px !important;
+    height: 36px !important;
+    flex: 0 0 36px !important;
+    border-radius: 12px !important;
+    font-size: 1.2rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-title {
+    font-size: .9rem !important;
+    line-height: 1.12 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-sub {
+    font-size: .76rem !important;
+    line-height: 1.1 !important;
+    margin-top: 2px !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-mobile-week-strip {
+    margin: 6px 0 6px !important;
+    padding: 7px !important;
+    border-radius: 16px !important;
+    gap: 6px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip,
+  body[data-active-page="menu"] button.v3-mobile-day-chip {
+    min-height: 44px !important;
+    border-radius: 14px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-abbr {
+    font-size: .92rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-state {
+    font-size: .65rem !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-mobile-review {
+    margin: 6px 0 8px !important;
+    padding: 8px !important;
+    border-radius: 16px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-head {
+    margin-bottom: 6px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-head strong {
+    font-size: .85rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-row,
+  body[data-active-page="menu"] button.v3-mobile-review-row {
+    min-height: 42px !important;
+    padding: 7px 9px !important;
+    grid-template-columns: 72px 1fr 18px !important;
+    gap: 7px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-day,
+  body[data-active-page="menu"] .v3-mobile-review-food {
+    font-size: .8rem !important;
+    line-height: 1.12 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-review-row::after {
+    font-size: 1rem !important;
+  }
+
+  body[data-active-page="menu"] .menu-sections {
+    gap: 7px !important;
+  }
+
+  body[data-active-page="menu"] .day-section {
+    padding: 8px 10px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-active-page="menu"] .day-accordion-toggle {
+    min-height: 46px !important;
+  }
+
+  body[data-active-page="menu"] .day-header .accent {
+    height: 34px !important;
+  }
+
+  body[data-active-page="menu"] .section-title h2 {
+    font-size: 1.45rem !important;
+  }
+
+  body[data-active-page="menu"] .day-header .muted.small {
+    font-size: .78rem !important;
+  }
+}
+
+/* === EXACT TARGET MOBILE UI === */
+@media (max-width: 900px) {
+  /* MENU musí být zpět v horní navigaci */
+  body[data-active-page="menu"] .nav-pill.active {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: linear-gradient(135deg, var(--gold), #d4a800) !important;
+    color: #091220 !important;
+    border-color: transparent !important;
+    box-shadow: var(--glow-gold) !important;
+  }
+
+  body[data-active-page="menu"] .brand-copy {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .nav-inner {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+  }
+
+  body[data-active-page="menu"] .brand {
+    margin-right: 6px !important;
+  }
+
+  body[data-active-page="menu"] .nav-links {
+    display: flex !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+  }
+
+  body[data-active-page="menu"] .nav-links::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .nav-pill,
+  body[data-active-page="menu"] .icon-pill,
+  body[data-active-page="menu"] .avatar-pill {
+    height: 48px !important;
+    min-height: 48px !important;
+    border-radius: 18px !important;
+    padding: 0 15px !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-active-page="menu"] .brand-mark {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 18px !important;
+  }
+
+  /* Hero pryč, hlavní karta týdne nahoře */
+  body[data-active-page="menu"] .hero,
+  body[data-active-page="menu"] .menu-tools,
+  body[data-active-page="menu"] .sticky-filters,
+  body[data-active-page="menu"] .desktop-summary-card,
+  body[data-active-page="menu"] .desktop-day-tabs {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .container {
+    padding: 14px 10px 104px !important;
+  }
+
+  /* Týdenní výběr karta */
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    display: block !important;
+    position: static !important;
+    top: auto !important;
+    z-index: 20 !important;
+    margin: 0 0 12px !important;
+    padding: 12px !important;
+    border-radius: 24px !important;
+    background:
+      radial-gradient(circle at 88% 0%, rgba(37,99,235,.28), transparent 38%),
+      rgba(14,31,56,.92) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.26) !important;
+    overflow: visible !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    min-height: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    margin: 0 0 8px !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    display: grid !important;
+    grid-template-columns: 1fr 54px !important;
+    align-items: center !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-title {
+    color: var(--ice-dim) !important;
+    font-size: .9rem !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .09em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-current {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon {
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 999px !important;
+    display: grid !important;
+    place-items: center !important;
+    background: linear-gradient(135deg, rgba(37,99,235,.78), rgba(30,64,175,.98)) !important;
+    border: 1px solid rgba(147,197,253,.32) !important;
+    box-shadow: 0 16px 30px rgba(37,99,235,.30) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon::before {
+    content: "⋮";
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  /* Dnešní objednávka uvnitř stejné karty */
+  body[data-active-page="menu"] .v3-mobile-command {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-card {
+    margin: 0 0 12px !important;
+    padding: 10px 12px !important;
+    border-radius: 20px !important;
+    background: rgba(6,13,26,.20) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-kicker,
+  body[data-active-page="menu"] .v3-mobile-today-actions {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-main {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-emoji {
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
+    border-radius: 15px !important;
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 1.4rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-title {
+    color: #fff !important;
+    font-size: .98rem !important;
+    font-weight: 900 !important;
+    line-height: 1.14 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-sub {
+    color: var(--ice-dim) !important;
+    font-size: .82rem !important;
+    line-height: 1.18 !important;
+    margin-top: 3px !important;
+  }
+
+  /* Ouška dnů VŽDY viditelná */
+  body[data-active-page="menu"] .v3-mobile-week-strip {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 8px !important;
+    border-radius: 22px !important;
+    background: rgba(6,13,26,.38) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip,
+  body[data-active-page="menu"] button.v3-mobile-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 70px !important;
+    border-radius: 20px !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 4px !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    background: linear-gradient(180deg, rgba(255,255,255,.065), rgba(255,255,255,.03)) !important;
+    border: 1px solid rgba(255,255,255,.09) !important;
+    color: var(--ice) !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,.16) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip.current,
+  body[data-active-page="menu"] .v3-mobile-day-chip.mobile-active-day,
+  body[data-active-page="menu"] .v3-mobile-day-chip.active {
+    background:
+      radial-gradient(circle at 40% 0%, rgba(255,255,255,.28), transparent 38%),
+      linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    border-color: rgba(191,219,254,.72) !important;
+    color: #fff !important;
+    box-shadow:
+      0 16px 34px rgba(37,99,235,.40),
+      inset 0 -3px 0 rgba(219,234,254,.88) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-abbr {
+    font-family: var(--font-brand-display, 'Barlow Condensed', sans-serif) !important;
+    font-size: 1.12rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    color: inherit !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-state {
+    font-size: .76rem !important;
+    color: rgba(200,222,255,.88) !important;
+    line-height: 1 !important;
+  }
+
+  /* Přehled výběru se schová, otevře ho jen tečky */
+  body[data-active-page="menu"] .v3-mobile-review {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-mobile-review {
+    display: block !important;
+    margin: 10px 0 0 !important;
+    padding: 10px !important;
+    border-radius: 20px !important;
+    background: rgba(6,13,26,.36) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  /* Denní karty */
+  body[data-active-page="menu"] .menu-sections {
+    gap: 10px !important;
+  }
+
+  body[data-active-page="menu"] .day-section {
+    border-radius: 24px !important;
+    padding: 14px !important;
+    background: rgba(14,31,56,.82) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.12) !important;
+  }
+
+  body[data-active-page="menu"] .day-section.current-day {
+    border-color: rgba(96,165,250,.40) !important;
+  }
+
+  body[data-active-page="menu"] .day-accordion-toggle {
+    min-height: 62px !important;
+  }
+
+  body[data-active-page="menu"] .section-title h2 {
+    font-size: 1.8rem !important;
+    line-height: .95 !important;
+  }
+
+  body[data-active-page="menu"] .day-header .muted.small {
+    font-size: .92rem !important;
+  }
+
+  body[data-active-page="menu"] .day-header .accent {
+    width: 7px !important;
+    height: 48px !important;
+  }
+}
+
+/* === FINAL FIX: weekly panel behavior + visible day tabs === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .v3-mobile-week-strip,
+  body[data-active-page="menu"].v3-day-panel-open .v3-mobile-week-strip {
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 8px 0 0 !important;
+    padding: 8px !important;
+    border-radius: 22px !important;
+    background: rgba(6,13,26,.42) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip,
+  body[data-active-page="menu"] button.v3-mobile-day-chip {
+    all: unset !important;
+    box-sizing: border-box !important;
+    min-height: 64px !important;
+    border-radius: 18px !important;
+    display: grid !important;
+    place-items: center !important;
+    gap: 4px !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03)) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    color: var(--ice) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip.current,
+  body[data-active-page="menu"] .v3-mobile-day-chip.mobile-active-day {
+    background: linear-gradient(135deg, #4f95ff, #1d4ed8) !important;
+    color: #fff !important;
+    border-color: rgba(191,219,254,.65) !important;
+    box-shadow: 0 14px 30px rgba(37,99,235,.36) !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-abbr {
+    font-size: 1.08rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-state {
+    font-size: .74rem !important;
+    color: rgba(200,222,255,.88) !important;
+  }
+
+  /* Přehled objednávek je jediná část, kterou otevírá/zavírá tlačítko ⋮ */
+  body[data-active-page="menu"] .v3-mobile-review {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"].v3-day-panel-open .v3-mobile-review {
+    display: block !important;
+    margin: 10px 0 0 !important;
+    padding: 10px !important;
+    border-radius: 20px !important;
+    background: rgba(6,13,26,.36) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+  }
+}
+
+/* === GLOBAL MOBILE NAV: same style on all pages === */
+@media (max-width: 900px) {
+  .glass-nav {
+    background: rgba(6,13,26,.94) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    backdrop-filter: blur(18px) saturate(1.25) !important;
+  }
+
+  .nav-inner {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+    max-width: none !important;
+    overflow: hidden !important;
+  }
+
+  .brand {
+    margin-right: 6px !important;
+    flex: 0 0 auto !important;
+  }
+
+  .brand-copy {
+    display: none !important;
+  }
+
+  .brand-mark {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 18px !important;
+    flex: 0 0 50px !important;
+  }
+
+  .nav-links {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .nav-links::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .nav-pill,
+  .icon-pill,
+  .avatar-pill {
+    height: 48px !important;
+    min-height: 48px !important;
+    border-radius: 18px !important;
+    padding: 0 15px !important;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .nav-pill.active {
+    background: linear-gradient(135deg, var(--gold), #d4a800) !important;
+    color: #091220 !important;
+    border-color: transparent !important;
+    box-shadow: var(--glow-gold) !important;
+  }
+
+  .notification-panel {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    top: 74px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(72vh, 520px) !important;
+    border-radius: 20px !important;
+    z-index: 100 !important;
+  }
+}
+
+/* === FINAL COMPACT WEEKLY PANEL + GLOBAL MOBILE NAV === */
+@media (max-width: 900px) {
+  /* globální navigace: stejná na všech stránkách jako MENU */
+  .glass-nav {
+    background: rgba(6,13,26,.94) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    backdrop-filter: blur(18px) saturate(1.2) !important;
+  }
+
+  .nav-inner {
+    display: grid !important;
+    grid-template-columns: 50px minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+    max-width: none !important;
+    overflow: hidden !important;
+  }
+
+  .brand {
+    margin: 0 !important;
+    min-width: 0 !important;
+  }
+
+  .brand-copy {
+    display: none !important;
+  }
+
+  .brand-mark {
+    width: 50px !important;
+    height: 50px !important;
+    flex: 0 0 50px !important;
+    border-radius: 18px !important;
+  }
+
+  .nav-links {
+    display: grid !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: max-content !important;
+    justify-content: end !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
+  }
+
+  .nav-pill,
+  .icon-pill,
+  .avatar-pill {
+    height: 48px !important;
+    min-height: 48px !important;
+    border-radius: 18px !important;
+    padding: 0 14px !important;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .nav-pill.active {
+    background: linear-gradient(135deg, var(--gold), #d4a800) !important;
+    color: #091220 !important;
+    border-color: transparent !important;
+    box-shadow: var(--glow-gold) !important;
+  }
+
+  /* u úzkých mobilů schovej REPORT, aby panel nebyl posuvný */
+  @media (max-width: 430px) {
+    .nav-links a[href*="report"],
+    .nav-links a[href*="orders_report"] {
+      display: none !important;
+    }
+
+    .nav-pill,
+    .icon-pill,
+    .avatar-pill {
+      height: 46px !important;
+      min-height: 46px !important;
+      padding: 0 12px !important;
+      border-radius: 17px !important;
+      font-size: .88rem !important;
+    }
+  }
+
+  /* Týdenní výběr: odstranit velké prázdné plochy */
+  body[data-active-page="menu"] .v3-day-panel-shell {
+    margin: 0 0 10px !important;
+    padding: 8px 10px !important;
+    border-radius: 22px !important;
+    min-height: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-toggle {
+    height: 38px !important;
+    min-height: 38px !important;
+    margin: 0 0 6px !important;
+    padding: 0 !important;
+    grid-template-columns: 1fr 44px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-title {
+    font-size: .82rem !important;
+    line-height: 1 !important;
+    letter-spacing: .08em !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+  }
+
+  body[data-active-page="menu"] .v3-day-panel-icon::before {
+    font-size: 1.7rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-command {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-card {
+    margin: 0 !important;
+    padding: 7px 9px !important;
+    border-radius: 17px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-main {
+    gap: 8px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-emoji {
+    width: 38px !important;
+    height: 38px !important;
+    flex: 0 0 38px !important;
+    border-radius: 13px !important;
+    font-size: 1.2rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-title {
+    font-size: .9rem !important;
+    line-height: 1.12 !important;
+    -webkit-line-clamp: 2 !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-today-sub {
+    font-size: .76rem !important;
+    line-height: 1.1 !important;
+    margin-top: 1px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-week-strip {
+    margin: 7px 0 0 !important;
+    padding: 7px !important;
+    gap: 6px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-chip,
+  body[data-active-page="menu"] button.v3-mobile-day-chip {
+    min-height: 52px !important;
+    border-radius: 15px !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-abbr {
+    font-size: .98rem !important;
+  }
+
+  body[data-active-page="menu"] .v3-mobile-day-state {
+    font-size: .66rem !important;
+  }
+}
+
+/* === FIX: MENU must stay visible in mobile nav === */
+@media (max-width: 900px) {
+  .nav-links {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
+  }
+
+  .nav-links .nav-pill {
+    flex: 0 0 auto !important;
+  }
+
+  .nav-links a[href="/"],
+  .nav-links a[href="/orders"],
+  .nav-links a[href="/#"],
+  .nav-links a[href$="/"] {
+    display: inline-flex !important;
+    order: -100 !important;
+  }
+
+  @media (max-width: 430px) {
+    .nav-links a[href*="report"]:not(.active) {
+      display: none !important;
+    }
+
+    .avatar-pill {
+      display: none !important;
+    }
+
+    .nav-pill,
+    .icon-pill {
+      padding: 0 12px !important;
+      font-size: .86rem !important;
+    }
   }
 }

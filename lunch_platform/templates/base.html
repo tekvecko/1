@@ -9,6 +9,73 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='navy.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='v4.css') }}?v=hard-order-click">
+
+<script>
+/* === EARLY V4 ORDER CLICK FIX === */
+(function(){
+  function csrf(){
+    return document.querySelector('meta[name="csrf-token"]')?.content ||
+           document.querySelector('input[name="csrf_token"]')?.value || '';
+  }
+
+  async function postForm(url, payload){
+    const fd = new FormData();
+    Object.entries(payload || {}).forEach(([k,v]) => fd.append(k, v));
+    fd.append("csrf_token", csrf());
+
+    const res = await fetch(url, {
+      method: "POST",
+      body: fd,
+      headers: {"X-CSRF-Token": csrf()}
+    });
+
+    const text = await res.text();
+    let data = {};
+    try { data = JSON.parse(text); } catch(e) {}
+
+    if (!res.ok || data.success === false) {
+      throw new Error(data.message || text || "Objednávku se nepodařilo uložit.");
+    }
+    return data;
+  }
+
+  document.addEventListener("click", async function(e){
+    const select = e.target.closest("button[data-select-day][data-select-dish-id]");
+    const cancel = e.target.closest("button[data-cancel-day]");
+
+    if (!select && !cancel) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    const btn = select || cancel;
+    if (btn.dataset.locked === "1") return;
+    btn.dataset.locked = "1";
+    btn.disabled = true;
+
+    try {
+      if (select) {
+        await postForm("/order-api", {
+          day: select.dataset.selectDay,
+          dish_id: select.dataset.selectDishId
+        });
+      } else {
+        await postForm("/order-api/cancel", {
+          day: cancel.dataset.cancelDay
+        });
+      }
+      window.location.href = window.location.pathname + "?v=order-fixed-" + Date.now();
+    } catch(err) {
+      alert(err.message || "Akce se nepodařila.");
+      btn.disabled = false;
+      btn.dataset.locked = "0";
+    }
+  }, true);
+})();
+</script>
+
 </head>
 <body data-active-page="{{ active_page|default('') }}">
 <div class="page-shell">

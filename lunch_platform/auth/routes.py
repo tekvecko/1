@@ -17,16 +17,30 @@ def login():
         if not check_login_rate(ip):
             flash("Too many login attempts. Try again later.", "error")
             return redirect(url_for("auth.login"))
-        identifier = normalize_spaces(request.form.get("username", "")).lower()
+
+        identifier = (
+            request.form.get("username")
+            or request.form.get("identifier")
+            or request.form.get("email")
+            or ""
+        ).strip()
         password = request.form.get("password", "")
+
         account = authenticate(identifier, password)
         if not account:
             log_event("login_failed", actor=identifier, detail=f"ip={ip}")
             flash("Invalid credentials.", "error")
             return redirect(url_for("auth.login"))
+
         login_user(account)
+
+        if account["must_change_password"]:
+            flash("Změna hesla je vyžadována.", "error")
+            return redirect(url_for("orders.profile", _anchor="password-change"))
+
         next_url = request.form.get("next") or request.args.get("next") or url_for("orders.index")
         return redirect(next_url)
+
     return render_template("auth/login.html")
 
 

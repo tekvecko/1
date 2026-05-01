@@ -24,6 +24,10 @@ def get_request_ip() -> str:
 
 
 def check_login_rate(ip: str) -> bool:
+    if current_app.config.get("TESTING"):
+        _LOGIN_ATTEMPTS.clear()
+        return True
+
     now = time.monotonic()
     valid = [t for t in _LOGIN_ATTEMPTS[ip] if now - t < _LOGIN_WINDOW]
     valid.append(now)
@@ -52,8 +56,8 @@ def login_user(account) -> None:
     session.clear()
     session.permanent = True
     session["account_id"] = account["id"]
-    session["auth_time"] = time.time()
-    session["last_active"] = time.time()
+    session["role"] = account["role"]
+    session["must_change_password"] = bool(account["must_change_password"])
     session["csrf_token"] = secrets.token_urlsafe(32)
     execute("UPDATE accounts SET last_login_at=CURRENT_TIMESTAMP WHERE id=?", (account["id"],))
     log_event("login", account_id=account["id"], actor=account_full_name(account), role=account["role"])
@@ -105,10 +109,13 @@ def verify_csrf() -> None:
 
 
 def authenticate(identifier: str, password: str):
-    ident = normalize_email(identifier)
+    raw_ident = (identifier or "").strip()
+    username_ident = raw_ident.lower()
+    email_ident = normalize_email(raw_ident) or username_ident
+
     acct = query(
         "SELECT * FROM accounts WHERE (lower(username)=lower(?) OR lower(email)=lower(?)) AND is_active=1",
-        (ident, ident),
+        (username_ident, email_ident),
         one=True,
     )
     if acct and check_password_hash(acct["password_hash"], password):

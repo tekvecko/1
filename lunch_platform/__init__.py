@@ -14,7 +14,9 @@ def create_app(test_config: dict | None = None):
     from .orders.routes import bp as orders_bp
     from .admin.routes import bp as admin_bp
     from .billing.routes import bp as billing_bp
+    from .delivery.routes import bp as delivery_bp
     from .imports.routes import bp as imports_bp
+    from .restaurants.runtime import init_restaurants
 
     base_dir = Path(__file__).resolve().parent
     app = Flask(
@@ -35,11 +37,13 @@ def create_app(test_config: dict | None = None):
     init_security(app)
     init_db_app(app)
     init_auth(app)
+    init_restaurants(app)
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(orders_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(billing_bp)
+    app.register_blueprint(delivery_bp)
     app.register_blueprint(imports_bp)
 
     return app
