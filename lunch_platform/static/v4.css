@@ -2618,3 +2618,4106 @@ body[data-active-page="menu"] .menu-v4-detail-meta span {
     margin: 0 auto;
   }
 }
+
+/* === FIX MENU TEXT CONTRAST ON DARK/SELECTED CARDS === */
+body[data-active-page="menu"] .menu-v4-day.is-open,
+body[data-active-page="menu"] .menu-v4-day.has-selected {
+  color: #f8fbff !important;
+}
+
+body[data-active-page="menu"] .menu-v4-day.is-open .menu-v4-day-title strong,
+body[data-active-page="menu"] .menu-v4-day.is-open .menu-v4-day-title small,
+body[data-active-page="menu"] .menu-v4-day.is-open .menu-v4-day-selected,
+body[data-active-page="menu"] .menu-v4-day.is-open .menu-v4-day-arrow {
+  color: #f8fbff !important;
+}
+
+body[data-active-page="menu"] .menu-v4-dish.selected,
+body[data-active-page="menu"] .menu-v4-dish.selected * {
+  color: #f8fbff !important;
+}
+
+body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-dish-copy strong,
+body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-dish-copy span,
+body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-dish-side b,
+body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-detail-arrow {
+  color: #f8fbff !important;
+}
+
+body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-reco {
+  color: #fde68a !important;
+}
+
+body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-cancel-btn {
+  color: #0f172a !important;
+}
+
+body[data-active-page="menu"] .menu-v4-dish:not(.selected) .menu-v4-dish-copy strong,
+body[data-active-page="menu"] .menu-v4-dish:not(.selected) .menu-v4-dish-side b {
+  color: #0f172a !important;
+}
+
+body[data-active-page="menu"] .menu-v4-dish:not(.selected) .menu-v4-dish-copy span {
+  color: #64748b !important;
+}
+
+/* === SMART BOTTOM NAVIGATION === */
+.smart-bottom-nav,
+.smart-bottom-more {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  body {
+    padding-bottom: 82px !important;
+  }
+
+  .smart-bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 300;
+    height: 72px;
+    padding: 6px 10px calc(6px + env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
+
+    background:
+      radial-gradient(circle at 50% 0%, rgba(37,99,235,.20), transparent 46%),
+      rgba(5, 11, 22, .96);
+    border-top: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 -14px 36px rgba(0,0,0,.35);
+    backdrop-filter: blur(18px) saturate(1.25);
+  }
+
+  .smart-bottom-item {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    text-decoration: none;
+    color: rgba(219,234,254,.78);
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 2px;
+    min-width: 0;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: .68rem;
+    line-height: 1;
+  }
+
+  .smart-bottom-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .smart-bottom-item.active {
+    color: #60a5fa;
+    background: rgba(37,99,235,.14);
+  }
+
+  .smart-bottom-item.active .smart-bottom-icon {
+    filter: drop-shadow(0 0 10px rgba(96,165,250,.55));
+  }
+
+  .smart-bottom-button {
+    cursor: pointer;
+  }
+
+  .smart-bottom-more {
+    position: fixed;
+    right: 10px;
+    bottom: 82px;
+    z-index: 310;
+    width: min(230px, calc(100vw - 20px));
+    padding: 10px;
+    border-radius: 22px;
+
+    background:
+      radial-gradient(circle at 100% 0%, rgba(37,99,235,.28), transparent 42%),
+      rgba(10,22,40,.98);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 20px 50px rgba(0,0,0,.45);
+    backdrop-filter: blur(18px);
+  }
+
+  .smart-bottom-more:not([hidden]) {
+    display: grid;
+    gap: 8px;
+  }
+
+  .smart-bottom-more a,
+  .smart-bottom-more button {
+    min-height: 44px;
+    border: 0;
+    border-radius: 16px;
+    padding: 0 12px;
+    background: rgba(255,255,255,.06);
+    color: #f8fbff;
+    text-decoration: none;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+
+  .smart-bottom-more button {
+    width: 100%;
+    cursor: pointer;
+  }
+
+  /* Horní navigace na mobilu zůstane jen jako tenká značka / hlavička */
+  .glass-nav .nav-links {
+    display: none !important;
+  }
+
+  .glass-nav {
+    min-height: 64px !important;
+  }
+
+  .nav-inner {
+    min-height: 64px !important;
+  }
+
+  .brand-mark {
+    width: 52px !important;
+    height: 52px !important;
+  }
+}
+
+/* === NATIVE MOBILE TAB BAR POLISH === */
+@media (max-width: 900px) {
+  :root {
+    --native-tab-h: 74px;
+    --native-tab-bg: rgba(9, 14, 25, .86);
+    --native-tab-border: rgba(255,255,255,.10);
+    --native-tab-text: rgba(226,232,240,.62);
+    --native-tab-active: #0a84ff; /* iOS blue */
+    --native-tab-active-bg: rgba(10,132,255,.13);
+  }
+
+  body {
+    padding-bottom: calc(var(--native-tab-h) + env(safe-area-inset-bottom)) !important;
+  }
+
+  .smart-bottom-nav {
+    height: calc(var(--native-tab-h) + env(safe-area-inset-bottom)) !important;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom)) !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 2px !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)),
+      var(--native-tab-bg) !important;
+    border-top: 1px solid var(--native-tab-border) !important;
+    box-shadow:
+      0 -1px 0 rgba(255,255,255,.04),
+      0 -18px 44px rgba(0,0,0,.42) !important;
+    backdrop-filter: blur(26px) saturate(1.8) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(1.8) !important;
+  }
+
+  .smart-bottom-item {
+    height: 60px !important;
+    min-height: 60px !important;
+    border-radius: 18px !important;
+    color: var(--native-tab-text) !important;
+    font-size: 11px !important;
+    font-weight: 750 !important;
+    letter-spacing: -.01em !important;
+    transition:
+      background .16s ease,
+      color .16s ease,
+      transform .12s ease,
+      opacity .12s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+  }
+
+  .smart-bottom-item:active {
+    transform: scale(.94) !important;
+    opacity: .78 !important;
+  }
+
+  .smart-bottom-item.active {
+    color: var(--native-tab-active) !important;
+    background: transparent !important;
+  }
+
+  .smart-bottom-item.active::before {
+    content: "";
+    position: absolute;
+    width: 42px;
+    height: 30px;
+    border-radius: 999px;
+    top: 7px;
+    background: var(--native-tab-active-bg);
+    z-index: -1;
+  }
+
+  .smart-bottom-icon {
+    width: 25px !important;
+    height: 25px !important;
+    display: block !important;
+    margin-bottom: 3px !important;
+    background-color: currentColor !important;
+    opacity: .96 !important;
+  }
+
+  .smart-bottom-item.active .smart-bottom-icon {
+    opacity: 1 !important;
+    filter: none !important;
+  }
+
+  .smart-bottom-item span:last-child {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Native-like CSS icons */
+  .nav-i-menu {
+    mask: radial-gradient(circle at 50% 35%, #000 0 22%, transparent 23%),
+          linear-gradient(#000 0 0) 23% 58% / 54% 10% no-repeat,
+          linear-gradient(#000 0 0) 20% 72% / 60% 10% no-repeat,
+          linear-gradient(#000 0 0) 28% 86% / 44% 10% no-repeat;
+    -webkit-mask: radial-gradient(circle at 50% 35%, #000 0 22%, transparent 23%),
+          linear-gradient(#000 0 0) 23% 58% / 54% 10% no-repeat,
+          linear-gradient(#000 0 0) 20% 72% / 60% 10% no-repeat,
+          linear-gradient(#000 0 0) 28% 86% / 44% 10% no-repeat;
+  }
+
+  .nav-i-orders {
+    mask: linear-gradient(#000 0 0) 24% 20% / 52% 9% no-repeat,
+          linear-gradient(#000 0 0) 24% 46% / 52% 9% no-repeat,
+          linear-gradient(#000 0 0) 24% 72% / 52% 9% no-repeat,
+          radial-gradient(circle at 12% 24%, #000 0 8%, transparent 9%),
+          radial-gradient(circle at 12% 50%, #000 0 8%, transparent 9%),
+          radial-gradient(circle at 12% 76%, #000 0 8%, transparent 9%);
+    -webkit-mask: linear-gradient(#000 0 0) 24% 20% / 52% 9% no-repeat,
+          linear-gradient(#000 0 0) 24% 46% / 52% 9% no-repeat,
+          linear-gradient(#000 0 0) 24% 72% / 52% 9% no-repeat,
+          radial-gradient(circle at 12% 24%, #000 0 8%, transparent 9%),
+          radial-gradient(circle at 12% 50%, #000 0 8%, transparent 9%),
+          radial-gradient(circle at 12% 76%, #000 0 8%, transparent 9%);
+  }
+
+  .nav-i-admin {
+    mask: radial-gradient(circle at 50% 50%, transparent 0 24%, #000 25% 43%, transparent 44%),
+          linear-gradient(#000 0 0) 45% 0 / 10% 100% no-repeat,
+          linear-gradient(#000 0 0) 0 45% / 100% 10% no-repeat,
+          linear-gradient(45deg, transparent 0 40%, #000 41% 58%, transparent 59%),
+          linear-gradient(-45deg, transparent 0 40%, #000 41% 58%, transparent 59%);
+    -webkit-mask: radial-gradient(circle at 50% 50%, transparent 0 24%, #000 25% 43%, transparent 44%),
+          linear-gradient(#000 0 0) 45% 0 / 10% 100% no-repeat,
+          linear-gradient(#000 0 0) 0 45% / 100% 10% no-repeat,
+          linear-gradient(45deg, transparent 0 40%, #000 41% 58%, transparent 59%),
+          linear-gradient(-45deg, transparent 0 40%, #000 41% 58%, transparent 59%);
+  }
+
+  .nav-i-profile {
+    mask: radial-gradient(circle at 50% 32%, #000 0 21%, transparent 22%),
+          radial-gradient(ellipse at 50% 88%, #000 0 42%, transparent 43%);
+    -webkit-mask: radial-gradient(circle at 50% 32%, #000 0 21%, transparent 22%),
+          radial-gradient(ellipse at 50% 88%, #000 0 42%, transparent 43%);
+  }
+
+  .nav-i-more {
+    mask: radial-gradient(circle at 50% 22%, #000 0 10%, transparent 11%),
+          radial-gradient(circle at 50% 50%, #000 0 10%, transparent 11%),
+          radial-gradient(circle at 50% 78%, #000 0 10%, transparent 11%);
+    -webkit-mask: radial-gradient(circle at 50% 22%, #000 0 10%, transparent 11%),
+          radial-gradient(circle at 50% 50%, #000 0 10%, transparent 11%),
+          radial-gradient(circle at 50% 78%, #000 0 10%, transparent 11%);
+  }
+
+  /* Android-style modal sheet for "Více" */
+  .smart-bottom-more {
+    right: 8px !important;
+    left: auto !important;
+    bottom: calc(var(--native-tab-h) + 12px + env(safe-area-inset-bottom)) !important;
+    width: min(270px, calc(100vw - 16px)) !important;
+    padding: 8px !important;
+    border-radius: 26px !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)),
+      rgba(14, 23, 39, .94) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    box-shadow: 0 24px 64px rgba(0,0,0,.52) !important;
+    backdrop-filter: blur(28px) saturate(1.6) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(1.6) !important;
+  }
+
+  .smart-bottom-more a,
+  .smart-bottom-more button {
+    min-height: 48px !important;
+    border-radius: 18px !important;
+    padding: 0 14px !important;
+    background: transparent !important;
+    color: #f8fafc !important;
+    font-size: .95rem !important;
+  }
+
+  .smart-bottom-more a:active,
+  .smart-bottom-more button:active {
+    background: rgba(255,255,255,.08) !important;
+  }
+
+  /* Horní lišta na mobilu jako app-header, ne jako plná navigace */
+  .glass-nav {
+    min-height: 58px !important;
+    background: rgba(7, 17, 31, .72) !important;
+    backdrop-filter: blur(22px) saturate(1.5) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(1.5) !important;
+    border-bottom: 1px solid rgba(255,255,255,.06) !important;
+  }
+
+  .nav-inner {
+    min-height: 58px !important;
+    padding: 6px 12px !important;
+  }
+
+  .brand-mark {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 15px !important;
+  }
+}
+
+/* === NATIVE APP BOTTOM TABS V2 === */
+.native-tabs,
+.native-more-sheet {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --native-blue: #0a84ff;
+    --native-green: #30d158;
+    --native-bg: rgba(8, 16, 30, .88);
+    --native-line: rgba(255,255,255,.12);
+    --native-muted: rgba(226,232,240,.62);
+  }
+
+  body {
+    padding-bottom: calc(86px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* horní web nav pryč, zůstane jen logo */
+  .glass-nav {
+    min-height: 58px !important;
+    background: rgba(5, 11, 22, .74) !important;
+    border-bottom: 1px solid rgba(255,255,255,.06) !important;
+    backdrop-filter: blur(24px) saturate(1.6) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(1.6) !important;
+  }
+
+  .glass-nav .nav-links,
+  .glass-nav .nav-user-cluster {
+    display: none !important;
+  }
+
+  .nav-inner {
+    min-height: 58px !important;
+    padding: 7px 14px !important;
+  }
+
+  .brand-mark {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 16px !important;
+  }
+
+  .brand-copy {
+    display: block !important;
+  }
+
+  .brand-copy strong {
+    color: #f8fafc !important;
+    font-size: .95rem !important;
+  }
+
+  .brand-copy span {
+    color: #94a3b8 !important;
+    font-size: .75rem !important;
+  }
+
+  .native-tabs {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 500;
+
+    height: calc(78px + env(safe-area-inset-bottom));
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2px;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+      var(--native-bg);
+    border-top: 1px solid var(--native-line);
+    box-shadow:
+      0 -1px 0 rgba(255,255,255,.04),
+      0 -22px 55px rgba(0,0,0,.46);
+    backdrop-filter: blur(28px) saturate(1.9);
+    -webkit-backdrop-filter: blur(28px) saturate(1.9);
+  }
+
+  .native-tab {
+    position: relative;
+    appearance: none;
+    border: 0;
+    background: transparent;
+    text-decoration: none;
+    color: var(--native-muted);
+    min-width: 0;
+    height: 62px;
+    border-radius: 20px;
+
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 4px;
+
+    font-size: 11px;
+    font-weight: 750;
+    line-height: 1;
+    letter-spacing: -.01em;
+
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: transform .12s ease, color .16s ease, background .16s ease;
+  }
+
+  .native-tab:active {
+    transform: scale(.93);
+  }
+
+  .native-tab.active {
+    color: var(--native-blue);
+  }
+
+  .native-tab.active::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    width: 44px;
+    height: 31px;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 20%, rgba(255,255,255,.18), transparent 45%),
+      rgba(10,132,255,.15);
+    z-index: -1;
+  }
+
+  .native-tab-icon {
+    width: 25px;
+    height: 25px;
+    display: block;
+    background: currentColor;
+  }
+
+  .native-i-home {
+    -webkit-mask:
+      linear-gradient(45deg, transparent 0 38%, #000 39% 61%, transparent 62%) 50% 0 / 90% 52% no-repeat,
+      linear-gradient(#000 0 0) 24% 46% / 52% 46% no-repeat,
+      linear-gradient(#000 0 0) 42% 66% / 16% 26% no-repeat;
+    mask:
+      linear-gradient(45deg, transparent 0 38%, #000 39% 61%, transparent 62%) 50% 0 / 90% 52% no-repeat,
+      linear-gradient(#000 0 0) 24% 46% / 52% 46% no-repeat,
+      linear-gradient(#000 0 0) 42% 66% / 16% 26% no-repeat;
+  }
+
+  .native-i-menu {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+  }
+
+  .native-i-orders {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 88% / 40% 8% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 88% / 40% 8% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+  }
+
+  .native-i-search {
+    border-radius: 999px;
+    -webkit-mask:
+      radial-gradient(circle at 43% 43%, transparent 0 35%, #000 36% 50%, transparent 51%),
+      linear-gradient(45deg, transparent 0 56%, #000 57% 72%, transparent 73%);
+    mask:
+      radial-gradient(circle at 43% 43%, transparent 0 35%, #000 36% 50%, transparent 51%),
+      linear-gradient(45deg, transparent 0 56%, #000 57% 72%, transparent 73%);
+  }
+
+  .native-i-profile {
+    -webkit-mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+    mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+  }
+
+  .native-more-sheet {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: calc(88px + env(safe-area-inset-bottom));
+    z-index: 510;
+
+    padding: 10px;
+    border-radius: 28px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.03)),
+      rgba(15, 23, 42, .94);
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 24px 70px rgba(0,0,0,.55);
+    backdrop-filter: blur(30px) saturate(1.8);
+    -webkit-backdrop-filter: blur(30px) saturate(1.8);
+  }
+
+  .native-more-sheet:not([hidden]) {
+    display: grid;
+    gap: 8px;
+  }
+
+  .native-sheet-handle {
+    width: 44px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.28);
+    margin: 2px auto 8px;
+  }
+
+  .native-more-sheet strong {
+    color: #fff;
+    padding: 4px 8px 8px;
+  }
+
+  .native-more-sheet a {
+    min-height: 48px;
+    border-radius: 18px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    color: #f8fafc;
+    text-decoration: none;
+    font-weight: 850;
+    background: rgba(255,255,255,.055);
+  }
+
+  .native-more-sheet a:active {
+    background: rgba(255,255,255,.12);
+  }
+}
+
+/* ============================================================
+   FINAL NATIVE MENU UI PATCH
+   - mobile header cleanup
+   - native bottom tabs
+   - menu text contrast
+   - compact readable day accordion
+   ============================================================ */
+
+.native-tabs,
+.native-more-sheet {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --final-bg: #07111f;
+    --final-panel: #0d213b;
+    --final-panel-2: #102947;
+    --final-text: #f8fbff;
+    --final-text-soft: #c7d7ee;
+    --final-text-muted: #91a9c7;
+    --final-blue: #3b82f6;
+    --final-blue-2: #60a5fa;
+    --final-ios-blue: #0a84ff;
+    --final-green: #22c55e;
+    --final-line: rgba(255,255,255,.12);
+    --final-card-light: #f8fafc;
+    --final-ink: #0f172a;
+    --native-tab-h: 78px;
+  }
+
+  html,
+  body {
+    background: var(--final-bg) !important;
+    color: var(--final-text) !important;
+  }
+
+  body {
+    padding-bottom: calc(var(--native-tab-h) + 12px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* ---------- TOP HEADER: no desktop nav on mobile ---------- */
+
+  .glass-nav {
+    min-height: 58px !important;
+    height: 58px !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015)),
+      rgba(5, 11, 22, .78) !important;
+    border-bottom: 1px solid rgba(255,255,255,.07) !important;
+    box-shadow: 0 8px 28px rgba(0,0,0,.20) !important;
+    backdrop-filter: blur(24px) saturate(1.6) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(1.6) !important;
+  }
+
+  .glass-nav .nav-links,
+  .glass-nav .nav-user-cluster,
+  .glass-nav .notification-menu,
+  .glass-nav .avatar-pill,
+  .glass-nav .icon-pill,
+  .glass-nav .nav-pill {
+    display: none !important;
+  }
+
+  .nav-inner {
+    min-height: 58px !important;
+    height: 58px !important;
+    padding: 7px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+  }
+
+  .brand {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    text-decoration: none !important;
+    min-width: 0 !important;
+  }
+
+  .brand-mark {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 16px !important;
+    display: grid !important;
+    place-items: center !important;
+    background:
+      radial-gradient(circle at 30% 0%, rgba(96,165,250,.42), transparent 45%),
+      rgba(30,64,175,.62) !important;
+    border: 1px solid rgba(147,197,253,.22) !important;
+    box-shadow: 0 12px 28px rgba(37,99,235,.22) !important;
+  }
+
+  .brand-copy {
+    display: block !important;
+    min-width: 0 !important;
+  }
+
+  .brand-copy strong {
+    display: block !important;
+    color: var(--final-text) !important;
+    font-size: .98rem !important;
+    line-height: 1.05 !important;
+    font-weight: 950 !important;
+    letter-spacing: .01em !important;
+  }
+
+  .brand-copy span {
+    display: block !important;
+    color: var(--final-text-muted) !important;
+    font-size: .74rem !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  /* ---------- MAIN MENU PAGE: global readable text ---------- */
+
+  body[data-active-page="menu"] {
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] main,
+  body[data-active-page="menu"] .container,
+  body[data-active-page="menu"] .uxv4-page,
+  body[data-active-page="menu"] .menu-v4,
+  body[data-active-page="menu"] .menu-v4-page {
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] h1,
+  body[data-active-page="menu"] h2,
+  body[data-active-page="menu"] h3,
+  body[data-active-page="menu"] .display,
+  body[data-active-page="menu"] .uxv4-title,
+  body[data-active-page="menu"] .uxv4-section-title,
+  body[data-active-page="menu"] .menu-v4-title {
+    color: var(--final-text) !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,.15) !important;
+  }
+
+  body[data-active-page="menu"] p,
+  body[data-active-page="menu"] small,
+  body[data-active-page="menu"] .muted,
+  body[data-active-page="menu"] .subtitle,
+  body[data-active-page="menu"] .uxv4-subtitle,
+  body[data-active-page="menu"] .menu-v4-subtitle {
+    color: var(--final-text-soft) !important;
+  }
+
+  /* ---------- TODAY CARD / WEEK TABS ---------- */
+
+  body[data-active-page="menu"] .uxv4-today-title,
+  body[data-active-page="menu"] .uxv4-section-label,
+  body[data-active-page="menu"] .uxv4-week-title,
+  body[data-active-page="menu"] .menu-v4-week-title,
+  body[data-active-page="menu"] [class*="today"] h2,
+  body[data-active-page="menu"] [class*="today"] h3 {
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-week-tabs,
+  body[data-active-page="menu"] .menu-v4-week-tabs,
+  body[data-active-page="menu"] .v3-mobile-week-strip {
+    background: rgba(248,250,252,.96) !important;
+    border: 1px solid rgba(255,255,255,.68) !important;
+    box-shadow: 0 14px 36px rgba(0,0,0,.18) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-week-tab,
+  body[data-active-page="menu"] .menu-v4-week-tab,
+  body[data-active-page="menu"] .v3-mobile-day-chip {
+    color: var(--final-ink) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-week-tab *,
+  body[data-active-page="menu"] .menu-v4-week-tab *,
+  body[data-active-page="menu"] .v3-mobile-day-chip * {
+    color: var(--final-ink) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-week-tab.active,
+  body[data-active-page="menu"] .menu-v4-week-tab.active,
+  body[data-active-page="menu"] .v3-mobile-day-chip.current,
+  body[data-active-page="menu"] .v3-mobile-day-chip.mobile-active-day {
+    background: #e2e8f0 !important;
+    box-shadow: inset 0 -3px 0 rgba(59,130,246,.92) !important;
+  }
+
+  /* ---------- DAY ACCORDION: readable closed + open states ---------- */
+
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .uxv4-day,
+  body[data-active-page="menu"] .day-section {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(37,99,235,.15), transparent 42%),
+      rgba(13,33,59,.92) !important;
+    border: 1px solid rgba(96,165,250,.22) !important;
+    box-shadow: 0 14px 32px rgba(0,0,0,.20) !important;
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day *,
+  body[data-active-page="menu"] .uxv4-day *,
+  body[data-active-page="menu"] .day-section * {
+    color: inherit;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-title,
+  body[data-active-page="menu"] .uxv4-day-title,
+  body[data-active-page="menu"] .day-header,
+  body[data-active-page="menu"] .day-accordion-toggle {
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-title strong,
+  body[data-active-page="menu"] .uxv4-day-title strong,
+  body[data-active-page="menu"] .day-header h2,
+  body[data-active-page="menu"] .section-title h2 {
+    color: var(--final-text) !important;
+    opacity: 1 !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-title small,
+  body[data-active-page="menu"] .uxv4-day-title small,
+  body[data-active-page="menu"] .day-header .muted,
+  body[data-active-page="menu"] .day-header .small,
+  body[data-active-page="menu"] .day-section .muted.small {
+    color: var(--final-text-soft) !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-selected,
+  body[data-active-page="menu"] .uxv4-day-selected,
+  body[data-active-page="menu"] .day-selected-state,
+  body[data-active-page="menu"] [class*="selected"] {
+    color: #dbeafe !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-arrow,
+  body[data-active-page="menu"] .uxv4-day-arrow,
+  body[data-active-page="menu"] .accordion-indicator,
+  body[data-active-page="menu"] .day-accordion-toggle > span:last-child {
+    color: #93c5fd !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day.is-open,
+  body[data-active-page="menu"] .uxv4-day.is-open,
+  body[data-active-page="menu"] .day-section.is-open {
+    background:
+      radial-gradient(circle at 90% 0%, rgba(59,130,246,.24), transparent 42%),
+      rgba(15,42,76,.98) !important;
+    border-color: rgba(96,165,250,.48) !important;
+    box-shadow:
+      0 18px 42px rgba(0,0,0,.26),
+      inset 0 1px 0 rgba(255,255,255,.04) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day.has-selected,
+  body[data-active-page="menu"] .uxv4-day.has-selected,
+  body[data-active-page="menu"] .day-section.has-selected {
+    border-color: rgba(96,165,250,.42) !important;
+  }
+
+  /* Hard fallback for the exact dark unreadable texts shown in screenshot */
+  body[data-active-page="menu"] [class*="day"] strong,
+  body[data-active-page="menu"] [class*="day"] h2,
+  body[data-active-page="menu"] [class*="day"] .display {
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] [class*="day"] small,
+  body[data-active-page="menu"] [class*="day"] .muted {
+    color: var(--final-text-soft) !important;
+  }
+
+  /* ---------- DISH CARDS: light cards + selected dark cards readable ---------- */
+
+  body[data-active-page="menu"] .menu-v4-dish,
+  body[data-active-page="menu"] .uxv4-dish-card,
+  body[data-active-page="menu"] .dish-card {
+    color: var(--final-ink) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish:not(.selected),
+  body[data-active-page="menu"] .uxv4-dish-card:not(.selected),
+  body[data-active-page="menu"] .dish-card:not(.selected) {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.98), rgba(241,245,249,.98)) !important;
+    border-color: rgba(15,23,42,.08) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish:not(.selected) *,
+  body[data-active-page="menu"] .uxv4-dish-card:not(.selected) *,
+  body[data-active-page="menu"] .dish-card:not(.selected) * {
+    color: var(--final-ink) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish:not(.selected) small,
+  body[data-active-page="menu"] .menu-v4-dish:not(.selected) .muted,
+  body[data-active-page="menu"] .uxv4-dish-card:not(.selected) small,
+  body[data-active-page="menu"] .uxv4-dish-card:not(.selected) .muted,
+  body[data-active-page="menu"] .dish-card:not(.selected) small,
+  body[data-active-page="menu"] .dish-card:not(.selected) .muted {
+    color: #64748b !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish.selected,
+  body[data-active-page="menu"] .uxv4-dish-card.selected,
+  body[data-active-page="menu"] .dish-card.selected {
+    background:
+      radial-gradient(circle at 92% 0%, rgba(245,197,24,.18), transparent 42%),
+      linear-gradient(135deg, rgba(15,23,42,.98), rgba(15,42,76,.96)) !important;
+    border-color: rgba(245,197,24,.42) !important;
+    box-shadow:
+      0 18px 42px rgba(0,0,0,.25),
+      0 0 0 1px rgba(245,197,24,.10) !important;
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish.selected *,
+  body[data-active-page="menu"] .uxv4-dish-card.selected *,
+  body[data-active-page="menu"] .dish-card.selected * {
+    color: var(--final-text) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish.selected small,
+  body[data-active-page="menu"] .menu-v4-dish.selected .muted,
+  body[data-active-page="menu"] .uxv4-dish-card.selected small,
+  body[data-active-page="menu"] .uxv4-dish-card.selected .muted,
+  body[data-active-page="menu"] .dish-card.selected small,
+  body[data-active-page="menu"] .dish-card.selected .muted {
+    color: var(--final-text-soft) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-reco,
+  body[data-active-page="menu"] .uxv4-dish-card.selected .uxv4-reco,
+  body[data-active-page="menu"] .dish-card.selected .badge,
+  body[data-active-page="menu"] .dish-card.selected .badge-gold {
+    color: #78350f !important;
+    background: linear-gradient(90deg, #fde68a, #fef3c7) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-cancel-btn,
+  body[data-active-page="menu"] .uxv4-btn.ghost,
+  body[data-active-page="menu"] .dish-card.selected button {
+    color: var(--final-ink) !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-detail-arrow,
+  body[data-active-page="menu"] .uxv4-detail-arrow,
+  body[data-active-page="menu"] .dish-card::after {
+    color: #93c5fd !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-dish.selected .menu-v4-detail-arrow,
+  body[data-active-page="menu"] .uxv4-dish-card.selected .uxv4-detail-arrow,
+  body[data-active-page="menu"] .dish-card.selected::after {
+    color: #fde68a !important;
+  }
+
+  /* ---------- NATIVE BOTTOM TAB BAR ---------- */
+
+  .native-tabs {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 500 !important;
+
+    height: calc(var(--native-tab-h) + env(safe-area-inset-bottom)) !important;
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom)) !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 2px !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
+      rgba(8, 16, 30, .92) !important;
+    border-top: 1px solid rgba(255,255,255,.14) !important;
+    box-shadow:
+      0 -1px 0 rgba(255,255,255,.05),
+      0 -22px 55px rgba(0,0,0,.52) !important;
+    backdrop-filter: blur(30px) saturate(1.85) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(1.85) !important;
+  }
+
+  .native-tab {
+    position: relative !important;
+    appearance: none !important;
+    border: 0 !important;
+    background: transparent !important;
+    text-decoration: none !important;
+
+    color: rgba(226,232,240,.82) !important;
+    min-width: 0 !important;
+    height: 62px !important;
+    border-radius: 20px !important;
+
+    display: grid !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 4px !important;
+
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -.01em !important;
+
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+    transition: transform .12s ease, color .16s ease, background .16s ease !important;
+  }
+
+  .native-tab span:last-child {
+    color: currentColor !important;
+    opacity: 1 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .native-tab:active {
+    transform: scale(.94) !important;
+  }
+
+  .native-tab.active {
+    color: #60a5fa !important;
+  }
+
+  .native-tab.active::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    width: 44px;
+    height: 31px;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255,255,255,.20), transparent 45%),
+      rgba(10,132,255,.18);
+    z-index: -1;
+  }
+
+  .native-tab-icon {
+    width: 25px !important;
+    height: 25px !important;
+    display: block !important;
+    background: currentColor !important;
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  .native-tab.active .native-tab-icon {
+    color: #60a5fa !important;
+    filter: drop-shadow(0 0 10px rgba(96,165,250,.35)) !important;
+  }
+
+  .native-i-home {
+    -webkit-mask:
+      linear-gradient(45deg, transparent 0 38%, #000 39% 61%, transparent 62%) 50% 0 / 90% 52% no-repeat,
+      linear-gradient(#000 0 0) 24% 46% / 52% 46% no-repeat,
+      linear-gradient(#000 0 0) 42% 66% / 16% 26% no-repeat;
+    mask:
+      linear-gradient(45deg, transparent 0 38%, #000 39% 61%, transparent 62%) 50% 0 / 90% 52% no-repeat,
+      linear-gradient(#000 0 0) 24% 46% / 52% 46% no-repeat,
+      linear-gradient(#000 0 0) 42% 66% / 16% 26% no-repeat;
+  }
+
+  .native-i-menu {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+  }
+
+  .native-i-orders {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 88% / 40% 8% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 88% / 40% 8% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+  }
+
+  .native-i-search {
+    -webkit-mask:
+      radial-gradient(circle at 43% 43%, transparent 0 35%, #000 36% 50%, transparent 51%),
+      linear-gradient(45deg, transparent 0 56%, #000 57% 72%, transparent 73%);
+    mask:
+      radial-gradient(circle at 43% 43%, transparent 0 35%, #000 36% 50%, transparent 51%),
+      linear-gradient(45deg, transparent 0 56%, #000 57% 72%, transparent 73%);
+  }
+
+  .native-i-profile {
+    -webkit-mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+    mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+  }
+
+  .native-more-sheet {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: calc(var(--native-tab-h) + 14px + env(safe-area-inset-bottom)) !important;
+    z-index: 510 !important;
+
+    padding: 10px !important;
+    border-radius: 28px !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.035)),
+      rgba(15, 23, 42, .96) !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    box-shadow: 0 24px 70px rgba(0,0,0,.58) !important;
+    backdrop-filter: blur(30px) saturate(1.85) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(1.85) !important;
+  }
+
+  .native-more-sheet:not([hidden]) {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  .native-sheet-handle {
+    width: 44px !important;
+    height: 5px !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.30) !important;
+    margin: 2px auto 8px !important;
+  }
+
+  .native-more-sheet strong {
+    color: #fff !important;
+    padding: 4px 8px 8px !important;
+  }
+
+  .native-more-sheet a {
+    min-height: 48px !important;
+    border-radius: 18px !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    color: #f8fafc !important;
+    text-decoration: none !important;
+    font-weight: 850 !important;
+    background: rgba(255,255,255,.06) !important;
+  }
+
+  .native-more-sheet a:active {
+    background: rgba(255,255,255,.13) !important;
+  }
+}
+
+/* ============================================================
+   ULTRA HARD CONTRAST FALLBACK
+   Put at the end intentionally. It fixes old dark-text residues.
+   ============================================================ */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .uxv4-day {
+    color: #f8fbff !important;
+  }
+
+  body[data-active-page="menu"] .day-section > button,
+  body[data-active-page="menu"] .day-section > button *,
+  body[data-active-page="menu"] .menu-v4-day > button,
+  body[data-active-page="menu"] .menu-v4-day > button *,
+  body[data-active-page="menu"] .uxv4-day > button,
+  body[data-active-page="menu"] .uxv4-day > button * {
+    color: #f8fbff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section:not(.is-open) .muted,
+  body[data-active-page="menu"] .day-section:not(.is-open) small,
+  body[data-active-page="menu"] .menu-v4-day:not(.is-open) .muted,
+  body[data-active-page="menu"] .menu-v4-day:not(.is-open) small,
+  body[data-active-page="menu"] .uxv4-day:not(.is-open) .muted,
+  body[data-active-page="menu"] .uxv4-day:not(.is-open) small {
+    color: #bfd3ee !important;
+  }
+
+  body[data-active-page="menu"] .day-section:not(.is-open) [class*="selected"],
+  body[data-active-page="menu"] .menu-v4-day:not(.is-open) [class*="selected"],
+  body[data-active-page="menu"] .uxv4-day:not(.is-open) [class*="selected"] {
+    color: #dbeafe !important;
+  }
+}
+
+/* ============================================================
+   FINAL FIX: native mobile layout / no top nav overlap / sheet
+   ============================================================ */
+
+@media (max-width: 900px) {
+  /*
+    1) Horní webovou navigaci na MENU stránce vypnout.
+    Spodní native tab bar je hlavní navigace.
+  */
+  body[data-active-page="menu"] .glass-nav {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .container,
+  body[data-active-page="menu"] main,
+  body[data-active-page="menu"] .uxv4-page,
+  body[data-active-page="menu"] .menu-v4-page {
+    padding-top: 12px !important;
+    margin-top: 0 !important;
+  }
+
+  /*
+    2) Zrušit sticky/absolute překryvy starých panelů.
+    Týdenní přehled musí být normálně v toku stránky.
+  */
+  body[data-active-page="menu"] .uxv4-week-tabs,
+  body[data-active-page="menu"] .menu-v4-week-tabs,
+  body[data-active-page="menu"] .v3-mobile-week-strip,
+  body[data-active-page="menu"] [class*="week-tabs"],
+  body[data-active-page="menu"] [class*="week-strip"] {
+    position: relative !important;
+    top: auto !important;
+    z-index: 1 !important;
+    margin-top: 8px !important;
+    margin-bottom: 14px !important;
+  }
+
+  /*
+    3) Nadpisy a bloky nad dny nesmí být černé na tmavém pozadí.
+  */
+  body[data-active-page="menu"] .uxv4-page-title,
+  body[data-active-page="menu"] .uxv4-page-subtitle,
+  body[data-active-page="menu"] .uxv4-section-heading,
+  body[data-active-page="menu"] .uxv4-section-heading *,
+  body[data-active-page="menu"] .menu-v4-heading,
+  body[data-active-page="menu"] .menu-v4-heading *,
+  body[data-active-page="menu"] .menu-v4-title,
+  body[data-active-page="menu"] .menu-v4-subtitle,
+  body[data-active-page="menu"] h1,
+  body[data-active-page="menu"] h2,
+  body[data-active-page="menu"] h3 {
+    color: #f8fbff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .muted,
+  body[data-active-page="menu"] small,
+  body[data-active-page="menu"] p {
+    color: #bfd3ee !important;
+  }
+
+  /*
+    4) Denní accordion karty: čitelné, native-like, bez disabled vzhledu.
+  */
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .uxv4-day {
+    background:
+      radial-gradient(circle at 90% 0%, rgba(59,130,246,.18), transparent 40%),
+      rgba(13,33,59,.96) !important;
+    border: 1px solid rgba(96,165,250,.36) !important;
+    color: #f8fbff !important;
+    opacity: 1 !important;
+    box-shadow: 0 14px 32px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .day-section *,
+  body[data-active-page="menu"] .menu-v4-day *,
+  body[data-active-page="menu"] .uxv4-day * {
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section h2,
+  body[data-active-page="menu"] .day-section strong,
+  body[data-active-page="menu"] .day-section .display,
+  body[data-active-page="menu"] .menu-v4-day h2,
+  body[data-active-page="menu"] .menu-v4-day strong,
+  body[data-active-page="menu"] .uxv4-day h2,
+  body[data-active-page="menu"] .uxv4-day strong {
+    color: #ffffff !important;
+  }
+
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .day-section small,
+  body[data-active-page="menu"] .menu-v4-day .muted,
+  body[data-active-page="menu"] .menu-v4-day small,
+  body[data-active-page="menu"] .uxv4-day .muted,
+  body[data-active-page="menu"] .uxv4-day small {
+    color: #c7d7ee !important;
+  }
+
+  body[data-active-page="menu"] .day-section [class*="selected"],
+  body[data-active-page="menu"] .menu-v4-day [class*="selected"],
+  body[data-active-page="menu"] .uxv4-day [class*="selected"] {
+    color: #dbeafe !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="menu"] .accordion-indicator,
+  body[data-active-page="menu"] [class*="arrow"] {
+    color: #93c5fd !important;
+  }
+
+  /*
+    5) Spodní native tab bar: zůstat čitelný a nad obsahem.
+  */
+  .native-tabs {
+    display: grid !important;
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 900 !important;
+    height: calc(78px + env(safe-area-inset-bottom)) !important;
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom)) !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.025)),
+      rgba(8, 16, 30, .94) !important;
+    border-top: 1px solid rgba(255,255,255,.14) !important;
+    box-shadow: 0 -22px 55px rgba(0,0,0,.52) !important;
+    backdrop-filter: blur(30px) saturate(1.85) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(1.85) !important;
+  }
+
+  .native-tab {
+    color: rgba(226,232,240,.82) !important;
+    background: transparent !important;
+    opacity: 1 !important;
+  }
+
+  .native-tab *,
+  .native-tab span {
+    color: currentColor !important;
+    opacity: 1 !important;
+  }
+
+  .native-tab.active {
+    color: #60a5fa !important;
+  }
+
+  .native-tab-icon {
+    background: currentColor !important;
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  /*
+    6) Rychlé akce / search sheet.
+    Tvůj screenshot ukazuje rozpadlý inline text dole.
+    Tohle ho tvrdě schová a zobrazí jen jako sheet.
+  */
+  .native-more-sheet[hidden] {
+    display: none !important;
+  }
+
+  .native-more-sheet {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+    z-index: 950 !important;
+
+    width: auto !important;
+    max-width: none !important;
+    padding: 12px !important;
+    border-radius: 28px !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.035)),
+      rgba(15, 23, 42, .98) !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    box-shadow: 0 24px 70px rgba(0,0,0,.58) !important;
+    backdrop-filter: blur(30px) saturate(1.85) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(1.85) !important;
+  }
+
+  .native-more-sheet:not([hidden]) {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  .native-more-sheet strong {
+    display: block !important;
+    color: #ffffff !important;
+    font-weight: 950 !important;
+    padding: 4px 8px 8px !important;
+  }
+
+  .native-more-sheet a,
+  .native-more-sheet button {
+    display: flex !important;
+    align-items: center !important;
+    min-height: 48px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border: 0 !important;
+    border-radius: 18px !important;
+    padding: 0 14px !important;
+    background: rgba(255,255,255,.07) !important;
+    color: #f8fafc !important;
+    text-decoration: none !important;
+    font-weight: 850 !important;
+    text-align: left !important;
+  }
+
+  .native-sheet-handle {
+    display: block !important;
+    width: 44px !important;
+    height: 5px !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.30) !important;
+    margin: 2px auto 8px !important;
+  }
+
+  /*
+    7) Když je sheet otevřený, pozadí lehce ztlumit.
+  */
+  body.native-sheet-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 940;
+    background: rgba(0,0,0,.28);
+    backdrop-filter: blur(2px);
+    pointer-events: none;
+  }
+}
+
+/* ============================================================
+   MOBILE NATIVE NAV CLEANUP
+   ============================================================ */
+@media (max-width: 900px) {
+  :root {
+    --mobile-topbar-h-clean: 64px;
+    --mobile-bottom-nav-h-clean: 82px;
+  }
+
+  /* ---------- top header: keep only compact brand ---------- */
+  .glass-nav {
+    min-height: var(--mobile-topbar-h-clean) !important;
+    height: var(--mobile-topbar-h-clean) !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+      rgba(6, 14, 28, .86) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 10px 26px rgba(0,0,0,.22) !important;
+    backdrop-filter: blur(20px) saturate(1.5) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
+    z-index: 240 !important;
+  }
+
+  .glass-nav .nav-inner {
+    min-height: var(--mobile-topbar-h-clean) !important;
+    height: var(--mobile-topbar-h-clean) !important;
+    padding: 8px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+  }
+
+  /* Hide desktop-style top navigation items on mobile */
+  .glass-nav .nav-inner > *:not(.brand) {
+    display: none !important;
+  }
+
+  .glass-nav .brand {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+  }
+
+  .glass-nav .brand-mark {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 16px !important;
+    display: grid !important;
+    place-items: center !important;
+    background:
+      radial-gradient(circle at 30% 0%, rgba(96,165,250,.38), transparent 45%),
+      rgba(29,78,216,.55) !important;
+    border: 1px solid rgba(147,197,253,.20) !important;
+    box-shadow: 0 12px 26px rgba(37,99,235,.18) !important;
+  }
+
+  .glass-nav .brand-copy strong {
+    color: #f8fbff !important;
+    font-size: .96rem !important;
+    font-weight: 900 !important;
+    line-height: 1.06 !important;
+    letter-spacing: .01em !important;
+  }
+
+  .glass-nav .brand-copy span {
+    color: #8ea8c8 !important;
+    font-size: .74rem !important;
+    line-height: 1.1 !important;
+  }
+
+  /* ---------- content spacing under compact header ---------- */
+  body {
+    padding-bottom: calc(var(--mobile-bottom-nav-h-clean) + env(safe-area-inset-bottom) + 10px) !important;
+  }
+
+  body[data-active-page="menu"] main,
+  body[data-active-page="menu"] .page-shell,
+  body[data-active-page="menu"] .uxv4-page,
+  body[data-active-page="menu"] .menu-v4,
+  body[data-active-page="menu"] .menu-v4-page {
+    padding-top: 8px !important;
+  }
+
+  /* ---------- quick sheet: hidden by default ---------- */
+  .native-more-sheet[hidden] {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(12px) scale(.98) !important;
+  }
+
+  .native-more-sheet:not([hidden]) {
+    display: grid !important;
+    gap: 8px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  .native-more-sheet {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(var(--mobile-bottom-nav-h-clean) + env(safe-area-inset-bottom) + 10px) !important;
+    z-index: 520 !important;
+
+    padding: 10px !important;
+    border-radius: 24px !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03)),
+      rgba(14, 21, 35, .96) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    box-shadow: 0 22px 56px rgba(0,0,0,.52) !important;
+    backdrop-filter: blur(24px) saturate(1.65) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(1.65) !important;
+    transition: opacity .18s ease, transform .18s ease !important;
+  }
+
+  .native-sheet-handle {
+    width: 42px !important;
+    height: 5px !important;
+    border-radius: 999px !important;
+    background: rgba(255,255,255,.28) !important;
+    margin: 2px auto 8px !important;
+  }
+
+  .native-more-sheet strong {
+    color: #ffffff !important;
+    font-size: .96rem !important;
+    font-weight: 900 !important;
+    padding: 2px 8px 8px !important;
+  }
+
+  .native-more-sheet a {
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-radius: 16px !important;
+    padding: 0 14px !important;
+    background: rgba(255,255,255,.055) !important;
+    color: #f8fbff !important;
+    text-decoration: none !important;
+    font-weight: 850 !important;
+    font-size: .98rem !important;
+  }
+
+  .native-more-sheet a:active {
+    background: rgba(255,255,255,.12) !important;
+  }
+
+  /* ---------- bottom tab bar: more native ---------- */
+  .native-tabs {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 500 !important;
+
+    height: calc(var(--mobile-bottom-nav-h-clean) + env(safe-area-inset-bottom)) !important;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 2px !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+      rgba(9, 18, 32, .94) !important;
+    border-top: 1px solid rgba(255,255,255,.13) !important;
+    box-shadow:
+      0 -2px 0 rgba(255,255,255,.03),
+      0 -18px 50px rgba(0,0,0,.44) !important;
+    backdrop-filter: blur(26px) saturate(1.7) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(1.7) !important;
+  }
+
+  .native-tab {
+    appearance: none !important;
+    border: 0 !important;
+    background: transparent !important;
+    text-decoration: none !important;
+    color: rgba(226,232,240,.84) !important;
+
+    min-width: 0 !important;
+    height: 62px !important;
+    border-radius: 18px !important;
+
+    display: grid !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 4px !important;
+
+    font-size: 11px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+    letter-spacing: -.01em !important;
+
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+    transition: transform .12s ease, color .16s ease, background .16s ease !important;
+  }
+
+  .native-tab:active {
+    transform: scale(.96) !important;
+  }
+
+  .native-tab.active {
+    color: #60a5fa !important;
+  }
+
+  .native-tab.active::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    width: 44px;
+    height: 30px;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255,255,255,.18), transparent 45%),
+      rgba(10,132,255,.18);
+    z-index: -1;
+  }
+
+  /* ---------- menu cards & day accordion still readable ---------- */
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .uxv4-day,
+  body[data-active-page="menu"] .day-section {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(37,99,235,.15), transparent 42%),
+      rgba(13,33,59,.94) !important;
+    border: 1px solid rgba(96,165,250,.22) !important;
+    box-shadow: 0 14px 32px rgba(0,0,0,.18) !important;
+    color: #f8fbff !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day *,
+  body[data-active-page="menu"] .uxv4-day *,
+  body[data-active-page="menu"] .day-section * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-title strong,
+  body[data-active-page="menu"] .uxv4-day-title strong,
+  body[data-active-page="menu"] .day-header h2,
+  body[data-active-page="menu"] .section-title h2 {
+    color: #f8fbff !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-title small,
+  body[data-active-page="menu"] .uxv4-day-title small,
+  body[data-active-page="menu"] .day-header .muted,
+  body[data-active-page="menu"] .day-section .muted {
+    color: #c4d6ed !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-selected,
+  body[data-active-page="menu"] .uxv4-day-selected,
+  body[data-active-page="menu"] .day-selected-state,
+  body[data-active-page="menu"] [class*="selected"] {
+    color: #dbeafe !important;
+  }
+
+  body[data-active-page="menu"] .menu-v4-day-arrow,
+  body[data-active-page="menu"] .uxv4-day-arrow,
+  body[data-active-page="menu"] .accordion-indicator {
+    color: #93c5fd !important;
+  }
+}
+
+/* ============================================================
+   V5 GLOBAL CONTRAST + NAV + REPORT UX
+   ============================================================ */
+
+.app-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --v5-bg: #07111f;
+    --v5-panel: #0d213b;
+    --v5-panel-2: #102947;
+    --v5-text: #f8fbff;
+    --v5-soft: #c7d7ee;
+    --v5-muted: #91a9c7;
+    --v5-blue: #60a5fa;
+    --v5-ios: #0a84ff;
+    --v5-green: #22c55e;
+    --v5-red: #fb7185;
+    --v5-ink: #0f172a;
+    --v5-light-card: #f8fafc;
+    --v5-bottom-h: 82px;
+  }
+
+  html,
+  body {
+    background: var(--v5-bg) !important;
+    color: var(--v5-text) !important;
+  }
+
+  body {
+    padding-bottom: calc(var(--v5-bottom-h) + env(safe-area-inset-bottom) + 14px) !important;
+  }
+
+  /* ---------- remove obsolete overlays / quick actions ---------- */
+
+  .native-tabs,
+  .native-more-sheet,
+  .smart-bottom-nav,
+  .smart-bottom-more,
+  [data-native-search-panel],
+  [data-mobile-more-panel] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.native-sheet-open::before,
+  body.native-sheet-open::after,
+  body.v3-day-panel-open::after {
+    display: none !important;
+    content: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body.native-sheet-open main,
+  body.native-sheet-open .container,
+  body.native-sheet-open .page-shell {
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* ---------- top header: compact only ---------- */
+
+  .glass-nav {
+    min-height: 60px !important;
+    height: 60px !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+      rgba(6, 14, 28, .88) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
+    box-shadow: 0 10px 26px rgba(0,0,0,.22) !important;
+    backdrop-filter: blur(20px) saturate(1.5) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(1.5) !important;
+  }
+
+  .glass-nav .nav-inner {
+    min-height: 60px !important;
+    height: 60px !important;
+    padding: 8px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .glass-nav .nav-inner > *:not(.brand) {
+    display: none !important;
+  }
+
+  .glass-nav .brand {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+  }
+
+  .glass-nav .brand-mark {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    border-radius: 16px !important;
+  }
+
+  .glass-nav .brand-copy {
+    display: block !important;
+    min-width: 0 !important;
+  }
+
+  .glass-nav .brand-copy strong {
+    color: #ffffff !important;
+    font-size: .98rem !important;
+    line-height: 1.06 !important;
+    font-weight: 950 !important;
+  }
+
+  .glass-nav .brand-copy span {
+    color: #9fb6d4 !important;
+    font-size: .74rem !important;
+    line-height: 1.1 !important;
+  }
+
+  /* ---------- single bottom nav ---------- */
+
+  .app-bottom-nav {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 600 !important;
+
+    height: calc(var(--v5-bottom-h) + env(safe-area-inset-bottom)) !important;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 2px !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+      rgba(9, 18, 32, .96) !important;
+    border-top: 1px solid rgba(255,255,255,.13) !important;
+    box-shadow:
+      0 -2px 0 rgba(255,255,255,.03),
+      0 -18px 50px rgba(0,0,0,.46) !important;
+    backdrop-filter: blur(26px) saturate(1.75) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(1.75) !important;
+  }
+
+  .app-bottom-tab {
+    position: relative !important;
+    appearance: none !important;
+    border: 0 !important;
+    background: transparent !important;
+    text-decoration: none !important;
+
+    color: rgba(226,232,240,.84) !important;
+    min-width: 0 !important;
+    height: 62px !important;
+    border-radius: 18px !important;
+
+    display: grid !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 4px !important;
+
+    font-size: 11px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+    letter-spacing: -.01em !important;
+
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+  }
+
+  .app-bottom-tab span:last-child {
+    color: currentColor !important;
+    opacity: 1 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .app-bottom-tab:active {
+    transform: scale(.96) !important;
+  }
+
+  .app-bottom-tab.active {
+    color: var(--v5-blue) !important;
+  }
+
+  .app-bottom-tab.active::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    width: 44px;
+    height: 30px;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255,255,255,.18), transparent 45%),
+      rgba(10,132,255,.18);
+    z-index: -1;
+  }
+
+  .app-bottom-logout {
+    color: rgba(248,113,113,.82) !important;
+  }
+
+  .app-bottom-icon {
+    width: 25px !important;
+    height: 25px !important;
+    display: block !important;
+    background: currentColor !important;
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  .app-i-menu {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+  }
+
+  .app-i-orders {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+  }
+
+  .app-i-admin {
+    -webkit-mask:
+      radial-gradient(circle at 50% 50%, transparent 0 24%, #000 25% 43%, transparent 44%),
+      linear-gradient(#000 0 0) 45% 0 / 10% 100% no-repeat,
+      linear-gradient(#000 0 0) 0 45% / 100% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 40%, #000 41% 58%, transparent 59%),
+      linear-gradient(-45deg, transparent 0 40%, #000 41% 58%, transparent 59%);
+    mask:
+      radial-gradient(circle at 50% 50%, transparent 0 24%, #000 25% 43%, transparent 44%),
+      linear-gradient(#000 0 0) 45% 0 / 10% 100% no-repeat,
+      linear-gradient(#000 0 0) 0 45% / 100% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 40%, #000 41% 58%, transparent 59%),
+      linear-gradient(-45deg, transparent 0 40%, #000 41% 58%, transparent 59%);
+  }
+
+  .app-i-profile {
+    -webkit-mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+    mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+  }
+
+  .app-i-logout {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 18% 18% / 38% 64% no-repeat,
+      linear-gradient(#000 0 0) 46% 46% / 38% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 30% / 34% 34% no-repeat,
+      linear-gradient(-45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 58% / 34% 34% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 18% 18% / 38% 64% no-repeat,
+      linear-gradient(#000 0 0) 46% 46% / 38% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 30% / 34% 34% no-repeat,
+      linear-gradient(-45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 58% / 34% 34% no-repeat;
+  }
+
+  /* ---------- hard readable text on menu ---------- */
+
+  body[data-active-page="menu"] h1,
+  body[data-active-page="menu"] h2,
+  body[data-active-page="menu"] h3,
+  body[data-active-page="menu"] .display,
+  body[data-active-page="menu"] .section-title,
+  body[data-active-page="menu"] .section-title h2 {
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] p,
+  body[data-active-page="menu"] small,
+  body[data-active-page="menu"] .muted,
+  body[data-active-page="menu"] .small {
+    color: #c4d6ed !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .uxv4-day {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(37,99,235,.15), transparent 42%),
+      rgba(13,33,59,.94) !important;
+    border: 1px solid rgba(96,165,250,.24) !important;
+    color: #ffffff !important;
+  }
+
+  body[data-active-page="menu"] .day-section > button,
+  body[data-active-page="menu"] .day-section > button *,
+  body[data-active-page="menu"] .day-header,
+  body[data-active-page="menu"] .day-header *,
+  body[data-active-page="menu"] .accordion-indicator {
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .day-section .small {
+    color: #c4d6ed !important;
+  }
+
+  body[data-active-page="menu"] [class*="selected"],
+  body[data-active-page="menu"] [class*="Selected"],
+  body[data-active-page="menu"] [class*="status"] {
+    color: #dbeafe !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .dish-card:not(.selected),
+  body[data-active-page="menu"] .uxv4-dish-card:not(.selected),
+  body[data-active-page="menu"] .menu-v4-dish:not(.selected) {
+    background: #f8fafc !important;
+    color: #0f172a !important;
+  }
+
+  body[data-active-page="menu"] .dish-card:not(.selected) *,
+  body[data-active-page="menu"] .uxv4-dish-card:not(.selected) *,
+  body[data-active-page="menu"] .menu-v4-dish:not(.selected) * {
+    color: #0f172a !important;
+  }
+
+  body[data-active-page="menu"] .dish-card:not(.selected) .muted,
+  body[data-active-page="menu"] .uxv4-dish-card:not(.selected) .muted,
+  body[data-active-page="menu"] .menu-v4-dish:not(.selected) .muted {
+    color: #64748b !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.selected,
+  body[data-active-page="menu"] .uxv4-dish-card.selected,
+  body[data-active-page="menu"] .menu-v4-dish.selected {
+    background:
+      radial-gradient(circle at 92% 0%, rgba(245,197,24,.18), transparent 42%),
+      linear-gradient(135deg, rgba(15,23,42,.98), rgba(15,42,76,.96)) !important;
+    color: #ffffff !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.selected *,
+  body[data-active-page="menu"] .uxv4-dish-card.selected *,
+  body[data-active-page="menu"] .menu-v4-dish.selected * {
+    color: #ffffff !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.selected .muted,
+  body[data-active-page="menu"] .uxv4-dish-card.selected .muted,
+  body[data-active-page="menu"] .menu-v4-dish.selected .muted {
+    color: #c4d6ed !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.selected button,
+  body[data-active-page="menu"] .uxv4-dish-card.selected button,
+  body[data-active-page="menu"] .menu-v4-dish.selected button {
+    color: #0f172a !important;
+  }
+
+  /* ---------- report UX ---------- */
+
+  .orders-v5-page {
+    display: grid !important;
+    gap: 14px !important;
+    color: #f8fbff !important;
+  }
+
+  .orders-v5-hero {
+    border-radius: 28px !important;
+    padding: 22px !important;
+    background:
+      radial-gradient(circle at 88% 0%, rgba(59,130,246,.28), transparent 42%),
+      rgba(13,33,59,.96) !important;
+    border: 1px solid rgba(96,165,250,.22) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.24) !important;
+    display: grid !important;
+    gap: 16px !important;
+  }
+
+  .orders-v5-kicker {
+    display: inline-flex !important;
+    width: fit-content !important;
+    border-radius: 999px !important;
+    padding: 7px 12px !important;
+    background: rgba(37,99,235,.22) !important;
+    border: 1px solid rgba(96,165,250,.28) !important;
+    color: #bfdbfe !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: .08em !important;
+    font-size: .78rem !important;
+  }
+
+  .orders-v5-hero h1 {
+    margin: 12px 0 8px !important;
+    color: #ffffff !important;
+    font-size: clamp(2.3rem, 12vw, 4.2rem) !important;
+    line-height: .88 !important;
+  }
+
+  .orders-v5-hero p {
+    margin: 0 !important;
+    color: #b8cbea !important;
+    font-size: 1rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .orders-v5-total {
+    justify-self: start !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    border-radius: 999px !important;
+    padding: 10px 14px !important;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+    color: #ffffff !important;
+    box-shadow: 0 14px 34px rgba(37,99,235,.32) !important;
+  }
+
+  .orders-v5-total span,
+  .orders-v5-total strong {
+    color: #ffffff !important;
+  }
+
+  .orders-v5-summary {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .orders-v5-summary article {
+    min-width: 0 !important;
+    border-radius: 22px !important;
+    padding: 14px !important;
+    background: rgba(13,33,59,.88) !important;
+    border: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  .orders-v5-summary span {
+    color: #93afd2 !important;
+    font-weight: 800 !important;
+    font-size: .78rem !important;
+  }
+
+  .orders-v5-summary strong {
+    display: block !important;
+    margin-top: 4px !important;
+    color: #ffffff !important;
+    font-size: 1.05rem !important;
+    line-height: 1.12 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .orders-v5-list {
+    display: grid !important;
+    gap: 10px !important;
+  }
+
+  .orders-v5-card {
+    border-radius: 24px !important;
+    padding: 16px !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    border: 1px solid rgba(15,23,42,.08) !important;
+    box-shadow: 0 12px 26px rgba(0,0,0,.16) !important;
+  }
+
+  .orders-v5-card * {
+    color: inherit !important;
+  }
+
+  .orders-v5-card-top {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 12px !important;
+    align-items: start !important;
+  }
+
+  .orders-v5-day {
+    color: #2563eb !important;
+    font-weight: 950 !important;
+    text-transform: uppercase !important;
+    font-size: .82rem !important;
+    letter-spacing: .06em !important;
+  }
+
+  .orders-v5-card h2 {
+    margin: 4px 0 0 !important;
+    color: #0f172a !important;
+    font-size: 1.1rem !important;
+    line-height: 1.14 !important;
+  }
+
+  .orders-v5-price {
+    color: #0f172a !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+    font-size: 1.05rem !important;
+  }
+
+  .orders-v5-meta {
+    margin-top: 12px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  .orders-v5-status {
+    border-radius: 999px !important;
+    padding: 7px 11px !important;
+    background: rgba(37,99,235,.12) !important;
+    color: #1d4ed8 !important;
+    font-weight: 900 !important;
+  }
+
+  .orders-v5-card.status-paid .orders-v5-status {
+    background: rgba(34,197,94,.14) !important;
+    color: #15803d !important;
+  }
+
+  .orders-v5-card.status-cancelled {
+    opacity: .62 !important;
+  }
+
+  .orders-v5-card.status-cancelled .orders-v5-status {
+    background: rgba(248,113,113,.16) !important;
+    color: #be123c !important;
+  }
+
+  .orders-v5-empty {
+    border-radius: 26px !important;
+    padding: 22px !important;
+    background: rgba(13,33,59,.94) !important;
+    border: 1px solid rgba(96,165,250,.18) !important;
+    color: #ffffff !important;
+  }
+
+  .orders-v5-empty h2 {
+    color: #ffffff !important;
+  }
+
+  .orders-v5-empty p {
+    color: #bfd3ee !important;
+  }
+
+  .orders-v5-empty a {
+    display: inline-flex !important;
+    margin-top: 10px !important;
+    min-height: 44px !important;
+    align-items: center !important;
+    border-radius: 16px !important;
+    padding: 0 14px !important;
+    background: #3b82f6 !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+  }
+}
+
+/* ============================================================
+   V6 HARD CLEAN BOTTOM NAV
+   ============================================================ */
+
+@media (max-width: 900px) {
+  :root {
+    --v6-bottom-nav-h: 82px;
+    --v6-bg: #07111f;
+    --v6-nav-bg: rgba(9,18,32,.96);
+    --v6-text: #f8fbff;
+    --v6-soft: #c7d7ee;
+    --v6-blue: #60a5fa;
+    --v6-red: #f87171;
+  }
+
+  html,
+  body {
+    background: var(--v6-bg) !important;
+    color: var(--v6-text) !important;
+  }
+
+  body {
+    padding-bottom: calc(var(--v6-bottom-nav-h) + env(safe-area-inset-bottom) + 12px) !important;
+  }
+
+  /* Kill old nav/sheet systems completely */
+  .native-tabs,
+  .native-more-sheet,
+  .smart-bottom-nav,
+  .smart-bottom-more,
+  [data-native-search-panel],
+  [data-mobile-more-panel],
+  #native-more-sheet {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.native-sheet-open::before,
+  body.native-sheet-open::after,
+  body.smart-bottom-open::before,
+  body.smart-bottom-open::after,
+  body.mobile-more-open::before,
+  body.mobile-more-open::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  body.native-sheet-open main,
+  body.smart-bottom-open main,
+  body.mobile-more-open main {
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* The only valid mobile bottom navigation */
+  .app-bottom-nav.v6-bottom-nav,
+  .app-bottom-nav {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9999 !important;
+
+    height: calc(var(--v6-bottom-nav-h) + env(safe-area-inset-bottom)) !important;
+    padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 2px !important;
+
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+      var(--v6-nav-bg) !important;
+    border-top: 1px solid rgba(255,255,255,.13) !important;
+    box-shadow:
+      0 -2px 0 rgba(255,255,255,.03),
+      0 -18px 50px rgba(0,0,0,.46) !important;
+    backdrop-filter: blur(26px) saturate(1.75) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(1.75) !important;
+  }
+
+  .app-bottom-tab {
+    position: relative !important;
+    appearance: none !important;
+    border: 0 !important;
+    background: transparent !important;
+    text-decoration: none !important;
+
+    color: rgba(226,232,240,.84) !important;
+    min-width: 0 !important;
+    height: 62px !important;
+    border-radius: 18px !important;
+
+    display: grid !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 4px !important;
+
+    font-size: 11px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+    letter-spacing: -.01em !important;
+
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: manipulation !important;
+  }
+
+  .app-bottom-tab span:last-child {
+    color: currentColor !important;
+    opacity: 1 !important;
+    display: block !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .app-bottom-tab.active {
+    color: var(--v6-blue) !important;
+  }
+
+  .app-bottom-tab.active::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    width: 44px;
+    height: 30px;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 18%, rgba(255,255,255,.18), transparent 45%),
+      rgba(10,132,255,.18);
+    z-index: -1;
+  }
+
+  .app-bottom-logout {
+    color: rgba(248,113,113,.86) !important;
+  }
+
+  .app-bottom-icon {
+    width: 25px !important;
+    height: 25px !important;
+    display: block !important;
+    background: currentColor !important;
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  .app-i-menu {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 18% 22% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 47% / 64% 10% no-repeat,
+      linear-gradient(#000 0 0) 18% 72% / 64% 10% no-repeat;
+  }
+
+  .app-i-orders {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 22% 16% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 40% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 22% 64% / 56% 10% no-repeat,
+      linear-gradient(#000 0 0) 8% 10% / 10% 84% no-repeat;
+  }
+
+  .app-i-admin {
+    -webkit-mask:
+      radial-gradient(circle at 50% 50%, transparent 0 24%, #000 25% 43%, transparent 44%),
+      linear-gradient(#000 0 0) 45% 0 / 10% 100% no-repeat,
+      linear-gradient(#000 0 0) 0 45% / 100% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 40%, #000 41% 58%, transparent 59%),
+      linear-gradient(-45deg, transparent 0 40%, #000 41% 58%, transparent 59%);
+    mask:
+      radial-gradient(circle at 50% 50%, transparent 0 24%, #000 25% 43%, transparent 44%),
+      linear-gradient(#000 0 0) 45% 0 / 10% 100% no-repeat,
+      linear-gradient(#000 0 0) 0 45% / 100% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 40%, #000 41% 58%, transparent 59%),
+      linear-gradient(-45deg, transparent 0 40%, #000 41% 58%, transparent 59%);
+  }
+
+  .app-i-profile {
+    -webkit-mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+    mask:
+      radial-gradient(circle at 50% 30%, #000 0 20%, transparent 21%),
+      radial-gradient(ellipse at 50% 86%, #000 0 42%, transparent 43%);
+  }
+
+  .app-i-logout {
+    -webkit-mask:
+      linear-gradient(#000 0 0) 18% 18% / 38% 64% no-repeat,
+      linear-gradient(#000 0 0) 46% 46% / 38% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 30% / 34% 34% no-repeat,
+      linear-gradient(-45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 58% / 34% 34% no-repeat;
+    mask:
+      linear-gradient(#000 0 0) 18% 18% / 38% 64% no-repeat,
+      linear-gradient(#000 0 0) 46% 46% / 38% 10% no-repeat,
+      linear-gradient(45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 30% / 34% 34% no-repeat,
+      linear-gradient(-45deg, transparent 0 42%, #000 43% 60%, transparent 61%) 62% 58% / 34% 34% no-repeat;
+  }
+
+  /* Keep page content from being hidden behind nav */
+  main,
+  .container,
+  .page-shell,
+  body[data-active-page="menu"] main,
+  body[data-active-page="menu"] .container,
+  body[data-active-page="menu"] .page-shell {
+    padding-bottom: calc(var(--v6-bottom-nav-h) + env(safe-area-inset-bottom) + 18px) !important;
+  }
+}
+
+/* ============================================================
+   BLUE PANELS THEME PATCH
+   ============================================================ */
+
+@media (max-width: 900px) {
+  :root {
+    --blue-panel-1: #16355d;
+    --blue-panel-2: #1b3f6f;
+    --blue-panel-3: #224c84;
+    --blue-panel-soft: #2b5b97;
+    --blue-panel-line: rgba(130, 180, 255, 0.22);
+    --blue-panel-shadow: rgba(0, 10, 30, 0.34);
+    --blue-panel-text: #f5f9ff;
+    --blue-panel-text-soft: #d8e6ff;
+    --blue-panel-text-muted: #b8cbed;
+    --blue-pill-bg: rgba(255,255,255,0.08);
+    --blue-pill-active: rgba(110, 168, 255, 0.22);
+  }
+
+  /* ------------------------------------------------------------
+     Globální bílé/světlé panely -> modré
+     ------------------------------------------------------------ */
+  .uxv4-hero-card,
+  .uxv4-summary-card,
+  .uxv4-today-card,
+  .uxv4-nearest-card,
+  .uxv4-section-card,
+  .uxv4-card,
+  .uxv4-food-card,
+  .uxv4-dish-card,
+  .dish-card,
+  .menu-card,
+  .food-card,
+  .day-card,
+  .menu-day-card,
+  .weekly-card,
+  .cart-card,
+  .order-card,
+  .report-card,
+  .mobile-card,
+  .v4-card,
+  .v4-panel,
+  .panel,
+  .card,
+  .surface-card {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+      linear-gradient(135deg, var(--blue-panel-1), var(--blue-panel-2)) !important;
+    color: var(--blue-panel-text) !important;
+    border: 1px solid var(--blue-panel-line) !important;
+    box-shadow: 0 10px 24px var(--blue-panel-shadow) !important;
+  }
+
+  /* ------------------------------------------------------------
+     "Dnes / nejbližší objednávka"
+     ------------------------------------------------------------ */
+  .uxv4-today-card,
+  .today-order-card,
+  .nearest-order-card,
+  .current-order-card,
+  .menu-current-order,
+  .menu-highlight-card {
+    background:
+      linear-gradient(135deg, #20456f, #2a5b94) !important;
+    color: #f8fbff !important;
+    border: 1px solid rgba(160, 205, 255, 0.28) !important;
+    box-shadow: 0 14px 32px rgba(0, 18, 44, 0.34) !important;
+  }
+
+  .uxv4-today-card *,
+  .today-order-card *,
+  .nearest-order-card *,
+  .current-order-card *,
+  .menu-highlight-card * {
+    color: inherit !important;
+  }
+
+  /* ------------------------------------------------------------
+     Týdenní přehled wrapper
+     ------------------------------------------------------------ */
+  .uxv4-week-strip,
+  .uxv4-week-overview,
+  .week-strip,
+  .weekly-overview,
+  .week-pills,
+  .menu-week-pills {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)),
+      linear-gradient(135deg, #173659, #23466f) !important;
+    border: 1px solid rgba(140, 190, 255, 0.22) !important;
+    box-shadow: 0 10px 24px rgba(0, 10, 28, 0.28) !important;
+  }
+
+  /* ------------------------------------------------------------
+     Denní pill/chipy Po Út St Čt Pá
+     ------------------------------------------------------------ */
+  .uxv4-day-chip,
+  .uxv4-week-chip,
+  .week-chip,
+  .day-chip,
+  .menu-day-chip,
+  .day-pill,
+  .weekly-day-pill,
+  .weekly-overview .day,
+  .uxv4-week-strip .day {
+    background: linear-gradient(180deg, #315883, #28496d) !important;
+    color: var(--blue-panel-text) !important;
+    border: 1px solid rgba(150, 198, 255, 0.18) !important;
+  }
+
+  .uxv4-day-chip.active,
+  .uxv4-week-chip.active,
+  .week-chip.active,
+  .day-chip.active,
+  .menu-day-chip.active,
+  .day-pill.active,
+  .weekly-day-pill.active,
+  .weekly-overview .day.active,
+  .uxv4-week-strip .day.active {
+    background: linear-gradient(180deg, #406c9e, #325a87) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 1px rgba(180, 220, 255, 0.16) inset !important;
+  }
+
+  /* ------------------------------------------------------------
+     Hlavní karty dnů (pondělí, úterý...)
+     ------------------------------------------------------------ */
+  .uxv4-day-panel,
+  .uxv4-day-group,
+  .menu-day-group,
+  .day-group,
+  .day-accordion,
+  .day-accordion-item {
+    background:
+      linear-gradient(135deg, #0f2a4b, #123867) !important;
+    border: 1px solid rgba(115, 170, 255, 0.22) !important;
+    color: #f6f9ff !important;
+  }
+
+  .uxv4-day-panel *,
+  .uxv4-day-group *,
+  .menu-day-group *,
+  .day-group *,
+  .day-accordion *,
+  .day-accordion-item * {
+    color: inherit;
+  }
+
+  /* ------------------------------------------------------------
+     Karty jídel
+     ------------------------------------------------------------ */
+  .uxv4-dish-card,
+  .dish-card,
+  .food-card,
+  .menu-item-card,
+  .menu-dish-card,
+  .meal-card {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)),
+      linear-gradient(135deg, #21476f, #2c5b90) !important;
+    color: #f7fbff !important;
+    border: 1px solid rgba(160, 205, 255, 0.20) !important;
+    box-shadow: 0 12px 24px rgba(0, 16, 40, 0.25) !important;
+  }
+
+  .uxv4-dish-card.selected,
+  .dish-card.selected,
+  .food-card.selected,
+  .menu-item-card.selected,
+  .meal-card.selected {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+      linear-gradient(135deg, #1d3e67, #275487) !important;
+    border-color: rgba(255, 214, 102, 0.42) !important;
+    box-shadow:
+      0 0 0 1px rgba(255, 214, 102, 0.14) inset,
+      0 16px 30px rgba(0, 16, 40, 0.28) !important;
+  }
+
+  /* ------------------------------------------------------------
+     Texty uvnitř modrých panelů
+     ------------------------------------------------------------ */
+  .uxv4-hero-card h1,
+  .uxv4-hero-card h2,
+  .uxv4-hero-card h3,
+  .uxv4-summary-card h1,
+  .uxv4-summary-card h2,
+  .uxv4-summary-card h3,
+  .uxv4-today-card h1,
+  .uxv4-today-card h2,
+  .uxv4-today-card h3,
+  .uxv4-day-panel h1,
+  .uxv4-day-panel h2,
+  .uxv4-day-panel h3,
+  .uxv4-dish-card h1,
+  .uxv4-dish-card h2,
+  .uxv4-dish-card h3,
+  .dish-card h1,
+  .dish-card h2,
+  .dish-card h3,
+  .food-card h1,
+  .food-card h2,
+  .food-card h3,
+  .menu-card h1,
+  .menu-card h2,
+  .menu-card h3 {
+    color: #ffffff !important;
+  }
+
+  .uxv4-hero-card p,
+  .uxv4-summary-card p,
+  .uxv4-today-card p,
+  .uxv4-day-panel p,
+  .uxv4-dish-card p,
+  .dish-card p,
+  .food-card p,
+  .menu-card p,
+  .uxv4-dish-copy,
+  .uxv4-dish-meta,
+  .uxv4-day-meta,
+  .uxv4-subtitle,
+  .uxv4-muted,
+  .text-muted,
+  .muted,
+  small {
+    color: var(--blue-panel-text-soft) !important;
+  }
+
+  .price,
+  .dish-price,
+  .uxv4-price,
+  .price-text,
+  .price-label {
+    color: #ffffff !important;
+    font-weight: 800 !important;
+  }
+
+  /* ------------------------------------------------------------
+     Tlačítka uvnitř karet
+     ------------------------------------------------------------ */
+  .uxv4-btn.ghost,
+  .btn-ghost,
+  .btn-outline {
+    background: rgba(255,255,255,0.08) !important;
+    color: #f7fbff !important;
+    border: 1px solid rgba(200, 225, 255, 0.20) !important;
+  }
+
+  .uxv4-btn.primary,
+  .btn-blue,
+  .btn-primary {
+    background: linear-gradient(180deg, #5f9eff, #4285f4) !important;
+    color: #ffffff !important;
+    border: none !important;
+  }
+
+  /* ------------------------------------------------------------
+     Když někde zůstanou extra světlé boxy, tvrdý override
+     ------------------------------------------------------------ */
+  [class*="card"],
+  [class*="panel"],
+  [class*="surface"] {
+    color: inherit;
+  }
+
+  [class*="card"][style*="background: white"],
+  [class*="panel"][style*="background: white"],
+  [class*="card"][style*="background:#fff"],
+  [class*="panel"][style*="background:#fff"],
+  [class*="card"][style*="background: #fff"],
+  [class*="panel"][style*="background: #fff"] {
+    background: linear-gradient(135deg, #21476f, #2c5b90) !important;
+    color: #f8fbff !important;
+  }
+}
+
+/* ============================================================
+   MENU BLUE NATIVE PANELS V2
+   cílený patch pouze pro stránku MENU / active_page=menu
+   ============================================================ */
+
+@media (max-width: 900px) {
+  body[data-active-page="menu"] {
+    --menu-blue-bg: #07111f;
+    --menu-blue-panel: #102947;
+    --menu-blue-panel-2: #15365c;
+    --menu-blue-panel-3: #1b4778;
+    --menu-blue-panel-soft: #244f80;
+    --menu-blue-border: rgba(125, 178, 255, .24);
+    --menu-blue-border-strong: rgba(147, 197, 253, .42);
+    --menu-blue-text: #f8fbff;
+    --menu-blue-soft: #d6e6fb;
+    --menu-blue-muted: #a9c0dc;
+    --menu-blue-accent: #60a5fa;
+    --menu-blue-green: #22c55e;
+    --menu-blue-gold: #facc15;
+  }
+
+  body[data-active-page="menu"],
+  body[data-active-page="menu"] main,
+  body[data-active-page="menu"] .container,
+  body[data-active-page="menu"] .page-shell {
+    background: var(--menu-blue-bg) !important;
+    color: var(--menu-blue-text) !important;
+  }
+
+  /* ------------------------------------------------------------
+     1) Nadpisy a běžné texty v menu
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] h1,
+  body[data-active-page="menu"] h2,
+  body[data-active-page="menu"] h3,
+  body[data-active-page="menu"] .display,
+  body[data-active-page="menu"] .section-title h2 {
+    color: var(--menu-blue-text) !important;
+    opacity: 1 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+  }
+
+  body[data-active-page="menu"] p,
+  body[data-active-page="menu"] small,
+  body[data-active-page="menu"] .small,
+  body[data-active-page="menu"] .muted,
+  body[data-active-page="menu"] .text-muted {
+    color: var(--menu-blue-soft) !important;
+    opacity: 1 !important;
+  }
+
+  /* ------------------------------------------------------------
+     2) Karta "Dnes / nejbližší objednávka"
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .uxv4-today-card,
+  body[data-active-page="menu"] .today-order-card,
+  body[data-active-page="menu"] .nearest-order-card,
+  body[data-active-page="menu"] .current-order-card,
+  body[data-active-page="menu"] .menu-current-order,
+  body[data-active-page="menu"] .menu-highlight-card,
+  body[data-active-page="menu"] [class*="today"][class*="card"],
+  body[data-active-page="menu"] [class*="nearest"][class*="card"] {
+    background:
+      radial-gradient(circle at 85% 0%, rgba(96,165,250,.22), transparent 42%),
+      linear-gradient(135deg, #163a63, #1e4f82) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid var(--menu-blue-border-strong) !important;
+    box-shadow:
+      0 16px 36px rgba(0,0,0,.30),
+      inset 0 1px 0 rgba(255,255,255,.06) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-today-card *,
+  body[data-active-page="menu"] .today-order-card *,
+  body[data-active-page="menu"] .nearest-order-card *,
+  body[data-active-page="menu"] .current-order-card *,
+  body[data-active-page="menu"] .menu-current-order *,
+  body[data-active-page="menu"] .menu-highlight-card * {
+    color: var(--menu-blue-text) !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-today-card .muted,
+  body[data-active-page="menu"] .today-order-card .muted,
+  body[data-active-page="menu"] .nearest-order-card .muted,
+  body[data-active-page="menu"] .current-order-card .muted {
+    color: var(--menu-blue-soft) !important;
+  }
+
+  /* ------------------------------------------------------------
+     3) Týdenní přehled - bílý wrapper pryč
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .uxv4-week-overview,
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-overview,
+  body[data-active-page="menu"] .week-pills,
+  body[data-active-page="menu"] .menu-week-pills,
+  body[data-active-page="menu"] [class*="week"][class*="strip"],
+  body[data-active-page="menu"] [class*="week"][class*="overview"] {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+      linear-gradient(135deg, #102947, #173c63) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid var(--menu-blue-border) !important;
+    box-shadow:
+      0 12px 28px rgba(0,0,0,.26),
+      inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-week-strip *,
+  body[data-active-page="menu"] .uxv4-week-overview *,
+  body[data-active-page="menu"] .week-strip *,
+  body[data-active-page="menu"] .weekly-overview *,
+  body[data-active-page="menu"] .week-pills *,
+  body[data-active-page="menu"] .menu-week-pills * {
+    color: var(--menu-blue-text) !important;
+    opacity: 1 !important;
+  }
+
+  /* ------------------------------------------------------------
+     4) Dny v týdenním přehledu Po/Út/St/Čt/Pá
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .uxv4-day-chip,
+  body[data-active-page="menu"] .uxv4-week-chip,
+  body[data-active-page="menu"] .week-chip,
+  body[data-active-page="menu"] .day-chip,
+  body[data-active-page="menu"] .menu-day-chip,
+  body[data-active-page="menu"] .day-pill,
+  body[data-active-page="menu"] .weekly-day-pill,
+  body[data-active-page="menu"] [class*="week"] button,
+  body[data-active-page="menu"] [class*="week"] .day {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)),
+      linear-gradient(135deg, #1b3f68, #234f7d) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid rgba(150, 200, 255, .18) !important;
+    box-shadow:
+      0 8px 18px rgba(0,0,0,.18),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-chip.active,
+  body[data-active-page="menu"] .uxv4-week-chip.active,
+  body[data-active-page="menu"] .week-chip.active,
+  body[data-active-page="menu"] .day-chip.active,
+  body[data-active-page="menu"] .menu-day-chip.active,
+  body[data-active-page="menu"] .day-pill.active,
+  body[data-active-page="menu"] .weekly-day-pill.active,
+  body[data-active-page="menu"] [class*="week"] button.active,
+  body[data-active-page="menu"] [class*="week"] .active {
+    background:
+      radial-gradient(circle at 35% 0%, rgba(255,255,255,.22), transparent 38%),
+      linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: #ffffff !important;
+    border-color: rgba(191,219,254,.55) !important;
+    box-shadow:
+      0 12px 26px rgba(37,99,235,.34),
+      inset 0 -3px 0 rgba(219,234,254,.55) !important;
+  }
+
+  /* zelená tečka zůstane dobře viditelná */
+  body[data-active-page="menu"] .uxv4-day-chip::after,
+  body[data-active-page="menu"] .uxv4-week-chip::after,
+  body[data-active-page="menu"] .week-chip::after,
+  body[data-active-page="menu"] .day-chip::after,
+  body[data-active-page="menu"] .menu-day-chip::after,
+  body[data-active-page="menu"] .day-pill::after {
+    background: var(--menu-blue-green) !important;
+    box-shadow: 0 0 0 3px rgba(34,197,94,.14) !important;
+  }
+
+  /* ------------------------------------------------------------
+     5) Zavřené denní řádky Pondělí / Úterý / ...
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .uxv4-day-panel,
+  body[data-active-page="menu"] .uxv4-day-group,
+  body[data-active-page="menu"] .menu-day-group,
+  body[data-active-page="menu"] .day-group,
+  body[data-active-page="menu"] .day-accordion,
+  body[data-active-page="menu"] .day-accordion-item {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(96,165,250,.16), transparent 44%),
+      linear-gradient(135deg, #102947, #133864) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid rgba(96,165,250,.30) !important;
+    box-shadow:
+      0 12px 28px rgba(0,0,0,.20),
+      inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+
+  body[data-active-page="menu"] .day-section *,
+  body[data-active-page="menu"] .uxv4-day-panel *,
+  body[data-active-page="menu"] .uxv4-day-group *,
+  body[data-active-page="menu"] .menu-day-group *,
+  body[data-active-page="menu"] .day-group *,
+  body[data-active-page="menu"] .day-accordion *,
+  body[data-active-page="menu"] .day-accordion-item * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-header .muted,
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .uxv4-day-meta,
+  body[data-active-page="menu"] .menu-v4-day-meta {
+    color: var(--menu-blue-soft) !important;
+  }
+
+  body[data-active-page="menu"] .accordion-indicator,
+  body[data-active-page="menu"] .day-arrow,
+  body[data-active-page="menu"] [class*="arrow"] {
+    color: #93c5fd !important;
+  }
+
+  /* ------------------------------------------------------------
+     6) Karty jídel - modré místo bílých
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .dish-card,
+  body[data-active-page="menu"] .uxv4-dish-card,
+  body[data-active-page="menu"] .food-card,
+  body[data-active-page="menu"] .menu-item-card,
+  body[data-active-page="menu"] .menu-dish-card,
+  body[data-active-page="menu"] .meal-card,
+  body[data-active-page="menu"] article[class*="dish"],
+  body[data-active-page="menu"] article[class*="food"],
+  body[data-active-page="menu"] article[class*="meal"] {
+    background:
+      radial-gradient(circle at 92% 0%, rgba(96,165,250,.12), transparent 40%),
+      linear-gradient(135deg, #173a61, #1d4a78) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid rgba(147,197,253,.24) !important;
+    box-shadow:
+      0 14px 30px rgba(0,0,0,.26),
+      inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+
+  body[data-active-page="menu"] .dish-card *,
+  body[data-active-page="menu"] .uxv4-dish-card *,
+  body[data-active-page="menu"] .food-card *,
+  body[data-active-page="menu"] .menu-item-card *,
+  body[data-active-page="menu"] .menu-dish-card *,
+  body[data-active-page="menu"] .meal-card *,
+  body[data-active-page="menu"] article[class*="dish"] *,
+  body[data-active-page="menu"] article[class*="food"] *,
+  body[data-active-page="menu"] article[class*="meal"] * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .dish-card .muted,
+  body[data-active-page="menu"] .uxv4-dish-card .muted,
+  body[data-active-page="menu"] .food-card .muted,
+  body[data-active-page="menu"] .uxv4-dish-meta,
+  body[data-active-page="menu"] .dish-meta,
+  body[data-active-page="menu"] .meal-meta {
+    color: var(--menu-blue-soft) !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.selected,
+  body[data-active-page="menu"] .uxv4-dish-card.selected,
+  body[data-active-page="menu"] .food-card.selected,
+  body[data-active-page="menu"] .menu-item-card.selected,
+  body[data-active-page="menu"] .menu-dish-card.selected,
+  body[data-active-page="menu"] .meal-card.selected,
+  body[data-active-page="menu"] article.selected {
+    background:
+      radial-gradient(circle at 90% 0%, rgba(250,204,21,.16), transparent 42%),
+      linear-gradient(135deg, #12345a, #1c4775) !important;
+    color: #ffffff !important;
+    border-color: rgba(250,204,21,.46) !important;
+    box-shadow:
+      0 0 0 1px rgba(250,204,21,.12) inset,
+      0 18px 34px rgba(0,0,0,.30) !important;
+  }
+
+  body[data-active-page="menu"] .dish-name,
+  body[data-active-page="menu"] .uxv4-dish-name,
+  body[data-active-page="menu"] .meal-name,
+  body[data-active-page="menu"] .food-name {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+  }
+
+  body[data-active-page="menu"] .price,
+  body[data-active-page="menu"] .dish-price,
+  body[data-active-page="menu"] .uxv4-price,
+  body[data-active-page="menu"] .price-text,
+  body[data-active-page="menu"] .price-label,
+  body[data-active-page="menu"] [class*="price"] {
+    color: #ffffff !important;
+    font-weight: 950 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+  }
+
+  /* ------------------------------------------------------------
+     7) Ikonové čtverce u jídel - místo zelenobílé jemná modrá
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .emoji-bubble,
+  body[data-active-page="menu"] .uxv4-dish-emoji,
+  body[data-active-page="menu"] .dish-emoji,
+  body[data-active-page="menu"] .meal-emoji,
+  body[data-active-page="menu"] [class*="emoji"] {
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.05)),
+      rgba(96,165,250,.14) !important;
+    border: 1px solid rgba(191,219,254,.18) !important;
+    color: #ffffff !important;
+  }
+
+  /* ------------------------------------------------------------
+     8) Tlačítka na kartách
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] button,
+  body[data-active-page="menu"] .btn,
+  body[data-active-page="menu"] .uxv4-btn {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  body[data-active-page="menu"] .btn-blue,
+  body[data-active-page="menu"] .btn-primary,
+  body[data-active-page="menu"] .uxv4-btn.primary,
+  body[data-active-page="menu"] [data-select-day] {
+    background:
+      linear-gradient(180deg, #60a5fa, #2563eb) !important;
+    color: #ffffff !important;
+    border: 0 !important;
+    box-shadow: 0 10px 22px rgba(37,99,235,.32) !important;
+  }
+
+  body[data-active-page="menu"] .btn-ghost,
+  body[data-active-page="menu"] .uxv4-btn.ghost,
+  body[data-active-page="menu"] [data-cancel-day] {
+    background: rgba(255,255,255,.11) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(219,234,254,.22) !important;
+  }
+
+  body[data-active-page="menu"] .selected [data-cancel-day],
+  body[data-active-page="menu"] .dish-card.selected [data-cancel-day],
+  body[data-active-page="menu"] .uxv4-dish-card.selected [data-cancel-day] {
+    background: rgba(255,255,255,.90) !important;
+    color: #0f172a !important;
+  }
+
+  /* ------------------------------------------------------------
+     9) Tvrdý override pro zbylé bílé/světle šedé panely jen v menu
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] [style*="background: white"],
+  body[data-active-page="menu"] [style*="background:white"],
+  body[data-active-page="menu"] [style*="background: #fff"],
+  body[data-active-page="menu"] [style*="background:#fff"],
+  body[data-active-page="menu"] [style*="background-color: white"],
+  body[data-active-page="menu"] [style*="background-color:white"],
+  body[data-active-page="menu"] [style*="background-color: #fff"],
+  body[data-active-page="menu"] [style*="background-color:#fff"] {
+    background:
+      linear-gradient(135deg, #173a61, #1d4a78) !important;
+    color: #ffffff !important;
+  }
+
+  /* ------------------------------------------------------------
+     10) Spodní nav zachovat tmavou, ale sjednotit s modrým stylem
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .app-bottom-nav {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+      rgba(8, 20, 36, .96) !important;
+    border-top: 1px solid rgba(147,197,253,.16) !important;
+  }
+}
+
+/* ============================================================
+   MENU BLUE NATIVE PANELS V2
+   cílený patch pouze pro stránku MENU / active_page=menu
+   ============================================================ */
+
+@media (max-width: 900px) {
+  body[data-active-page="menu"] {
+    --menu-blue-bg: #07111f;
+    --menu-blue-panel: #102947;
+    --menu-blue-panel-2: #15365c;
+    --menu-blue-panel-3: #1b4778;
+    --menu-blue-panel-soft: #244f80;
+    --menu-blue-border: rgba(125, 178, 255, .24);
+    --menu-blue-border-strong: rgba(147, 197, 253, .42);
+    --menu-blue-text: #f8fbff;
+    --menu-blue-soft: #d6e6fb;
+    --menu-blue-muted: #a9c0dc;
+    --menu-blue-accent: #60a5fa;
+    --menu-blue-green: #22c55e;
+    --menu-blue-gold: #facc15;
+  }
+
+  body[data-active-page="menu"],
+  body[data-active-page="menu"] main,
+  body[data-active-page="menu"] .container,
+  body[data-active-page="menu"] .page-shell {
+    background: var(--menu-blue-bg) !important;
+    color: var(--menu-blue-text) !important;
+  }
+
+  /* ------------------------------------------------------------
+     1) Nadpisy a běžné texty v menu
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] h1,
+  body[data-active-page="menu"] h2,
+  body[data-active-page="menu"] h3,
+  body[data-active-page="menu"] .display,
+  body[data-active-page="menu"] .section-title h2 {
+    color: var(--menu-blue-text) !important;
+    opacity: 1 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+  }
+
+  body[data-active-page="menu"] p,
+  body[data-active-page="menu"] small,
+  body[data-active-page="menu"] .small,
+  body[data-active-page="menu"] .muted,
+  body[data-active-page="menu"] .text-muted {
+    color: var(--menu-blue-soft) !important;
+    opacity: 1 !important;
+  }
+
+  /* ------------------------------------------------------------
+     2) Karta "Dnes / nejbližší objednávka"
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .uxv4-today-card,
+  body[data-active-page="menu"] .today-order-card,
+  body[data-active-page="menu"] .nearest-order-card,
+  body[data-active-page="menu"] .current-order-card,
+  body[data-active-page="menu"] .menu-current-order,
+  body[data-active-page="menu"] .menu-highlight-card,
+  body[data-active-page="menu"] [class*="today"][class*="card"],
+  body[data-active-page="menu"] [class*="nearest"][class*="card"] {
+    background:
+      radial-gradient(circle at 85% 0%, rgba(96,165,250,.22), transparent 42%),
+      linear-gradient(135deg, #163a63, #1e4f82) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid var(--menu-blue-border-strong) !important;
+    box-shadow:
+      0 16px 36px rgba(0,0,0,.30),
+      inset 0 1px 0 rgba(255,255,255,.06) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-today-card *,
+  body[data-active-page="menu"] .today-order-card *,
+  body[data-active-page="menu"] .nearest-order-card *,
+  body[data-active-page="menu"] .current-order-card *,
+  body[data-active-page="menu"] .menu-current-order *,
+  body[data-active-page="menu"] .menu-highlight-card * {
+    color: var(--menu-blue-text) !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-today-card .muted,
+  body[data-active-page="menu"] .today-order-card .muted,
+  body[data-active-page="menu"] .nearest-order-card .muted,
+  body[data-active-page="menu"] .current-order-card .muted {
+    color: var(--menu-blue-soft) !important;
+  }
+
+  /* ------------------------------------------------------------
+     3) Týdenní přehled - bílý wrapper pryč
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .uxv4-week-overview,
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-overview,
+  body[data-active-page="menu"] .week-pills,
+  body[data-active-page="menu"] .menu-week-pills,
+  body[data-active-page="menu"] [class*="week"][class*="strip"],
+  body[data-active-page="menu"] [class*="week"][class*="overview"] {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+      linear-gradient(135deg, #102947, #173c63) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid var(--menu-blue-border) !important;
+    box-shadow:
+      0 12px 28px rgba(0,0,0,.26),
+      inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-week-strip *,
+  body[data-active-page="menu"] .uxv4-week-overview *,
+  body[data-active-page="menu"] .week-strip *,
+  body[data-active-page="menu"] .weekly-overview *,
+  body[data-active-page="menu"] .week-pills *,
+  body[data-active-page="menu"] .menu-week-pills * {
+    color: var(--menu-blue-text) !important;
+    opacity: 1 !important;
+  }
+
+  /* ------------------------------------------------------------
+     4) Dny v týdenním přehledu Po/Út/St/Čt/Pá
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .uxv4-day-chip,
+  body[data-active-page="menu"] .uxv4-week-chip,
+  body[data-active-page="menu"] .week-chip,
+  body[data-active-page="menu"] .day-chip,
+  body[data-active-page="menu"] .menu-day-chip,
+  body[data-active-page="menu"] .day-pill,
+  body[data-active-page="menu"] .weekly-day-pill,
+  body[data-active-page="menu"] [class*="week"] button,
+  body[data-active-page="menu"] [class*="week"] .day {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035)),
+      linear-gradient(135deg, #1b3f68, #234f7d) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid rgba(150, 200, 255, .18) !important;
+    box-shadow:
+      0 8px 18px rgba(0,0,0,.18),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-chip.active,
+  body[data-active-page="menu"] .uxv4-week-chip.active,
+  body[data-active-page="menu"] .week-chip.active,
+  body[data-active-page="menu"] .day-chip.active,
+  body[data-active-page="menu"] .menu-day-chip.active,
+  body[data-active-page="menu"] .day-pill.active,
+  body[data-active-page="menu"] .weekly-day-pill.active,
+  body[data-active-page="menu"] [class*="week"] button.active,
+  body[data-active-page="menu"] [class*="week"] .active {
+    background:
+      radial-gradient(circle at 35% 0%, rgba(255,255,255,.22), transparent 38%),
+      linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+    color: #ffffff !important;
+    border-color: rgba(191,219,254,.55) !important;
+    box-shadow:
+      0 12px 26px rgba(37,99,235,.34),
+      inset 0 -3px 0 rgba(219,234,254,.55) !important;
+  }
+
+  /* zelená tečka zůstane dobře viditelná */
+  body[data-active-page="menu"] .uxv4-day-chip::after,
+  body[data-active-page="menu"] .uxv4-week-chip::after,
+  body[data-active-page="menu"] .week-chip::after,
+  body[data-active-page="menu"] .day-chip::after,
+  body[data-active-page="menu"] .menu-day-chip::after,
+  body[data-active-page="menu"] .day-pill::after {
+    background: var(--menu-blue-green) !important;
+    box-shadow: 0 0 0 3px rgba(34,197,94,.14) !important;
+  }
+
+  /* ------------------------------------------------------------
+     5) Zavřené denní řádky Pondělí / Úterý / ...
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .uxv4-day-panel,
+  body[data-active-page="menu"] .uxv4-day-group,
+  body[data-active-page="menu"] .menu-day-group,
+  body[data-active-page="menu"] .day-group,
+  body[data-active-page="menu"] .day-accordion,
+  body[data-active-page="menu"] .day-accordion-item {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(96,165,250,.16), transparent 44%),
+      linear-gradient(135deg, #102947, #133864) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid rgba(96,165,250,.30) !important;
+    box-shadow:
+      0 12px 28px rgba(0,0,0,.20),
+      inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+
+  body[data-active-page="menu"] .day-section *,
+  body[data-active-page="menu"] .uxv4-day-panel *,
+  body[data-active-page="menu"] .uxv4-day-group *,
+  body[data-active-page="menu"] .menu-day-group *,
+  body[data-active-page="menu"] .day-group *,
+  body[data-active-page="menu"] .day-accordion *,
+  body[data-active-page="menu"] .day-accordion-item * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-header .muted,
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .uxv4-day-meta,
+  body[data-active-page="menu"] .menu-v4-day-meta {
+    color: var(--menu-blue-soft) !important;
+  }
+
+  body[data-active-page="menu"] .accordion-indicator,
+  body[data-active-page="menu"] .day-arrow,
+  body[data-active-page="menu"] [class*="arrow"] {
+    color: #93c5fd !important;
+  }
+
+  /* ------------------------------------------------------------
+     6) Karty jídel - modré místo bílých
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .dish-card,
+  body[data-active-page="menu"] .uxv4-dish-card,
+  body[data-active-page="menu"] .food-card,
+  body[data-active-page="menu"] .menu-item-card,
+  body[data-active-page="menu"] .menu-dish-card,
+  body[data-active-page="menu"] .meal-card,
+  body[data-active-page="menu"] article[class*="dish"],
+  body[data-active-page="menu"] article[class*="food"],
+  body[data-active-page="menu"] article[class*="meal"] {
+    background:
+      radial-gradient(circle at 92% 0%, rgba(96,165,250,.12), transparent 40%),
+      linear-gradient(135deg, #173a61, #1d4a78) !important;
+    color: var(--menu-blue-text) !important;
+    border: 1px solid rgba(147,197,253,.24) !important;
+    box-shadow:
+      0 14px 30px rgba(0,0,0,.26),
+      inset 0 1px 0 rgba(255,255,255,.045) !important;
+  }
+
+  body[data-active-page="menu"] .dish-card *,
+  body[data-active-page="menu"] .uxv4-dish-card *,
+  body[data-active-page="menu"] .food-card *,
+  body[data-active-page="menu"] .menu-item-card *,
+  body[data-active-page="menu"] .menu-dish-card *,
+  body[data-active-page="menu"] .meal-card *,
+  body[data-active-page="menu"] article[class*="dish"] *,
+  body[data-active-page="menu"] article[class*="food"] *,
+  body[data-active-page="menu"] article[class*="meal"] * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .dish-card .muted,
+  body[data-active-page="menu"] .uxv4-dish-card .muted,
+  body[data-active-page="menu"] .food-card .muted,
+  body[data-active-page="menu"] .uxv4-dish-meta,
+  body[data-active-page="menu"] .dish-meta,
+  body[data-active-page="menu"] .meal-meta {
+    color: var(--menu-blue-soft) !important;
+  }
+
+  body[data-active-page="menu"] .dish-card.selected,
+  body[data-active-page="menu"] .uxv4-dish-card.selected,
+  body[data-active-page="menu"] .food-card.selected,
+  body[data-active-page="menu"] .menu-item-card.selected,
+  body[data-active-page="menu"] .menu-dish-card.selected,
+  body[data-active-page="menu"] .meal-card.selected,
+  body[data-active-page="menu"] article.selected {
+    background:
+      radial-gradient(circle at 90% 0%, rgba(250,204,21,.16), transparent 42%),
+      linear-gradient(135deg, #12345a, #1c4775) !important;
+    color: #ffffff !important;
+    border-color: rgba(250,204,21,.46) !important;
+    box-shadow:
+      0 0 0 1px rgba(250,204,21,.12) inset,
+      0 18px 34px rgba(0,0,0,.30) !important;
+  }
+
+  body[data-active-page="menu"] .dish-name,
+  body[data-active-page="menu"] .uxv4-dish-name,
+  body[data-active-page="menu"] .meal-name,
+  body[data-active-page="menu"] .food-name {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+  }
+
+  body[data-active-page="menu"] .price,
+  body[data-active-page="menu"] .dish-price,
+  body[data-active-page="menu"] .uxv4-price,
+  body[data-active-page="menu"] .price-text,
+  body[data-active-page="menu"] .price-label,
+  body[data-active-page="menu"] [class*="price"] {
+    color: #ffffff !important;
+    font-weight: 950 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.18) !important;
+  }
+
+  /* ------------------------------------------------------------
+     7) Ikonové čtverce u jídel - místo zelenobílé jemná modrá
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .emoji-bubble,
+  body[data-active-page="menu"] .uxv4-dish-emoji,
+  body[data-active-page="menu"] .dish-emoji,
+  body[data-active-page="menu"] .meal-emoji,
+  body[data-active-page="menu"] [class*="emoji"] {
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.05)),
+      rgba(96,165,250,.14) !important;
+    border: 1px solid rgba(191,219,254,.18) !important;
+    color: #ffffff !important;
+  }
+
+  /* ------------------------------------------------------------
+     8) Tlačítka na kartách
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] button,
+  body[data-active-page="menu"] .btn,
+  body[data-active-page="menu"] .uxv4-btn {
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  body[data-active-page="menu"] .btn-blue,
+  body[data-active-page="menu"] .btn-primary,
+  body[data-active-page="menu"] .uxv4-btn.primary,
+  body[data-active-page="menu"] [data-select-day] {
+    background:
+      linear-gradient(180deg, #60a5fa, #2563eb) !important;
+    color: #ffffff !important;
+    border: 0 !important;
+    box-shadow: 0 10px 22px rgba(37,99,235,.32) !important;
+  }
+
+  body[data-active-page="menu"] .btn-ghost,
+  body[data-active-page="menu"] .uxv4-btn.ghost,
+  body[data-active-page="menu"] [data-cancel-day] {
+    background: rgba(255,255,255,.11) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(219,234,254,.22) !important;
+  }
+
+  body[data-active-page="menu"] .selected [data-cancel-day],
+  body[data-active-page="menu"] .dish-card.selected [data-cancel-day],
+  body[data-active-page="menu"] .uxv4-dish-card.selected [data-cancel-day] {
+    background: rgba(255,255,255,.90) !important;
+    color: #0f172a !important;
+  }
+
+  /* ------------------------------------------------------------
+     9) Tvrdý override pro zbylé bílé/světle šedé panely jen v menu
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] [style*="background: white"],
+  body[data-active-page="menu"] [style*="background:white"],
+  body[data-active-page="menu"] [style*="background: #fff"],
+  body[data-active-page="menu"] [style*="background:#fff"],
+  body[data-active-page="menu"] [style*="background-color: white"],
+  body[data-active-page="menu"] [style*="background-color:white"],
+  body[data-active-page="menu"] [style*="background-color: #fff"],
+  body[data-active-page="menu"] [style*="background-color:#fff"] {
+    background:
+      linear-gradient(135deg, #173a61, #1d4a78) !important;
+    color: #ffffff !important;
+  }
+
+  /* ------------------------------------------------------------
+     10) Spodní nav zachovat tmavou, ale sjednotit s modrým stylem
+     ------------------------------------------------------------ */
+
+  body[data-active-page="menu"] .app-bottom-nav {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+      rgba(8, 20, 36, .96) !important;
+    border-top: 1px solid rgba(147,197,253,.16) !important;
+  }
+}
+
+/* ============================================================
+   REAL MOBILE SCREEN FIX V7
+   ============================================================ */
+
+@media (max-width: 900px) {
+  :root {
+    --v7-bg: #07111f;
+    --v7-panel: #0f2948;
+    --v7-panel-2: #14375f;
+    --v7-panel-3: #1d4d80;
+    --v7-border: rgba(130, 184, 255, .24);
+    --v7-border-strong: rgba(147, 197, 253, .42);
+    --v7-text: #f8fbff;
+    --v7-soft: #d7e7fb;
+    --v7-muted: #a8bfdc;
+    --v7-blue: #60a5fa;
+    --v7-blue-strong: #2563eb;
+    --v7-gold: #facc15;
+    --v7-red: #fb7185;
+  }
+
+  html,
+  body {
+    background: var(--v7-bg) !important;
+    color: var(--v7-text) !important;
+  }
+
+  /* ------------------------------------------------------------
+     TOP BRAND HEADER - zakroužkovaná zelená oblast
+     ------------------------------------------------------------ */
+
+  .glass-nav {
+    height: 58px !important;
+    min-height: 58px !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)),
+      rgba(7, 17, 31, .94) !important;
+    border-bottom: 1px solid rgba(147,197,253,.12) !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,.22) !important;
+    backdrop-filter: blur(18px) saturate(1.25) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(1.25) !important;
+  }
+
+  .glass-nav .nav-inner {
+    height: 58px !important;
+    min-height: 58px !important;
+    padding: 7px 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 9px !important;
+  }
+
+  .glass-nav .nav-inner > *:not(.brand) {
+    display: none !important;
+  }
+
+  .glass-nav .brand {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .glass-nav .brand-mark {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 10px 24px rgba(37,99,235,.22) !important;
+  }
+
+  .glass-nav .brand-copy {
+    display: block !important;
+    min-width: 0 !important;
+  }
+
+  .glass-nav .brand-copy strong {
+    color: #ffffff !important;
+    font-size: .9rem !important;
+    line-height: 1 !important;
+    font-weight: 950 !important;
+    letter-spacing: .01em !important;
+    white-space: nowrap !important;
+  }
+
+  .glass-nav .brand-copy span {
+    display: none !important;
+  }
+
+  /* ------------------------------------------------------------
+     REPORT PAGE - zakroužkovaná žlutá + červená oblast
+     ------------------------------------------------------------ */
+
+  body[data-active-page="orders"] .container,
+  body[data-active-page="orders"] main,
+  body[data-active-page="orders"] .page-shell {
+    background: var(--v7-bg) !important;
+    color: var(--v7-text) !important;
+  }
+
+  .v7-report-page {
+    display: grid !important;
+    gap: 14px !important;
+    color: var(--v7-text) !important;
+    padding-bottom: 96px !important;
+  }
+
+  .v7-report-hero {
+    border-radius: 28px !important;
+    padding: 18px !important;
+    min-height: auto !important;
+    background:
+      radial-gradient(circle at 90% 0%, rgba(96,165,250,.25), transparent 42%),
+      linear-gradient(135deg, #102947, #173d68) !important;
+    border: 1px solid var(--v7-border) !important;
+    box-shadow:
+      0 18px 42px rgba(0,0,0,.26),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+
+  .v7-report-hero-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .v7-pill,
+  .v7-total-pill {
+    min-height: 34px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    border-radius: 999px !important;
+    padding: 0 12px !important;
+    font-size: .78rem !important;
+    font-weight: 900 !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  .v7-pill {
+    color: #bfdbfe !important;
+    background: rgba(37,99,235,.22) !important;
+    border: 1px solid rgba(96,165,250,.30) !important;
+  }
+
+  .v7-total-pill {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+    box-shadow: 0 12px 26px rgba(37,99,235,.30) !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+  }
+
+  .v7-report-hero h1 {
+    margin: 0 0 8px !important;
+    color: #ffffff !important;
+    font-size: clamp(2.2rem, 12vw, 3.4rem) !important;
+    line-height: .92 !important;
+    letter-spacing: -.04em !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,.22) !important;
+  }
+
+  .v7-report-hero p {
+    margin: 0 !important;
+    color: var(--v7-soft) !important;
+    font-size: .98rem !important;
+    line-height: 1.34 !important;
+  }
+
+  .v7-report-stats {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .v7-report-stats article {
+    min-width: 0 !important;
+    border-radius: 22px !important;
+    padding: 14px 12px !important;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
+      #102947 !important;
+    border: 1px solid rgba(147,197,253,.14) !important;
+    box-shadow: 0 12px 26px rgba(0,0,0,.16) !important;
+  }
+
+  .v7-report-stats span {
+    color: #9eb7d8 !important;
+    font-size: .78rem !important;
+    font-weight: 850 !important;
+  }
+
+  .v7-report-stats strong {
+    display: block !important;
+    color: #ffffff !important;
+    font-size: 1.15rem !important;
+    line-height: 1.1 !important;
+    margin-top: 5px !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .v7-order-list {
+    display: grid !important;
+    gap: 10px !important;
+  }
+
+  .v7-order-card {
+    border-radius: 24px !important;
+    padding: 15px !important;
+    background:
+      radial-gradient(circle at 92% 0%, rgba(96,165,250,.14), transparent 42%),
+      linear-gradient(135deg, #143456, #1c4876) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(147,197,253,.24) !important;
+    box-shadow:
+      0 14px 32px rgba(0,0,0,.26),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+
+  .v7-order-card * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  .v7-order-main {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    gap: 12px !important;
+    align-items: start !important;
+  }
+
+  .v7-order-day {
+    display: inline-flex !important;
+    margin-bottom: 7px !important;
+    color: #93c5fd !important;
+    font-size: .82rem !important;
+    font-weight: 950 !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+  }
+
+  .v7-order-card h2 {
+    margin: 0 !important;
+    color: #ffffff !important;
+    font-size: 1.08rem !important;
+    line-height: 1.18 !important;
+    font-weight: 900 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .v7-order-price {
+    color: #ffffff !important;
+    font-size: 1.1rem !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+  }
+
+  .v7-order-footer {
+    margin-top: 12px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+
+  .v7-status {
+    min-height: 32px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    border-radius: 999px !important;
+    padding: 0 12px !important;
+    background: rgba(96,165,250,.18) !important;
+    border: 1px solid rgba(147,197,253,.20) !important;
+    color: #bfdbfe !important;
+    font-weight: 900 !important;
+  }
+
+  .v7-order-card.status-paid .v7-status {
+    background: rgba(34,197,94,.16) !important;
+    border-color: rgba(34,197,94,.22) !important;
+    color: #bbf7d0 !important;
+  }
+
+  .v7-order-card.status-cancelled {
+    opacity: .65 !important;
+  }
+
+  .v7-order-card.status-cancelled .v7-status {
+    background: rgba(251,113,133,.16) !important;
+    color: #fecdd3 !important;
+  }
+
+  .v7-note {
+    color: var(--v7-soft) !important;
+    font-size: .9rem !important;
+  }
+
+  .v7-report-empty {
+    border-radius: 24px !important;
+    padding: 18px !important;
+    background: #102947 !important;
+    border: 1px solid var(--v7-border) !important;
+  }
+
+  .v7-report-empty h2 {
+    color: #ffffff !important;
+  }
+
+  .v7-report-empty p {
+    color: var(--v7-soft) !important;
+  }
+
+  .v7-report-empty a {
+    display: inline-flex !important;
+    min-height: 44px !important;
+    align-items: center !important;
+    margin-top: 10px !important;
+    border-radius: 16px !important;
+    padding: 0 14px !important;
+    background: #2563eb !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    font-weight: 900 !important;
+  }
+
+  /* tvrdé potlačení starých světlých report karet */
+  body[data-active-page="orders"] .orders-v5-card,
+  body[data-active-page="orders"] .order-card,
+  body[data-active-page="orders"] .report-card,
+  body[data-active-page="orders"] table,
+  body[data-active-page="orders"] tr,
+  body[data-active-page="orders"] td,
+  body[data-active-page="orders"] th {
+    background: transparent !important;
+    color: #ffffff !important;
+  }
+
+  /* ------------------------------------------------------------
+     ADMIN PAGE - zakroužkovaná růžová + modrá oblast
+     ------------------------------------------------------------ */
+
+  body[data-active-page="admin"] .container,
+  body[data-active-page="admin"] main,
+  body[data-active-page="admin"] .page-shell {
+    background: var(--v7-bg) !important;
+    color: var(--v7-text) !important;
+  }
+
+  body[data-active-page="admin"] .hero,
+  body[data-active-page="admin"] .admin-hero,
+  body[data-active-page="admin"] .dashboard-hero,
+  body[data-active-page="admin"] .kpi-hero,
+  body[data-active-page="admin"] .panel:first-child,
+  body[data-active-page="admin"] section:first-child {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(96,165,250,.20), transparent 42%),
+      linear-gradient(135deg, #14375f, #1d4d80) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(147,197,253,.22) !important;
+    box-shadow:
+      0 18px 42px rgba(0,0,0,.24),
+      inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+
+  body[data-active-page="admin"] h1,
+  body[data-active-page="admin"] h2,
+  body[data-active-page="admin"] h3,
+  body[data-active-page="admin"] .display {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,.20) !important;
+  }
+
+  body[data-active-page="admin"] p,
+  body[data-active-page="admin"] .muted,
+  body[data-active-page="admin"] .text-muted,
+  body[data-active-page="admin"] small {
+    color: #d7e7fb !important;
+    opacity: 1 !important;
+    line-height: 1.35 !important;
+  }
+
+  body[data-active-page="admin"] .kpi,
+  body[data-active-page="admin"] .stat-card,
+  body[data-active-page="admin"] .admin-stat,
+  body[data-active-page="admin"] .panel,
+  body[data-active-page="admin"] .card {
+    background:
+      linear-gradient(135deg, rgba(255,255,255,.035), rgba(255,255,255,.015)),
+      #102947 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(147,197,253,.14) !important;
+    box-shadow: 0 12px 26px rgba(0,0,0,.16) !important;
+  }
+
+  body[data-active-page="admin"] .kpi *,
+  body[data-active-page="admin"] .stat-card *,
+  body[data-active-page="admin"] .admin-stat *,
+  body[data-active-page="admin"] .panel *,
+  body[data-active-page="admin"] .card * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="admin"] .kpi .muted,
+  body[data-active-page="admin"] .stat-card .muted,
+  body[data-active-page="admin"] .admin-stat .muted,
+  body[data-active-page="admin"] .panel .muted,
+  body[data-active-page="admin"] .card .muted {
+    color: #a9c0dc !important;
+  }
+
+  /* Admin tabbar */
+  body[data-active-page="admin"] .admin-tabs,
+  body[data-active-page="admin"] .admin-tabbar,
+  body[data-active-page="admin"] .admin-section-tabs,
+  body[data-active-page="admin"] [data-admin-tabs] {
+    display: grid !important;
+    grid-template-columns: repeat(4, max-content) !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    padding: 6px 0 10px !important;
+    margin: 10px 0 12px !important;
+    scrollbar-width: none !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabs::-webkit-scrollbar,
+  body[data-active-page="admin"] .admin-tabbar::-webkit-scrollbar,
+  body[data-active-page="admin"] .admin-section-tabs::-webkit-scrollbar,
+  body[data-active-page="admin"] [data-admin-tabs]::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabs button,
+  body[data-active-page="admin"] .admin-tabbar button,
+  body[data-active-page="admin"] .admin-section-tabs button,
+  body[data-active-page="admin"] [data-admin-tabs] button,
+  body[data-active-page="admin"] .admin-tab,
+  body[data-active-page="admin"] .tab-btn {
+    min-height: 44px !important;
+    border-radius: 17px !important;
+    padding: 0 14px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025)),
+      #102947 !important;
+    color: #bfdbfe !important;
+    border: 1px solid rgba(147,197,253,.18) !important;
+    box-shadow: 0 10px 22px rgba(0,0,0,.18) !important;
+    font-weight: 900 !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabs button.active,
+  body[data-active-page="admin"] .admin-tabs button.is-active,
+  body[data-active-page="admin"] .admin-tabbar button.active,
+  body[data-active-page="admin"] .admin-tabbar button.is-active,
+  body[data-active-page="admin"] .admin-section-tabs button.active,
+  body[data-active-page="admin"] .admin-section-tabs button.is-active,
+  body[data-active-page="admin"] [data-admin-tabs] button.active,
+  body[data-active-page="admin"] [data-admin-tabs] button.is-active,
+  body[data-active-page="admin"] .admin-tab.active,
+  body[data-active-page="admin"] .admin-tab.is-active,
+  body[data-active-page="admin"] .tab-btn.active,
+  body[data-active-page="admin"] .tab-btn.is-active {
+    background:
+      radial-gradient(circle at 35% 0%, rgba(255,255,255,.20), transparent 38%),
+      linear-gradient(135deg, #facc15, #d4a800) !important;
+    color: #0f172a !important;
+    border-color: rgba(250,204,21,.42) !important;
+    box-shadow: 0 14px 30px rgba(250,204,21,.18) !important;
+  }
+
+  body[data-active-page="admin"] input,
+  body[data-active-page="admin"] select,
+  body[data-active-page="admin"] textarea {
+    background: rgba(255,255,255,.07) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(191,219,254,.18) !important;
+  }
+
+  body[data-active-page="admin"] input::placeholder,
+  body[data-active-page="admin"] textarea::placeholder {
+    color: #9eb7d8 !important;
+  }
+
+  body[data-active-page="admin"] option {
+    color: #0f172a !important;
+    background: #ffffff !important;
+  }
+
+  /* ------------------------------------------------------------
+     spodní navigace zůstane čitelná
+     ------------------------------------------------------------ */
+
+  .app-bottom-nav {
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+      rgba(8, 20, 36, .96) !important;
+    border-top: 1px solid rgba(147,197,253,.16) !important;
+  }
+}

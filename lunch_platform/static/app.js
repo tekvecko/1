@@ -2428,3 +2428,391 @@ if (notifToggle && notifPanel) {
     initCleanMenuV4();
   }
 })();
+
+/* === SMART BOTTOM NAV MORE PANEL === */
+(function(){
+  function initSmartBottomNav(){
+    const toggle = document.querySelector('[data-mobile-more-toggle]');
+    const panel = document.querySelector('[data-mobile-more-panel]');
+    if (!toggle || !panel) return;
+
+    toggle.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      panel.hidden = !panel.hidden;
+    });
+
+    document.addEventListener('click', function(e){
+      if (panel.hidden) return;
+      if (e.target.closest('[data-mobile-more-panel], [data-mobile-more-toggle]')) return;
+      panel.hidden = true;
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') panel.hidden = true;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSmartBottomNav);
+  } else {
+    initSmartBottomNav();
+  }
+})();
+
+/* === NATIVE APP TAB SHEET === */
+(function(){
+  function initNativeTabs(){
+    const toggle = document.querySelector('[data-native-search]');
+    const panel = document.querySelector('[data-native-search-panel]');
+    if (!toggle || !panel) return;
+
+    toggle.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      panel.hidden = !panel.hidden;
+    });
+
+    document.addEventListener('click', function(e){
+      if (panel.hidden) return;
+      if (e.target.closest('[data-native-search-panel], [data-native-search]')) return;
+      panel.hidden = true;
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') panel.hidden = true;
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNativeTabs);
+  } else {
+    initNativeTabs();
+  }
+})();
+
+/* === FINAL NATIVE BOTTOM TAB SHEET === */
+(function(){
+  function initFinalNativeTabs(){
+    const toggle = document.querySelector('[data-native-search]');
+    const panel = document.querySelector('[data-native-search-panel]');
+    if (!toggle || !panel || toggle.dataset.nativeTabsReady === '1') return;
+
+    toggle.dataset.nativeTabsReady = '1';
+
+    function setOpen(open){
+      panel.hidden = !open;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.classList.toggle('native-sheet-open', !!open);
+    }
+
+    toggle.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      setOpen(panel.hidden);
+    });
+
+    document.addEventListener('click', function(e){
+      if (panel.hidden) return;
+      if (e.target.closest('[data-native-search-panel], [data-native-search]')) return;
+      setOpen(false);
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFinalNativeTabs);
+  } else {
+    initFinalNativeTabs();
+  }
+})();
+
+/* === FINAL: force native sheet closed on load + stable toggle === */
+(function(){
+  function bootFinalNativeSheet(){
+    const toggle = document.querySelector('[data-native-search]');
+    const panel = document.querySelector('[data-native-search-panel]');
+    if (!toggle || !panel) return;
+
+    panel.hidden = true;
+    document.body.classList.remove('native-sheet-open');
+    toggle.setAttribute('aria-expanded', 'false');
+
+    if (toggle.dataset.finalNativeSheetReady === '1') return;
+    toggle.dataset.finalNativeSheetReady = '1';
+
+    function setOpen(open){
+      panel.hidden = !open;
+      document.body.classList.toggle('native-sheet-open', !!open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    toggle.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      setOpen(panel.hidden);
+    }, true);
+
+    document.addEventListener('click', function(e){
+      if (panel.hidden) return;
+      if (e.target.closest('[data-native-search-panel], [data-native-search]')) return;
+      setOpen(false);
+    }, true);
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootFinalNativeSheet);
+  } else {
+    bootFinalNativeSheet();
+  }
+})();
+
+/* ============================================================
+   MOBILE NATIVE NAV CLEANUP
+   - sheet hidden by default
+   - only opens on "Více"
+   - closes on outside click / ESC / tab click
+   ============================================================ */
+(function(){
+  function initMobileNativeNavCleanup(){
+    const toggle = document.querySelector('[data-native-search]');
+    const panel = document.querySelector('[data-native-search-panel]');
+    const allTabs = document.querySelectorAll('.native-tab');
+
+    if (!toggle || !panel) return;
+    if (toggle.dataset.mobileNativeCleanupReady === '1') return;
+    toggle.dataset.mobileNativeCleanupReady = '1';
+
+    function closeSheet(){
+      panel.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('native-sheet-open');
+    }
+
+    function openSheet(){
+      panel.hidden = false;
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.classList.add('native-sheet-open');
+    }
+
+    // Hard reset on load
+    closeSheet();
+
+    toggle.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (panel.hidden) {
+        openSheet();
+      } else {
+        closeSheet();
+      }
+    });
+
+    document.addEventListener('click', function(e){
+      if (panel.hidden) return;
+      if (e.target.closest('[data-native-search-panel]')) return;
+      if (e.target.closest('[data-native-search]')) return;
+      closeSheet();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') closeSheet();
+    });
+
+    allTabs.forEach(tab => {
+      if (tab === toggle) return;
+      tab.addEventListener('click', function(){
+        closeSheet();
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMobileNativeNavCleanup);
+  } else {
+    initMobileNativeNavCleanup();
+  }
+})();
+
+/* === V5 NAV CLEANUP: no quick actions sheet / no overlay blur === */
+(function(){
+  function cleanupV5Navigation(){
+    document.body.classList.remove('native-sheet-open');
+
+    document.querySelectorAll('[data-native-search-panel], .native-more-sheet, .smart-bottom-more').forEach(function(el){
+      el.hidden = true;
+      el.style.display = 'none';
+    });
+
+    document.querySelectorAll('[data-native-search], [data-mobile-more-toggle]').forEach(function(btn){
+      btn.setAttribute('aria-expanded', 'false');
+      btn.addEventListener('click', function(e){
+        const href = btn.getAttribute('href');
+        if (!href) {
+          e.preventDefault();
+          e.stopPropagation();
+          document.body.classList.remove('native-sheet-open');
+        }
+      }, true);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', cleanupV5Navigation);
+  } else {
+    cleanupV5Navigation();
+  }
+})();
+
+/* === V6 HARD CLEAN: kill obsolete quick action overlays === */
+(function(){
+  function hardCleanV6(){
+    document.body.classList.remove(
+      'native-sheet-open',
+      'smart-bottom-open',
+      'mobile-more-open',
+      'v3-day-panel-open'
+    );
+
+    document.querySelectorAll(
+      '.native-more-sheet, .smart-bottom-more, [data-native-search-panel], [data-mobile-more-panel], #native-more-sheet'
+    ).forEach(function(el){
+      el.hidden = true;
+      el.style.display = 'none';
+      el.style.visibility = 'hidden';
+      el.style.opacity = '0';
+      el.style.pointerEvents = 'none';
+    });
+
+    document.querySelectorAll('[data-native-search], [data-mobile-more-toggle]').forEach(function(btn){
+      btn.setAttribute('aria-expanded', 'false');
+      btn.onclick = function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      };
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hardCleanV6);
+  } else {
+    hardCleanV6();
+  }
+
+  window.addEventListener('pageshow', hardCleanV6);
+})();
+
+/* ============================================================
+   V7 ADMIN MOBILE TABS FALLBACK
+   ============================================================ */
+(function(){
+  function initAdminTabsV7(){
+    const root =
+      document.querySelector('[data-admin-tabs]') ||
+      document.querySelector('.admin-tabs') ||
+      document.querySelector('.admin-tabbar') ||
+      document.querySelector('.admin-section-tabs');
+
+    if (!root) return;
+    if (root.dataset.v7TabsReady === '1') return;
+    root.dataset.v7TabsReady = '1';
+
+    const buttons = Array.from(root.querySelectorAll('button, [data-admin-tab], .admin-tab, .tab-btn'));
+    if (!buttons.length) return;
+
+    function normalizeName(txt){
+      return String(txt || '')
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/&/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    function targetFromButton(btn){
+      const explicit =
+        btn.dataset.adminTab ||
+        btn.dataset.tab ||
+        btn.getAttribute('aria-controls') ||
+        btn.getAttribute('data-target');
+
+      if (explicit) return explicit.replace(/^#/, '');
+
+      const label = normalizeName(btn.textContent);
+      if (label.includes('menu')) return 'menu';
+      if (label.includes('billing')) return 'billing';
+      if (label.includes('ucty') || label.includes('ucet')) return 'accounts';
+      if (label.includes('audit')) return 'audit';
+      return '';
+    }
+
+    function findPanels(){
+      return Array.from(document.querySelectorAll(
+        '[data-admin-panel], .admin-panel, .admin-tab-panel, .admin-section-panel, #menu, #billing, #accounts, #audit'
+      ));
+    }
+
+    function panelKey(panel){
+      return (
+        panel.dataset.adminPanel ||
+        panel.dataset.panel ||
+        panel.id ||
+        ''
+      ).toLowerCase();
+    }
+
+    function activate(name){
+      if (!name) return;
+
+      buttons.forEach(btn => {
+        const active = targetFromButton(btn) === name;
+        btn.classList.toggle('active', active);
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+
+      const panels = findPanels();
+      if (!panels.length) return;
+
+      panels.forEach(panel => {
+        const key = panelKey(panel);
+        const active =
+          key === name ||
+          key.includes(name) ||
+          (name === 'accounts' && (key.includes('ucty') || key.includes('users'))) ||
+          (name === 'menu' && key.includes('import'));
+
+        panel.hidden = !active;
+        panel.classList.toggle('active', active);
+        panel.classList.toggle('is-active', active);
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', function(e){
+        const name = targetFromButton(btn);
+        if (!name) return;
+        e.preventDefault();
+        activate(name);
+      });
+    });
+
+    const current = buttons.find(btn => btn.classList.contains('active') || btn.classList.contains('is-active')) || buttons[0];
+    activate(targetFromButton(current));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAdminTabsV7);
+  } else {
+    initAdminTabsV7();
+  }
+})();

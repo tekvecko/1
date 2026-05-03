@@ -353,3 +353,37 @@ def select_order(account, day: str, dish_id: int):
 
 def submit_order(account, day: str, dish_id: int):
     return place_order(account, day, int(dish_id))
+
+
+# ------------------------------------------------------------------
+# Compatibility wrapper
+# ------------------------------------------------------------------
+def get_menu(*args, **kwargs):
+    """
+    Compatibility API used by older tests/patches.
+
+    Returns the current menu grouped by day when build_menu_view_model()
+    is available, otherwise falls back to current_state().
+    """
+    account_id = kwargs.get("account_id")
+    if args:
+        account_id = args[0]
+
+    if account_id is not None:
+        state = build_menu_view_model(account_id)
+    else:
+        try:
+            state = current_state()
+        except TypeError:
+            state = build_menu_view_model(1)
+
+    if isinstance(state, dict):
+        if "menu" in state:
+            return state["menu"]
+        if "menu_by_day" in state:
+            return state["menu_by_day"]
+        if "days" in state:
+            return state["days"]
+
+    return state
+

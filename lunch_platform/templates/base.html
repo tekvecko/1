@@ -142,5 +142,36 @@
 </div>
 <script src="{{ url_for('static', filename='app.js') }}"></script>
 {% block scripts %}{% endblock %}
+
+<strong>
+<nav class="app-bottom-nav v6-bottom-nav" aria-label="Hlavní mobilní navigace">
+  <a class="app-bottom-tab {{ 'active' if active_page == 'menu' else '' }}" href="{{ url_for('orders.index') }}">
+    <span class="app-bottom-icon app-i-menu" aria-hidden="true"></span>
+    <span>Menu</span>
+  </a>
+
+  <a class="app-bottom-tab {{ 'active' if active_page == 'orders' else '' }}" href="{{ url_for('orders.orders_report') }}">
+    <span class="app-bottom-icon app-i-orders" aria-hidden="true"></span>
+    <span>Objednávky</span>
+  </a>
+
+  {% if current_account and current_account['role'] in ['admin', 'super_admin'] %}
+  <a class="app-bottom-tab {{ 'active' if active_page == 'admin' else '' }}" href="{{ url_for('admin.dashboard') }}">
+    <span class="app-bottom-icon app-i-admin" aria-hidden="true"></span>
+    <span>Admin</span>
+  </a>
+  {% endif %}
+
+  <a class="app-bottom-tab {{ 'active' if active_page == 'profile' else '' }}" href="{{ url_for('orders.profile') }}">
+    <span class="app-bottom-icon app-i-profile" aria-hidden="true"></span>
+    <span>Profil</span>
+  </a>
+
+  <a class="app-bottom-tab app-bottom-logout" href="{{ url_for('auth.logout') }}">
+    <span class="app-bottom-icon app-i-logout" aria-hidden="true"></span>
+    <span>Odhlásit</span>
+  </a>
+</nav>
+
 </body>
 </html>

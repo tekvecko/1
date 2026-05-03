@@ -15,3 +15,17 @@ _backup*/
 *.bak_*
 *.bak
 cleanup_audit_*.txt
+.pytest_cache/
+.integrity_tmp/
+integrity_report_*.txt
+integrity_report_v2_*.txt
+integrity_manifest_*.sha256
+integrity_manifest_v2_*.sha256
+logs/*.log
+backups_integrity/
+fix_*.sh
+apply_*.sh
+*patch*.sh
+native_like_bottom_nav.sh
+native_app_bottom_tabs_v2.sh
+blue_panels_theme_patch.sh

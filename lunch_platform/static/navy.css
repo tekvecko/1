@@ -4125,3 +4125,382 @@ body.menu-tools-open .mobile-smart-cart{transform:translateY(calc(100% + 24px));
     }
   }
 }
+
+/* === FINAL MOBILE CONTRAST FALLBACK FROM NATIVE MENU PATCH === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .day-section > button,
+  body[data-active-page="menu"] .day-section > button *,
+  body[data-active-page="menu"] .day-header,
+  body[data-active-page="menu"] .day-header *,
+  body[data-active-page="menu"] .section-title h2,
+  body[data-active-page="menu"] .accordion-indicator {
+    color: #f8fbff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .day-section .small {
+    color: #bfd3ee !important;
+  }
+}
+
+/* === FINAL MENU MOBILE HARD OVERRIDE === */
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .glass-nav {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .day-section *,
+  body[data-active-page="menu"] .day-header,
+  body[data-active-page="menu"] .day-header *,
+  body[data-active-page="menu"] .day-accordion-toggle,
+  body[data-active-page="menu"] .day-accordion-toggle * {
+    color: #f8fbff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .day-section small {
+    color: #c7d7ee !important;
+  }
+}
+
+/* ============================================================
+   MOBILE NATIVE NAV CLEANUP - FALLBACK
+   ============================================================ */
+@media (max-width: 900px) {
+  .native-more-sheet[hidden] {
+    display: none !important;
+  }
+
+  .glass-nav .nav-inner > *:not(.brand) {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .day-section > button,
+  body[data-active-page="menu"] .day-section > button *,
+  body[data-active-page="menu"] .day-header,
+  body[data-active-page="menu"] .day-header *,
+  body[data-active-page="menu"] .section-title h2,
+  body[data-active-page="menu"] .accordion-indicator {
+    color: #f8fbff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .day-section .small {
+    color: #c4d6ed !important;
+  }
+}
+
+/* === V5 NAV/CONTRAST FALLBACK === */
+@media (max-width: 900px) {
+  .native-tabs,
+  .native-more-sheet,
+  .smart-bottom-nav,
+  .smart-bottom-more,
+  [data-native-search-panel],
+  [data-mobile-more-panel] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .app-bottom-nav {
+    display: grid !important;
+  }
+
+  .glass-nav .nav-inner > *:not(.brand) {
+    display: none !important;
+  }
+
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .day-section > button,
+  body[data-active-page="menu"] .day-section > button *,
+  body[data-active-page="menu"] .day-header,
+  body[data-active-page="menu"] .day-header *,
+  body[data-active-page="menu"] .section-title h2,
+  body[data-active-page="menu"] .accordion-indicator {
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .day-section .muted,
+  body[data-active-page="menu"] .day-section .small {
+    color: #c4d6ed !important;
+  }
+}
+
+/* === V6 HARD CLEAN BOTTOM NAV FALLBACK === */
+@media (max-width: 900px) {
+  .native-tabs,
+  .native-more-sheet,
+  .smart-bottom-nav,
+  .smart-bottom-more,
+  [data-native-search-panel],
+  [data-mobile-more-panel],
+  #native-more-sheet {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .app-bottom-nav {
+    display: grid !important;
+    z-index: 9999 !important;
+  }
+}
+
+/* ============================================================
+   BLUE PANELS THEME PATCH (fallback mirror)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .uxv4-today-card,
+  .today-order-card,
+  .nearest-order-card,
+  .current-order-card,
+  .menu-highlight-card,
+  .uxv4-week-strip,
+  .uxv4-week-overview,
+  .week-strip,
+  .weekly-overview,
+  .uxv4-dish-card,
+  .dish-card,
+  .food-card,
+  .menu-item-card,
+  .meal-card,
+  .uxv4-day-panel,
+  .uxv4-day-group,
+  .day-group {
+    background: linear-gradient(135deg, #1c436d, #28588b) !important;
+    color: #f8fbff !important;
+    border: 1px solid rgba(150,200,255,.20) !important;
+  }
+
+  .uxv4-day-chip,
+  .uxv4-week-chip,
+  .week-chip,
+  .day-chip,
+  .menu-day-chip,
+  .day-pill {
+    background: linear-gradient(180deg, #315883, #28496d) !important;
+    color: #ffffff !important;
+  }
+
+  .price,
+  .dish-price,
+  .uxv4-price,
+  .price-text {
+    color: #ffffff !important;
+  }
+
+  .text-muted,
+  .muted,
+  small,
+  .uxv4-muted,
+  .uxv4-dish-meta,
+  .uxv4-day-meta {
+    color: #dbe7fb !important;
+  }
+}
+
+/* ============================================================
+   MENU BLUE NATIVE PANELS V2 FALLBACK
+   cíleně pouze pro MENU
+   ============================================================ */
+
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .uxv4-today-card,
+  body[data-active-page="menu"] .today-order-card,
+  body[data-active-page="menu"] .nearest-order-card,
+  body[data-active-page="menu"] .current-order-card,
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-overview,
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .uxv4-day-panel,
+  body[data-active-page="menu"] .uxv4-day-group,
+  body[data-active-page="menu"] .dish-card,
+  body[data-active-page="menu"] .uxv4-dish-card,
+  body[data-active-page="menu"] .food-card,
+  body[data-active-page="menu"] .menu-item-card,
+  body[data-active-page="menu"] .meal-card {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(96,165,250,.14), transparent 42%),
+      linear-gradient(135deg, #143456, #1d4978) !important;
+    color: #f8fbff !important;
+    border: 1px solid rgba(147,197,253,.24) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-chip,
+  body[data-active-page="menu"] .uxv4-week-chip,
+  body[data-active-page="menu"] .week-chip,
+  body[data-active-page="menu"] .day-chip,
+  body[data-active-page="menu"] .menu-day-chip,
+  body[data-active-page="menu"] .day-pill {
+    background: linear-gradient(135deg, #1b3f68, #234f7d) !important;
+    color: #ffffff !important;
+  }
+
+  body[data-active-page="menu"] .dish-card *,
+  body[data-active-page="menu"] .uxv4-dish-card *,
+  body[data-active-page="menu"] .food-card *,
+  body[data-active-page="menu"] .day-section *,
+  body[data-active-page="menu"] .uxv4-day-panel *,
+  body[data-active-page="menu"] .uxv4-week-strip * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .muted,
+  body[data-active-page="menu"] .small,
+  body[data-active-page="menu"] small,
+  body[data-active-page="menu"] .text-muted {
+    color: #d6e6fb !important;
+  }
+
+  body[data-active-page="menu"] [class*="price"] {
+    color: #ffffff !important;
+  }
+}
+
+/* ============================================================
+   MENU BLUE NATIVE PANELS V2 FALLBACK
+   cíleně pouze pro MENU
+   ============================================================ */
+
+@media (max-width: 900px) {
+  body[data-active-page="menu"] .uxv4-today-card,
+  body[data-active-page="menu"] .today-order-card,
+  body[data-active-page="menu"] .nearest-order-card,
+  body[data-active-page="menu"] .current-order-card,
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-overview,
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .uxv4-day-panel,
+  body[data-active-page="menu"] .uxv4-day-group,
+  body[data-active-page="menu"] .dish-card,
+  body[data-active-page="menu"] .uxv4-dish-card,
+  body[data-active-page="menu"] .food-card,
+  body[data-active-page="menu"] .menu-item-card,
+  body[data-active-page="menu"] .meal-card {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(96,165,250,.14), transparent 42%),
+      linear-gradient(135deg, #143456, #1d4978) !important;
+    color: #f8fbff !important;
+    border: 1px solid rgba(147,197,253,.24) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-chip,
+  body[data-active-page="menu"] .uxv4-week-chip,
+  body[data-active-page="menu"] .week-chip,
+  body[data-active-page="menu"] .day-chip,
+  body[data-active-page="menu"] .menu-day-chip,
+  body[data-active-page="menu"] .day-pill {
+    background: linear-gradient(135deg, #1b3f68, #234f7d) !important;
+    color: #ffffff !important;
+  }
+
+  body[data-active-page="menu"] .dish-card *,
+  body[data-active-page="menu"] .uxv4-dish-card *,
+  body[data-active-page="menu"] .food-card *,
+  body[data-active-page="menu"] .day-section *,
+  body[data-active-page="menu"] .uxv4-day-panel *,
+  body[data-active-page="menu"] .uxv4-week-strip * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .muted,
+  body[data-active-page="menu"] .small,
+  body[data-active-page="menu"] small,
+  body[data-active-page="menu"] .text-muted {
+    color: #d6e6fb !important;
+  }
+
+  body[data-active-page="menu"] [class*="price"] {
+    color: #ffffff !important;
+  }
+}
+
+/* ============================================================
+   REAL MOBILE SCREEN FIX V7 FALLBACK
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .glass-nav {
+    height: 58px !important;
+    min-height: 58px !important;
+  }
+
+  .glass-nav .nav-inner {
+    height: 58px !important;
+    min-height: 58px !important;
+  }
+
+  .glass-nav .nav-inner > *:not(.brand) {
+    display: none !important;
+  }
+
+  .glass-nav .brand-mark {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+  }
+
+  .glass-nav .brand-copy strong {
+    color: #ffffff !important;
+    font-size: .9rem !important;
+  }
+
+  .glass-nav .brand-copy span {
+    display: none !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero,
+  body[data-active-page="orders"] .v7-order-card,
+  body[data-active-page="orders"] .v7-report-stats article,
+  body[data-active-page="admin"] .hero,
+  body[data-active-page="admin"] .admin-hero,
+  body[data-active-page="admin"] .dashboard-hero,
+  body[data-active-page="admin"] .panel,
+  body[data-active-page="admin"] .card,
+  body[data-active-page="admin"] .kpi {
+    background:
+      radial-gradient(circle at 88% 0%, rgba(96,165,250,.14), transparent 42%),
+      linear-gradient(135deg, #143456, #1d4978) !important;
+    color: #f8fbff !important;
+    border: 1px solid rgba(147,197,253,.24) !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero *,
+  body[data-active-page="orders"] .v7-order-card *,
+  body[data-active-page="orders"] .v7-report-stats article *,
+  body[data-active-page="admin"] .hero *,
+  body[data-active-page="admin"] .admin-hero *,
+  body[data-active-page="admin"] .dashboard-hero *,
+  body[data-active-page="admin"] .panel *,
+  body[data-active-page="admin"] .card *,
+  body[data-active-page="admin"] .kpi * {
+    color: inherit !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero p,
+  body[data-active-page="orders"] .v7-note,
+  body[data-active-page="admin"] p,
+  body[data-active-page="admin"] .muted,
+  body[data-active-page="admin"] small {
+    color: #d7e7fb !important;
+  }
+}

@@ -1,27 +1,79 @@
 {% extends 'base.html' %}
-{% block title %}Report · FINAL Lunch{% endblock %}
+{% block title %}Objednávky · FINAL Lunch{% endblock %}
+
 {% block content %}
-<section class="card pad-lg stack">
-    <div>
-        <span class="badge badge-blue label">Objednávky</span>
-        <h1 class="display" style="font-size:3rem;color:#fff;margin:.6rem 0 .4rem">Můj report</h1>
-        <p class="muted">Přehled snapshotů objednávek a billing stavů pod skutečným account ID.</p>
+{% set ns = namespace(total=0, count=0, draft=0, paid=0, cancelled=0) %}
+{% for row in rows %}
+  {% if row['status'] == 'cancelled' %}
+    {% set ns.cancelled = ns.cancelled + 1 %}
+  {% else %}
+    {% set ns.count = ns.count + 1 %}
+    {% set ns.total = ns.total + (row['price_snapshot_cents'] or 0) %}
+    {% if row['status'] == 'paid' %}
+      {% set ns.paid = ns.paid + 1 %}
+    {% endif %}
+    {% if row['status'] == 'draft' %}
+      {% set ns.draft = ns.draft + 1 %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+<section class="v7-report-page">
+  <header class="v7-report-hero">
+    <div class="v7-report-hero-top">
+      <span class="v7-pill">Objednávky</span>
+      <span class="v7-total-pill">{{ ns.count }}× · {{ (ns.total // 100) if ns.total else 0 }} Kč</span>
     </div>
-    <div class="table-wrap">
-        <table>
-            <tr><th>Den</th><th>Status</th><th>Jídlo</th><th>Cena</th><th>Vytvořeno</th></tr>
-            {% for row in rows %}
-            <tr>
-                <td>{{ row['day'] }}</td>
-                <td><span class="badge {% if row['status'] in ['paid'] %}badge-green{% elif row['status'] in ['locked','submitted','draft'] %}badge-blue{% elif row['status'] in ['cancelled'] %}badge-red{% else %}badge-gold{% endif %}">{{ row['status'] }}</span></td>
-                <td>{{ row['dish_name_snapshot'] }}</td>
-                <td>{{ row['price_snapshot_text'] }}</td>
-                <td>{{ row['created_at'] }}</td>
-            </tr>
-            {% else %}
-            <tr><td colspan="5">Zatím žádné objednávky.</td></tr>
-            {% endfor %}
-        </table>
-    </div>
+
+    <h1>Můj report</h1>
+    <p>Přehled tvých objednávek, stavů a ceny za aktuální týden.</p>
+  </header>
+
+  <section class="v7-report-stats">
+    <article>
+      <span>Vybráno</span>
+      <strong>{{ ns.count }}</strong>
+    </article>
+    <article>
+      <span>Celkem</span>
+      <strong>{{ (ns.total // 100) if ns.total else 0 }} Kč</strong>
+    </article>
+    <article>
+      <span>Účet</span>
+      <strong>{{ account['display_name'] or account['username'] }}</strong>
+    </article>
+  </section>
+
+  {% if rows %}
+  <section class="v7-order-list">
+    {% for row in rows %}
+    <article class="v7-order-card status-{{ row['status'] }}">
+      <div class="v7-order-main">
+        <div>
+          <span class="v7-order-day">{{ row['day'] }}</span>
+          <h2>{{ row['dish_name_snapshot'] }}</h2>
+        </div>
+
+        <strong class="v7-order-price">
+          {{ row['price_snapshot_text'] or ((row['price_snapshot_cents'] or 0) // 100 ~ ' Kč') }}
+        </strong>
+      </div>
+
+      <div class="v7-order-footer">
+        <span class="v7-status">{{ row['status'] }}</span>
+        {% if row['note'] %}
+        <span class="v7-note">{{ row['note'] }}</span>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </section>
+  {% else %}
+  <section class="v7-report-empty">
+    <h2>Zatím žádné objednávky</h2>
+    <p>Vyber si jídlo v menu a objednávky se tu automaticky zobrazí.</p>
+    <a href="{{ url_for('orders.index') }}">Přejít do menu</a>
+  </section>
+  {% endif %}
 </section>
 {% endblock %}
