@@ -73,23 +73,31 @@ CREATE TABLE IF NOT EXISTS orders (
     locked_at DATETIME,
     paid_at DATETIME,
     cancelled_at DATETIME,
+    payment_status TEXT NOT NULL DEFAULT 'unpaid',
+    paid_amount_cents INTEGER NOT NULL DEFAULT 0,
+    confirmed_at DATETIME,
+    payment_note TEXT NOT NULL DEFAULT '',
     note TEXT NOT NULL DEFAULT '',
-    UNIQUE(created_by_account_id, day)
+    restaurant_id INTEGER NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS ratings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    account_id INTEGER NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
-    dish_key TEXT NOT NULL,
-    score INTEGER NOT NULL DEFAULT 1,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(account_id, dish_key)
+    account_id INTEGER REFERENCES accounts(id),
+    created_by_account_id INTEGER REFERENCES accounts(id),
+    dish_id INTEGER REFERENCES menu(id),
+    dish_name TEXT NOT NULL DEFAULT '',
+    rating INTEGER NOT NULL DEFAULT 0,
+    score INTEGER NOT NULL DEFAULT 0,
+    value INTEGER NOT NULL DEFAULT 0,
+    comment TEXT NOT NULL DEFAULT '',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS audit_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    event_type TEXT NOT NULL,
-    account_id INTEGER REFERENCES accounts(id),
+    event_type TEXT NOT NULL DEFAULT '',
+    account_id INTEGER,
     actor TEXT NOT NULL DEFAULT '',
     role TEXT NOT NULL DEFAULT '',
     target TEXT NOT NULL DEFAULT '',
@@ -97,10 +105,21 @@ CREATE TABLE IF NOT EXISTS audit_log (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX IF NOT EXISTS idx_orders_account_status ON orders(created_by_account_id, status);
+CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON audit_log(created_at);
+CREATE INDEX IF NOT EXISTS idx_audit_log_account_id ON audit_log(account_id);
+CREATE INDEX IF NOT EXISTS idx_audit_log_event_type ON audit_log(event_type);
+
+CREATE INDEX IF NOT EXISTS idx_ratings_account_id ON ratings(account_id);
+CREATE INDEX IF NOT EXISTS idx_ratings_created_by_account_id ON ratings(created_by_account_id);
+CREATE INDEX IF NOT EXISTS idx_ratings_dish_id ON ratings(dish_id);
+
 CREATE INDEX IF NOT EXISTS idx_menu_day ON menu(day);
-CREATE INDEX IF NOT EXISTS idx_ratings_dish_key ON ratings(dish_key);
 CREATE INDEX IF NOT EXISTS idx_notifications_account_unread ON notifications(account_id, read_at);
+CREATE INDEX IF NOT EXISTS idx_orders_account_status ON orders(created_by_account_id, status);
+CREATE INDEX IF NOT EXISTS idx_orders_payment_status ON orders(payment_status);
+CREATE INDEX IF NOT EXISTS idx_orders_account_payment_status ON orders(created_by_account_id, payment_status);
+CREATE INDEX IF NOT EXISTS idx_orders_restaurant_status ON orders(restaurant_id, status);
+CREATE INDEX IF NOT EXISTS idx_orders_restaurant_account_day ON orders(restaurant_id, created_by_account_id, day);
 """
 
 

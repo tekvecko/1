@@ -387,3 +387,84 @@ def get_menu(*args, **kwargs):
 
     return state
 
+# ------------------------------------------------------------------
+# Cart confirmation / payment state
+# ------------------------------------------------------------------
+def confirm_current_cart(account):
+    """
+    User confirms selected lunches.
+    Draft orders become submitted and automatically unpaid.
+    """
+    rows = query(
+        """
+        SELECT id
+        FROM orders
+        WHERE created_by_account_id=?
+          AND status IN ('draft', 'submitted')
+          AND payment_status IN ('unpaid', 'partial', '')
+        """,
+        (account["id"],),
+    )
+
+    for row in rows:
+        execute(
+            """
+            UPDATE orders
+            SET status='submitted',
+                payment_status='unpaid',
+                paid_amount_cents=0,
+                confirmed_at=COALESCE(confirmed_at, CURRENT_TIMESTAMP),
+                paid_at=NULL,
+                cancelled_at=NULL
+            WHERE id=?
+            """,
+            (row["id"],),
+        )
+
+    log_event(
+        "cart_confirmed_unpaid",
+        account_id=account["id"],
+        actor=account_full_name(account),
+        role=account["role"],
+        detail=f"count={len(rows)}",
+    )
+
+    return current_state(account["id"])
+
+
+def get_user_payment_summary(account_id: int) -> dict:
+    rows = query(
+        """
+        SELECT
+            COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price_snapshot_cents ELSE 0 END), 0) AS total_cents,
+            COALESCE(SUM(CASE WHEN status != 'cancelled' THEN paid_amount_cents ELSE 0 END), 0) AS paid_cents,
+            COALESCE(SUM(CASE WHEN status != 'cancelled' THEN price_snapshot_cents - paid_amount_cents ELSE 0 END), 0) AS unpaid_cents
+        FROM orders
+        WHERE created_by_account_id=?
+        """,
+        (account_id,),
+        one=True,
+    )
+
+    total = int(rows["total_cents"] or 0)
+    paid = int(rows["paid_cents"] or 0)
+    unpaid = max(0, int(rows["unpaid_cents"] or 0))
+
+    if unpaid <= 0 and total > 0:
+        status = "paid"
+    elif paid > 0:
+        status = "partial"
+    elif total > 0:
+        status = "unpaid"
+    else:
+        status = "none"
+
+    return {
+        "total_cents": total,
+        "paid_cents": paid,
+        "unpaid_cents": unpaid,
+        "total_text": f"{total // 100} Kč",
+        "paid_text": f"{paid // 100} Kč",
+        "unpaid_text": f"{unpaid // 100} Kč",
+        "payment_status": status,
+    }

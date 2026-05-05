@@ -29,10 +29,21 @@ def dashboard():
     )
     debtors = query(
         """
-        SELECT a.id, a.first_name, a.last_name, a.email, SUM(o.price_snapshot_cents) AS cents, COUNT(*) AS item_count
+        SELECT
+            a.id,
+            a.first_name,
+            a.last_name,
+            a.email,
+            SUM(o.price_snapshot_cents) AS total_cents,
+            SUM(COALESCE(o.paid_amount_cents, 0)) AS paid_cents,
+            SUM(o.price_snapshot_cents - COALESCE(o.paid_amount_cents, 0)) AS cents,
+            COUNT(*) AS item_count,
+            GROUP_CONCAT(DISTINCT o.payment_status) AS payment_states
         FROM orders o
         JOIN accounts a ON a.id=o.created_by_account_id
-        WHERE o.status IN ('sent_to_vendor','delivered','invoiced')
+        WHERE o.status != 'cancelled'
+          AND o.payment_status IN ('unpaid', 'partial', '')
+          AND (o.price_snapshot_cents - COALESCE(o.paid_amount_cents, 0)) > 0
         GROUP BY a.id, a.first_name, a.last_name, a.email
         ORDER BY cents DESC, a.last_name, a.first_name
         """

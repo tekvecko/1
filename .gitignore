@@ -29,3 +29,6 @@ apply_*.sh
 native_like_bottom_nav.sh
 native_app_bottom_tabs_v2.sh
 blue_panels_theme_patch.sh
+backups_billing_flow/
+hard_fix_*.sh
+repair_*.sh

@@ -3,7 +3,7 @@ from __future__ import annotations
 from flask import Blueprint, flash, redirect, request, url_for
 
 from ..core.auth import current_account, require_role
-from ..services.billing import lock_submitted_orders, mark_user_paid, pay_all, set_lock_state
+from ..services.billing import lock_submitted_orders, mark_user_paid, mark_user_amount, pay_all, set_lock_state
 
 bp = Blueprint("billing", __name__, url_prefix="/admin/billing")
 
@@ -28,8 +28,18 @@ def lock_week():
 @require_role("billing_admin")
 def mark_paid():
     target_account_id = int(request.form.get("target_account_id", "0"))
-    count = mark_user_paid(current_account(), target_account_id)
-    flash(f"Marked {count} orders paid.")
+    amount_text = request.form.get("amount_text", "").strip()
+
+    if amount_text:
+        try:
+            result = mark_user_amount(current_account(), target_account_id, amount_text)
+            flash(f"Zaúčtováno {result['used_cents'] // 100} Kč.")
+        except ValueError as exc:
+            flash(str(exc), "error")
+    else:
+        count = mark_user_paid(current_account(), target_account_id)
+        flash(f"Marked {count} orders paid.")
+
     return redirect(url_for("admin.dashboard"))
 
 

@@ -77,9 +77,17 @@
                 <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
                     <div>
                         <div style="color:#fff"><strong>{{ debtor['first_name'] }} {{ debtor['last_name'] }}</strong></div>
-                        <div class="muted small">{{ debtor['email'] }} · {{ debtor['item_count'] }} položek · {{ debtor['cents'] // 100 }} Kč</div>
+                        <div class="muted small">
+                            {{ debtor['email'] }} · {{ debtor['item_count'] }} položek ·
+                            zbývá zbývá {{ debtor['cents'] // 100 }} Kč
+                            {% if debtor['paid_cents'] %} · zaplaceno {{ debtor['paid_cents'] // 100 }} Kč{% endif %}
+                        </div>
                     </div>
-                    <button class="btn-gold label">Mark paid</button>
+                    <div class="billing-pay-actions">
+                        <input class="input-dark billing-amount-input" name="amount_text" placeholder="částka Kč">
+                        <button class="btn-blue label" type="submit">Zadat částku</button>
+                        <button class="btn-gold label" type="submit" name="amount_text" value="">Zaplaceno vše</button>
+                    </div>
                 </div>
             </form>
             {% else %}<p class="muted">Žádní aktuální dlužníci.</p>{% endfor %}

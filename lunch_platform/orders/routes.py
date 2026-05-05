@@ -13,6 +13,7 @@ from ..services.orders import (
     place_order,
     cancel_order,
     rate_dish,
+    confirm_current_cart,
 )
 
 bp = Blueprint("orders", __name__)
@@ -91,6 +92,25 @@ def order_api_cancel():
         return jsonify(success=True, state=state, message="Order cancelled.")
     except ValueError as exc:
         return jsonify(success=False, message=str(exc)), 400
+
+
+@bp.route("/order-api/confirm", methods=["POST"])
+@login_required
+def order_api_confirm():
+    account = current_account()
+    try:
+        state = confirm_current_cart(account)
+        return jsonify(success=True, state=state, message="Košík potvrzen. Stav platby: nezaplaceno.")
+    except ValueError as exc:
+        return jsonify(success=False, message=str(exc)), 400
+
+
+@bp.route("/order-confirm", methods=["POST"])
+@login_required
+def order_confirm():
+    account = current_account()
+    confirm_current_cart(account)
+    return redirect(url_for("orders.orders_report"))
 
 
 @bp.route("/order-api/rate", methods=["POST"])

@@ -61,6 +61,7 @@
 
       <div class="v7-order-footer">
         <span class="v7-status">{{ row['status'] }}</span>
+        <span class="v7-payment-status payment-{{ row['payment_status'] or 'unpaid' }}">{% if row['payment_status'] == 'paid' %}Zaplaceno{% elif row['payment_status'] == 'partial' %}Částečně zaplaceno{% elif row['payment_status'] == 'cancelled' %}Zrušeno{% else %}Nezaplaceno{% endif %}</span>
         {% if row['note'] %}
         <span class="v7-note">{{ row['note'] }}</span>
         {% endif %}
