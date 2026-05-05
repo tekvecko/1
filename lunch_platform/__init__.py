@@ -46,4 +46,9 @@ def create_app(test_config: dict | None = None):
     app.register_blueprint(delivery_bp)
     app.register_blueprint(imports_bp)
 
+
+    @app.get("/healthz")
+    def healthz():
+        return {"status": "ok", "app": "final-lunch"}, 200
+
     return app

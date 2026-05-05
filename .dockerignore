@@ -1,0 +1,17 @@
+.git
+.venv
+__pycache__
+*/__pycache__
+*.pyc
+.pytest_cache
+.integrity_tmp
+*.bak_*
+backups_integrity
+backups_billing_flow
+logs/*.log
+instance/*.db.bak*
+*.zip
+fix_*.sh
+hard_fix_*.sh
+repair_*.sh
+*patch*.sh
