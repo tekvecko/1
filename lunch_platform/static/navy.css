@@ -4611,3 +4611,223 @@ body[data-active-page="admin"] .admin-export-panel,
     border-radius: 16px !important;
   }
 }
+
+
+/* === MENU MOBILE POLISH 3A === */
+@media (max-width: 760px) {
+  body[data-active-page="menu"] {
+    --mobile-bottom-safe: 138px;
+  }
+
+  body[data-active-page="menu"] main,
+  body[data-active-page="menu"] .page,
+  body[data-active-page="menu"] .content,
+  body[data-active-page="menu"] .container {
+    padding-bottom: var(--mobile-bottom-safe) !important;
+  }
+
+  /* Horní nadpis */
+  body[data-active-page="menu"] h1,
+  body[data-active-page="menu"] .display {
+    font-size: clamp(2.5rem, 12vw, 3.55rem) !important;
+    line-height: .88 !important;
+    letter-spacing: .01em !important;
+    margin-bottom: 4px !important;
+  }
+
+  body[data-active-page="menu"] .section-title,
+  body[data-active-page="menu"] .menu-v4-header,
+  body[data-active-page="menu"] .uxv4-header {
+    margin-bottom: 12px !important;
+  }
+
+  /* Dnes / nejbližší objednávka - méně bílé, čitelnější */
+  body[data-active-page="menu"] .today-card,
+  body[data-active-page="menu"] .nearest-order,
+  body[data-active-page="menu"] .uxv4-current-order,
+  body[data-active-page="menu"] .menu-v4-current,
+  body[data-active-page="menu"] [data-current-order],
+  body[data-active-page="menu"] .current-order-card {
+    background:
+      linear-gradient(135deg, rgba(226, 241, 255, .96), rgba(185, 214, 247, .92)) !important;
+    color: #071428 !important;
+    border: 1px solid rgba(255,255,255,.72) !important;
+    box-shadow: 0 16px 34px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .today-card *,
+  body[data-active-page="menu"] .nearest-order *,
+  body[data-active-page="menu"] .uxv4-current-order *,
+  body[data-active-page="menu"] .menu-v4-current *,
+  body[data-active-page="menu"] [data-current-order] *,
+  body[data-active-page="menu"] .current-order-card * {
+    color: #071428 !important;
+    text-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .today-card .price,
+  body[data-active-page="menu"] .nearest-order .price,
+  body[data-active-page="menu"] .uxv4-current-order .price,
+  body[data-active-page="menu"] .menu-v4-current .price,
+  body[data-active-page="menu"] [data-current-order] .price,
+  body[data-active-page="menu"] .current-order-card .price {
+    color: #071428 !important;
+    font-weight: 900 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+  }
+
+  /* Týdenní přehled - modrý native panel místo bílé */
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-strip,
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .menu-v4-days,
+  body[data-active-page="menu"] .day-tabs {
+    background:
+      linear-gradient(180deg, rgba(32, 87, 146, .95), rgba(14, 44, 88, .96)) !important;
+    border: 1px solid rgba(150, 205, 255, .34) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 14px 34px rgba(0,0,0,.24) !important;
+  }
+
+  body[data-active-page="menu"] .week-strip *,
+  body[data-active-page="menu"] .weekly-strip *,
+  body[data-active-page="menu"] .uxv4-week-strip *,
+  body[data-active-page="menu"] .menu-v4-days *,
+  body[data-active-page="menu"] .day-tabs * {
+    color: rgba(241, 248, 255, .96) !important;
+    text-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .day-pill,
+  body[data-active-page="menu"] .uxv4-day-pill,
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .day-tab {
+    background: rgba(255,255,255,.10) !important;
+    border: 1px solid rgba(255,255,255,.16) !important;
+    border-radius: 18px !important;
+    color: #f6fbff !important;
+  }
+
+  body[data-active-page="menu"] .day-pill.active,
+  body[data-active-page="menu"] .uxv4-day-pill.active,
+  body[data-active-page="menu"] .menu-v4-day.active,
+  body[data-active-page="menu"] .day-tab.active {
+    background: linear-gradient(180deg, rgba(89, 162, 255, .72), rgba(29, 89, 157, .78)) !important;
+    box-shadow: 0 8px 22px rgba(59, 142, 255, .30) !important;
+  }
+
+  /* Denní panely */
+  body[data-active-page="menu"] .uxv4-day-section,
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .menu-day-section {
+    border-radius: 22px !important;
+    margin-bottom: 12px !important;
+    background:
+      linear-gradient(180deg, rgba(20, 70, 132, .96), rgba(10, 42, 88, .96)) !important;
+    border: 1px solid rgba(90, 166, 255, .42) !important;
+    box-shadow: 0 13px 32px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-header,
+  body[data-active-page="menu"] .day-section-header,
+  body[data-active-page="menu"] .menu-day-header {
+    min-height: 86px !important;
+    padding: 14px 18px 14px 46px !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-title,
+  body[data-active-page="menu"] .day-title,
+  body[data-active-page="menu"] .menu-day-title {
+    font-size: clamp(2rem, 9vw, 3rem) !important;
+    line-height: .9 !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-meta,
+  body[data-active-page="menu"] .day-meta,
+  body[data-active-page="menu"] .menu-day-meta {
+    color: rgba(226,241,255,.86) !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+  }
+
+  /* Karty jídel - kompaktnější a méně bílé */
+  body[data-active-page="menu"] .uxv4-dish-card,
+  body[data-active-page="menu"] .dish-card,
+  body[data-active-page="menu"] .menu-v4-dish-card {
+    min-height: 0 !important;
+    margin: 10px 14px !important;
+    padding: 14px 14px 14px 118px !important;
+    border-radius: 20px !important;
+    background:
+      linear-gradient(135deg, rgba(232, 243, 255, .97), rgba(198, 222, 247, .95)) !important;
+    color: #071428 !important;
+    border: 1px solid rgba(255,255,255,.74) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-dish-card *,
+  body[data-active-page="menu"] .dish-card *,
+  body[data-active-page="menu"] .menu-v4-dish-card * {
+    color: #071428 !important;
+    text-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-dish-card h3,
+  body[data-active-page="menu"] .dish-card h3,
+  body[data-active-page="menu"] .menu-v4-dish-card h3,
+  body[data-active-page="menu"] .dish-name {
+    font-size: 1.23rem !important;
+    line-height: 1.08 !important;
+    margin: 0 64px 6px 0 !important;
+    color: #071428 !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-dish-card .price,
+  body[data-active-page="menu"] .dish-card .price,
+  body[data-active-page="menu"] .menu-v4-dish-card .price,
+  body[data-active-page="menu"] .dish-price {
+    color: #071428 !important;
+    font-size: 1.05rem !important;
+    font-weight: 900 !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-dish-card img,
+  body[data-active-page="menu"] .dish-card img,
+  body[data-active-page="menu"] .menu-v4-dish-card img,
+  body[data-active-page="menu"] .dish-thumb {
+    width: 74px !important;
+    height: 74px !important;
+    border-radius: 18px !important;
+    object-fit: cover !important;
+    position: absolute !important;
+    left: 22px !important;
+    top: 16px !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-dish-card button,
+  body[data-active-page="menu"] .dish-card button,
+  body[data-active-page="menu"] .menu-v4-dish-card button,
+  body[data-active-page="menu"] [data-select-dish-id] {
+    min-width: 54px !important;
+    min-height: 54px !important;
+    border-radius: 17px !important;
+    font-size: 1.55rem !important;
+  }
+
+  /* Spodní navigace nepřekrývá poslední kartu */
+  body[data-active-page="menu"] .app-bottom-nav {
+    backdrop-filter: blur(18px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+  }
+
+  body[data-active-page="menu"] .app-bottom-nav .label,
+  body[data-active-page="menu"] .app-bottom-nav span,
+  body[data-active-page="menu"] .app-bottom-nav a {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    letter-spacing: 0 !important;
+  }
+}
+
