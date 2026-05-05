@@ -8271,3 +8271,798 @@ body[data-active-page="auth"] .app-bottom-nav {
   display: none !important;
 }
 
+
+/* ============================================================
+   FINAL NEON UI 3B
+   Design target:
+   - dark native mobile app
+   - neon blue cards
+   - compact menu
+   - polished login/profile/report/admin
+   - no DB or business logic changes
+   ============================================================ */
+
+:root {
+  --fn-bg-0: #030a16;
+  --fn-bg-1: #061225;
+  --fn-bg-2: #091b36;
+  --fn-panel: rgba(9, 35, 72, .92);
+  --fn-panel-2: rgba(13, 54, 108, .88);
+  --fn-line: rgba(83, 165, 255, .42);
+  --fn-line-soft: rgba(130, 194, 255, .22);
+  --fn-blue: #2f83ff;
+  --fn-blue-2: #0f63e9;
+  --fn-cyan: #6bc6ff;
+  --fn-yellow: #f4c400;
+  --fn-red: #ff6d75;
+  --fn-green: #46d66e;
+  --fn-white: #f8fbff;
+  --fn-muted: rgba(205, 225, 255, .74);
+  --fn-muted-2: rgba(176, 203, 238, .64);
+  --fn-ink: #071428;
+  --fn-shadow: 0 18px 48px rgba(0, 0, 0, .34);
+  --fn-glow: 0 0 0 1px rgba(71, 151, 255, .26), 0 18px 44px rgba(26, 109, 228, .14);
+  --fn-bottom-safe: 180px;
+}
+
+/* ---------- base ---------- */
+html,
+body {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(34, 102, 199, .22), transparent 34%),
+    linear-gradient(180deg, var(--fn-bg-1), var(--fn-bg-0)) !important;
+  color: var(--fn-white) !important;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+a,
+p,
+span,
+small,
+strong,
+label,
+div,
+td,
+th,
+li {
+  font-family: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+.display,
+.section-title {
+  font-family: "Barlow Condensed", "DM Sans", system-ui, sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: .012em !important;
+}
+
+@media (max-width: 760px) {
+  main,
+  .page,
+  .content,
+  .container,
+  .app-shell {
+    padding-bottom: var(--fn-bottom-safe) !important;
+  }
+
+  .card,
+  .panel,
+  .kpi,
+  .auth-card,
+  .login-card,
+  .register-card {
+    background:
+      radial-gradient(circle at 20% 0%, rgba(65, 148, 255, .20), transparent 36%),
+      linear-gradient(180deg, rgba(14, 54, 107, .92), rgba(5, 23, 55, .96)) !important;
+    border: 1px solid var(--fn-line-soft) !important;
+    border-radius: 26px !important;
+    box-shadow: var(--fn-shadow) !important;
+  }
+}
+
+/* ---------- top brand/header ---------- */
+@media (max-width: 760px) {
+  header,
+  .topbar,
+  .app-header,
+  .site-header,
+  .navy-header {
+    background: rgba(4, 14, 30, .82) !important;
+    backdrop-filter: blur(18px) saturate(145%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(145%) !important;
+    border-bottom: 1px solid rgba(88, 160, 238, .18) !important;
+  }
+
+  .brand,
+  .brand-title,
+  .logo-title {
+    max-width: calc(100vw - 124px) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    color: #fff !important;
+  }
+
+  .brand img,
+  .logo img,
+  .app-logo {
+    border-radius: 18px !important;
+    box-shadow: 0 0 0 1px rgba(80, 160, 255, .35), 0 10px 26px rgba(22, 104, 224, .22) !important;
+  }
+}
+
+/* ---------- bottom nav ---------- */
+@media (max-width: 760px) {
+  .app-bottom-nav,
+  .bottom-nav,
+  .smart-bottom {
+    min-height: 112px !important;
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom)) !important;
+    background:
+      linear-gradient(180deg, rgba(14, 32, 55, .88), rgba(6, 18, 36, .96)) !important;
+    border-top: 1px solid rgba(116, 183, 255, .20) !important;
+    box-shadow: 0 -16px 46px rgba(0, 0, 0, .38) !important;
+    backdrop-filter: blur(20px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+    z-index: 999 !important;
+  }
+
+  .app-bottom-nav a,
+  .bottom-nav a,
+  .smart-bottom a {
+    border-radius: 22px !important;
+  }
+
+  .app-bottom-nav .active,
+  .bottom-nav .active,
+  .smart-bottom .active,
+  .app-bottom-nav a[aria-current="page"] {
+    background: radial-gradient(circle at 50% 0%, rgba(66, 159, 255, .35), rgba(20, 87, 181, .22) 62%, transparent 64%) !important;
+    color: #4da2ff !important;
+  }
+
+  .app-bottom-nav *,
+  .bottom-nav *,
+  .smart-bottom * {
+    font-family: "DM Sans", system-ui, sans-serif !important;
+    text-shadow: none !important;
+  }
+}
+
+/* ============================================================
+   MENU
+   ============================================================ */
+
+@media (max-width: 760px) {
+  body[data-active-page="menu"] {
+    --fn-bottom-safe: 180px;
+  }
+
+  body[data-active-page="menu"] h1,
+  body[data-active-page="menu"] .display {
+    font-size: clamp(4rem, 18vw, 5.7rem) !important;
+    line-height: .78 !important;
+    letter-spacing: .015em !important;
+    margin: 22px 0 2px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .section-title p,
+  body[data-active-page="menu"] .subtitle,
+  body[data-active-page="menu"] .muted {
+    color: var(--fn-muted) !important;
+    font-weight: 800 !important;
+  }
+
+  body[data-active-page="menu"] .cart-pill,
+  body[data-active-page="menu"] .order-summary-pill,
+  body[data-active-page="menu"] [class*="summary"][class*="pill"] {
+    background: linear-gradient(135deg, #55a4ff, #1a68f0) !important;
+    color: #fff !important;
+    border: 1px solid rgba(168, 220, 255, .42) !important;
+    box-shadow: 0 14px 34px rgba(36, 124, 255, .30) !important;
+    border-radius: 24px !important;
+    font-weight: 950 !important;
+  }
+
+  /* Current order: convert left label into normal title above card */
+  body[data-active-page="menu"] .menu-current-order-hardfix,
+  body[data-active-page="menu"] .menu-v4-current,
+  body[data-active-page="menu"] .uxv4-current-order,
+  body[data-active-page="menu"] .current-order-card,
+  body[data-active-page="menu"] .nearest-order,
+  body[data-active-page="menu"] .today-card,
+  body[data-active-page="menu"] [data-current-order] {
+    display: grid !important;
+    grid-template-columns: 82px minmax(0, 1fr) auto !important;
+    grid-template-rows: auto auto !important;
+    gap: 6px 16px !important;
+    align-items: center !important;
+    min-height: 118px !important;
+    padding: 18px 18px !important;
+    margin: 12px 0 28px !important;
+    position: relative !important;
+    border-radius: 28px !important;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(70, 157, 255, .18), transparent 36%),
+      linear-gradient(135deg, rgba(9, 36, 77, .98), rgba(4, 21, 50, .98)) !important;
+    border: 1px solid rgba(96, 173, 255, .38) !important;
+    box-shadow: var(--fn-glow) !important;
+    color: #fff !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix::before,
+  body[data-active-page="menu"] .menu-v4-current::before,
+  body[data-active-page="menu"] .uxv4-current-order::before,
+  body[data-active-page="menu"] .current-order-card::before,
+  body[data-active-page="menu"] .nearest-order::before,
+  body[data-active-page="menu"] .today-card::before,
+  body[data-active-page="menu"] [data-current-order]::before {
+    content: "Dnes / nejbližší objednávka";
+    position: absolute;
+    left: 0;
+    top: -42px;
+    color: var(--fn-muted);
+    font-size: 1.05rem;
+    font-weight: 900;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix *,
+  body[data-active-page="menu"] .menu-v4-current *,
+  body[data-active-page="menu"] .uxv4-current-order *,
+  body[data-active-page="menu"] .current-order-card *,
+  body[data-active-page="menu"] .nearest-order *,
+  body[data-active-page="menu"] .today-card *,
+  body[data-active-page="menu"] [data-current-order] * {
+    color: #fff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix img,
+  body[data-active-page="menu"] .menu-v4-current img,
+  body[data-active-page="menu"] .uxv4-current-order img,
+  body[data-active-page="menu"] .current-order-card img,
+  body[data-active-page="menu"] .nearest-order img,
+  body[data-active-page="menu"] .today-card img,
+  body[data-active-page="menu"] [data-current-order] img {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    position: static !important;
+    width: 78px !important;
+    height: 78px !important;
+    border-radius: 18px !important;
+    object-fit: cover !important;
+    box-shadow: 0 0 0 1px rgba(158, 214, 255, .25), 0 14px 28px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix h3,
+  body[data-active-page="menu"] .menu-current-order-hardfix strong,
+  body[data-active-page="menu"] .menu-current-order-hardfix .dish-name,
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="name"],
+  body[data-active-page="menu"] .menu-v4-current h3,
+  body[data-active-page="menu"] .menu-v4-current strong,
+  body[data-active-page="menu"] .menu-v4-current .dish-name,
+  body[data-active-page="menu"] .menu-v4-current [class*="name"],
+  body[data-active-page="menu"] .uxv4-current-order h3,
+  body[data-active-page="menu"] .uxv4-current-order strong,
+  body[data-active-page="menu"] .uxv4-current-order .dish-name,
+  body[data-active-page="menu"] .uxv4-current-order [class*="name"],
+  body[data-active-page="menu"] .current-order-card h3,
+  body[data-active-page="menu"] .current-order-card strong,
+  body[data-active-page="menu"] .current-order-card .dish-name,
+  body[data-active-page="menu"] .current-order-card [class*="name"],
+  body[data-active-page="menu"] [data-current-order] h3,
+  body[data-active-page="menu"] [data-current-order] strong,
+  body[data-active-page="menu"] [data-current-order] .dish-name,
+  body[data-active-page="menu"] [data-current-order] [class*="name"] {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    font-size: 1.17rem !important;
+    line-height: 1.12 !important;
+    font-weight: 950 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix p,
+  body[data-active-page="menu"] .menu-current-order-hardfix .meta,
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="meta"],
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="status"],
+  body[data-active-page="menu"] .menu-v4-current p,
+  body[data-active-page="menu"] .menu-v4-current .meta,
+  body[data-active-page="menu"] .menu-v4-current [class*="meta"],
+  body[data-active-page="menu"] .menu-v4-current [class*="status"],
+  body[data-active-page="menu"] .uxv4-current-order p,
+  body[data-active-page="menu"] .uxv4-current-order .meta,
+  body[data-active-page="menu"] .uxv4-current-order [class*="meta"],
+  body[data-active-page="menu"] .uxv4-current-order [class*="status"],
+  body[data-active-page="menu"] .current-order-card p,
+  body[data-active-page="menu"] .current-order-card .meta,
+  body[data-active-page="menu"] .current-order-card [class*="meta"],
+  body[data-active-page="menu"] .current-order-card [class*="status"],
+  body[data-active-page="menu"] [data-current-order] p,
+  body[data-active-page="menu"] [data-current-order] .meta,
+  body[data-active-page="menu"] [data-current-order] [class*="meta"],
+  body[data-active-page="menu"] [data-current-order] [class*="status"] {
+    grid-column: 2 / span 2 !important;
+    grid-row: 2 !important;
+    color: #98bdff !important;
+    font-size: .97rem !important;
+    line-height: 1.15 !important;
+    font-weight: 850 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix .price,
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="price"],
+  body[data-active-page="menu"] .menu-v4-current .price,
+  body[data-active-page="menu"] .menu-v4-current [class*="price"],
+  body[data-active-page="menu"] .uxv4-current-order .price,
+  body[data-active-page="menu"] .uxv4-current-order [class*="price"],
+  body[data-active-page="menu"] .current-order-card .price,
+  body[data-active-page="menu"] .current-order-card [class*="price"],
+  body[data-active-page="menu"] [data-current-order] .price,
+  body[data-active-page="menu"] [data-current-order] [class*="price"] {
+    grid-column: 3 !important;
+    grid-row: 2 !important;
+    justify-self: end !important;
+    align-self: end !important;
+    font-size: 1.15rem !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+    color: #fff !important;
+  }
+
+  /* Weekly overview */
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-strip,
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .menu-v4-days,
+  body[data-active-page="menu"] .day-tabs,
+  body[data-active-page="menu"] [class*="week"][class*="strip"],
+  body[data-active-page="menu"] [class*="days"] {
+    background:
+      linear-gradient(180deg, rgba(11, 43, 88, .96), rgba(4, 22, 52, .98)) !important;
+    border: 1px solid rgba(88, 166, 255, .35) !important;
+    border-radius: 24px !important;
+    box-shadow: var(--fn-glow) !important;
+    padding: 10px !important;
+  }
+
+  body[data-active-page="menu"] .day-pill,
+  body[data-active-page="menu"] .uxv4-day-pill,
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .day-tab,
+  body[data-active-page="menu"] [class*="day-pill"],
+  body[data-active-page="menu"] [class*="day-tab"] {
+    background: rgba(6, 27, 62, .78) !important;
+    border: 1px solid rgba(112, 184, 255, .26) !important;
+    border-radius: 18px !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .day-pill.active,
+  body[data-active-page="menu"] .uxv4-day-pill.active,
+  body[data-active-page="menu"] .menu-v4-day.active,
+  body[data-active-page="menu"] .day-tab.active,
+  body[data-active-page="menu"] [class*="day-pill"].active,
+  body[data-active-page="menu"] [class*="day-tab"].active {
+    border-color: rgba(80, 160, 255, .82) !important;
+    box-shadow: 0 0 0 1px rgba(52, 139, 255, .55), 0 0 28px rgba(37, 122, 255, .28) !important;
+  }
+
+  /* Accordion day rows */
+  body[data-active-page="menu"] .uxv4-day-section,
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .menu-day-section {
+    border-radius: 22px !important;
+    background:
+      linear-gradient(180deg, rgba(10, 45, 93, .95), rgba(5, 23, 55, .98)) !important;
+    border: 1px solid rgba(86, 164, 255, .34) !important;
+    box-shadow: 0 13px 32px rgba(0,0,0,.22) !important;
+    margin-bottom: 10px !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-title,
+  body[data-active-page="menu"] .day-title,
+  body[data-active-page="menu"] .menu-day-title {
+    color: #fff !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-meta,
+  body[data-active-page="menu"] .day-meta,
+  body[data-active-page="menu"] .menu-day-meta {
+    color: #91b9f7 !important;
+  }
+}
+
+/* ============================================================
+   LOGIN / REGISTER
+   ============================================================ */
+
+@media (max-width: 760px) {
+  body.auth-screen .app-bottom-nav,
+  body[data-active-page="login"] .app-bottom-nav,
+  body[data-active-page="register"] .app-bottom-nav {
+    display: none !important;
+  }
+
+  body[data-active-page="login"] main,
+  body[data-active-page="register"] main,
+  body.auth-screen main {
+    padding-bottom: 34px !important;
+  }
+
+  body[data-active-page="login"] .flash,
+  body[data-active-page="register"] .flash,
+  body.auth-screen .flash {
+    min-height: 78px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 18px 22px !important;
+    border-radius: 24px !important;
+    background:
+      linear-gradient(135deg, rgba(12, 50, 103, .95), rgba(5, 24, 58, .98)) !important;
+    border: 1px solid rgba(83, 165, 255, .38) !important;
+    box-shadow: var(--fn-glow) !important;
+    color: #fff !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="login"] .card,
+  body[data-active-page="register"] .card,
+  body.auth-screen .card,
+  .auth-card,
+  .login-card,
+  .register-card {
+    padding: 32px 24px 28px !important;
+    border-radius: 30px !important;
+    background:
+      radial-gradient(circle at 24% 0%, rgba(63, 157, 255, .28), transparent 35%),
+      linear-gradient(180deg, rgba(10, 45, 93, .96), rgba(4, 23, 56, .98)) !important;
+    border: 1px solid rgba(83, 165, 255, .46) !important;
+    box-shadow: 0 0 0 1px rgba(55, 139, 255, .20), 0 24px 60px rgba(0,0,0,.42) !important;
+  }
+
+  body[data-active-page="login"] h1,
+  body[data-active-page="register"] h1,
+  body.auth-screen h1,
+  .auth-card h1,
+  .login-card h1,
+  .register-card h1 {
+    color: #fff !important;
+    font-size: clamp(3rem, 13vw, 4.6rem) !important;
+    line-height: .85 !important;
+    margin: 20px 0 18px !important;
+  }
+
+  body[data-active-page="login"] p,
+  body[data-active-page="register"] p,
+  body.auth-screen p {
+    color: #9fc2fa !important;
+    font-size: 1.12rem !important;
+    line-height: 1.42 !important;
+    font-weight: 800 !important;
+  }
+
+  body[data-active-page="login"] input,
+  body[data-active-page="register"] input,
+  body.auth-screen input {
+    min-height: 62px !important;
+    border-radius: 20px !important;
+    padding: 0 18px !important;
+    background: rgba(4, 22, 52, .72) !important;
+    border: 1px solid rgba(96, 174, 255, .35) !important;
+    color: #fff !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
+  }
+
+  body[data-active-page="login"] input::placeholder,
+  body[data-active-page="register"] input::placeholder,
+  body.auth-screen input::placeholder {
+    color: rgba(165, 198, 241, .74) !important;
+  }
+
+  body[data-active-page="login"] button,
+  body[data-active-page="register"] button,
+  body.auth-screen button {
+    min-height: 62px !important;
+    border-radius: 20px !important;
+    font-weight: 950 !important;
+    color: #071428 !important;
+    background: linear-gradient(180deg, #ffd51d, #edb900) !important;
+    border: 1px solid rgba(255,255,255,.36) !important;
+    box-shadow: 0 14px 34px rgba(244, 196, 0, .26) !important;
+  }
+
+  body[data-active-page="login"] .auth-switch,
+  body[data-active-page="register"] .auth-switch,
+  body[data-active-page="login"] .register-link,
+  body[data-active-page="register"] .login-link {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    margin-top: 18px !important;
+  }
+
+  body[data-active-page="login"] a,
+  body[data-active-page="register"] a,
+  body.auth-screen a {
+    color: #58a7ff !important;
+    font-weight: 900 !important;
+  }
+}
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
+
+@media (max-width: 760px) {
+  body[data-active-page="profile"] {
+    --fn-bottom-safe: 210px;
+  }
+
+  body[data-active-page="profile"] .card {
+    padding: 22px !important;
+    margin-bottom: 14px !important;
+    border-radius: 24px !important;
+  }
+
+  body[data-active-page="profile"] h1 {
+    font-size: clamp(3rem, 13vw, 4.6rem) !important;
+    line-height: .82 !important;
+  }
+
+  body[data-active-page="profile"] h2 {
+    font-size: clamp(2rem, 9vw, 3.2rem) !important;
+    line-height: .88 !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="profile"] input,
+  body[data-active-page="profile"] textarea {
+    background: rgba(4, 22, 52, .72) !important;
+    border: 1px solid rgba(96, 174, 255, .30) !important;
+    border-radius: 18px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="profile"] input::placeholder,
+  body[data-active-page="profile"] textarea::placeholder {
+    color: rgba(166, 199, 242, .70) !important;
+  }
+
+  body[data-active-page="profile"] button,
+  body[data-active-page="profile"] .btn,
+  body[data-active-page="profile"] .btn-blue {
+    min-height: 54px !important;
+    border-radius: 18px !important;
+    font-weight: 950 !important;
+  }
+
+  body[data-active-page="profile"] .profile-orders-scroll {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 26px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-active-page="profile"] .profile-orders-scroll table,
+  body[data-active-page="profile"] table {
+    min-width: 620px !important;
+    width: 620px !important;
+    table-layout: fixed !important;
+    font-size: .84rem !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+  }
+
+  body[data-active-page="profile"] th,
+  body[data-active-page="profile"] td {
+    padding: 9px 10px !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+}
+
+/* ============================================================
+   ORDERS / REPORT
+   ============================================================ */
+
+@media (max-width: 760px) {
+  body[data-active-page="orders"] {
+    --fn-bottom-safe: 195px;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero,
+  body[data-active-page="orders"] .report-hero,
+  body[data-active-page="orders"] .orders-hero {
+    padding: 26px 22px !important;
+    border-radius: 28px !important;
+    background:
+      radial-gradient(circle at 28% 0%, rgba(61, 148, 255, .24), transparent 38%),
+      linear-gradient(180deg, rgba(10, 45, 93, .96), rgba(4, 23, 56, .98)) !important;
+    border: 1px solid rgba(83, 165, 255, .38) !important;
+    box-shadow: var(--fn-glow) !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero h1,
+  body[data-active-page="orders"] .report-hero h1,
+  body[data-active-page="orders"] .orders-hero h1 {
+    font-size: clamp(3.6rem, 15vw, 5.4rem) !important;
+    line-height: .82 !important;
+  }
+
+  body[data-active-page="orders"] .v7-order-card,
+  body[data-active-page="orders"] .order-card,
+  body[data-active-page="orders"] .report-order-card {
+    padding: 20px 18px !important;
+    border-radius: 24px !important;
+    background:
+      linear-gradient(180deg, rgba(8, 35, 75, .96), rgba(4, 21, 50, .98)) !important;
+    border: 1px solid rgba(83, 165, 255, .34) !important;
+    box-shadow: var(--fn-glow) !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="orders"] .v7-order-card *,
+  body[data-active-page="orders"] .order-card *,
+  body[data-active-page="orders"] .report-order-card * {
+    color: #fff !important;
+    text-shadow: none !important;
+  }
+
+  body[data-active-page="orders"] .badge,
+  body[data-active-page="orders"] .status-badge,
+  body[data-active-page="orders"] .payment-status {
+    border-radius: 999px !important;
+    font-weight: 950 !important;
+  }
+
+  body[data-active-page="orders"] .unpaid,
+  body[data-active-page="orders"] [data-payment-status="unpaid"] {
+    color: #ff8790 !important;
+    background: rgba(255, 87, 103, .16) !important;
+    border: 1px solid rgba(255, 111, 126, .32) !important;
+  }
+
+  body[data-active-page="orders"] .paid,
+  body[data-active-page="orders"] [data-payment-status="paid"] {
+    color: #6dff91 !important;
+    background: rgba(53, 205, 108, .14) !important;
+    border: 1px solid rgba(82, 224, 127, .28) !important;
+  }
+}
+
+/* ============================================================
+   ADMIN
+   ============================================================ */
+
+@media (max-width: 760px) {
+  body[data-active-page="admin"] {
+    --fn-bottom-safe: 195px;
+  }
+
+  body[data-active-page="admin"] .flash,
+  body[data-active-page="admin"] .alert {
+    border-radius: 24px !important;
+    background:
+      linear-gradient(135deg, rgba(11, 43, 90, .95), rgba(4, 23, 56, .98)) !important;
+    border: 1px solid rgba(83, 165, 255, .36) !important;
+    box-shadow: var(--fn-glow) !important;
+    color: #fff !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel {
+    padding: 22px !important;
+    border-radius: 26px !important;
+    background:
+      radial-gradient(circle at 24% 0%, rgba(61, 148, 255, .20), transparent 36%),
+      linear-gradient(180deg, rgba(8, 35, 75, .96), rgba(4, 21, 50, .98)) !important;
+    border: 1px solid rgba(83, 165, 255, .36) !important;
+    box-shadow: var(--fn-glow) !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel h2 {
+    font-size: 2rem !important;
+    line-height: .9 !important;
+    color: #fff !important;
+    margin-bottom: 6px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel p {
+    color: #9fc2fa !important;
+    line-height: 1.25 !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-grid a {
+    min-height: 88px !important;
+    padding: 14px !important;
+    border-radius: 20px !important;
+    background:
+      linear-gradient(180deg, rgba(12, 48, 99, .88), rgba(5, 24, 58, .94)) !important;
+    border: 1px solid rgba(111, 186, 255, .30) !important;
+    color: #fff !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06) !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabbar,
+  body[data-active-page="admin"] .admin-tabs,
+  body[data-active-page="admin"] .admin-section-tabs,
+  body[data-active-page="admin"] [data-admin-tabs] {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 8px !important;
+    padding: 8px !important;
+    border-radius: 24px !important;
+    background: rgba(5, 22, 52, .82) !important;
+    border: 1px solid rgba(111, 186, 255, .22) !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabbar button,
+  body[data-active-page="admin"] .admin-tabs button,
+  body[data-active-page="admin"] .admin-section-tabs button,
+  body[data-active-page="admin"] [data-admin-tabs] button {
+    min-height: 58px !important;
+    min-width: max-content !important;
+    padding: 10px 16px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-active-page="admin"] .card,
+  body[data-active-page="admin"] .kpi {
+    padding: 20px !important;
+    border-radius: 24px !important;
+  }
+
+  body[data-active-page="admin"] table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* ---------- debug overlays ---------- */
+.debug-grid,
+.dev-grid,
+.layout-guides,
+.touch-debug,
+.pointer-debug,
+[data-debug-grid],
+[data-layout-guides],
+[data-pointer-debug] {
+  display: none !important;
+}
+
