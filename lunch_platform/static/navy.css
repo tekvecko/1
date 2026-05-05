@@ -6741,7 +6741,7 @@ h4,
 
 
 /* ============================================================
-   FIX 3B.1 — CURRENT ORDER CONTRAST AFTER NAV CLICK
+   FIX 3B.1 — CURRENT ORDER READABILITY AFTER NAV CLICK
    ============================================================ */
 
 @media (max-width: 760px) {
@@ -6752,26 +6752,11 @@ h4,
   body[data-active-page="menu"] .nearest-order,
   body[data-active-page="menu"] .today-card,
   body[data-active-page="menu"] [data-current-order] {
+    isolation: isolate !important;
     background:
-      radial-gradient(circle at 22% 0%, rgba(68, 154, 255, .24), transparent 36%),
-      linear-gradient(135deg, rgba(8, 36, 78, .99), rgba(3, 17, 43, .99)) !important;
-    border: 1px solid rgba(90, 172, 255, .44) !important;
-    color: #f8fbff !important;
-  }
-
-  body[data-active-page="menu"] .menu-current-order-hardfix *,
-  body[data-active-page="menu"] .menu-v4-current *,
-  body[data-active-page="menu"] .uxv4-current-order *,
-  body[data-active-page="menu"] .current-order-card *,
-  body[data-active-page="menu"] .nearest-order *,
-  body[data-active-page="menu"] .today-card *,
-  body[data-active-page="menu"] [data-current-order] * {
-    color: #f8fbff !important;
-    text-shadow: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    filter: none !important;
-    mix-blend-mode: normal !important;
+      radial-gradient(circle at 24% 0%, rgba(55, 141, 255, .28), transparent 38%),
+      linear-gradient(135deg, rgba(7, 34, 77, .99), rgba(3, 17, 43, .99)) !important;
+    border-color: rgba(91, 171, 255, .48) !important;
   }
 
   body[data-active-page="menu"] .menu-current-order-hardfix h1,
@@ -6780,72 +6765,68 @@ h4,
   body[data-active-page="menu"] .menu-current-order-hardfix h4,
   body[data-active-page="menu"] .menu-current-order-hardfix strong,
   body[data-active-page="menu"] .menu-current-order-hardfix b,
-  body[data-active-page="menu"] .menu-current-order-hardfix .dish-name,
-  body[data-active-page="menu"] .menu-current-order-hardfix [class*="dish"],
-  body[data-active-page="menu"] .menu-current-order-hardfix [class*="name"],
+  body[data-active-page="menu"] .menu-current-order-hardfix p,
+  body[data-active-page="menu"] .menu-current-order-hardfix span,
+  body[data-active-page="menu"] .menu-current-order-hardfix div,
   body[data-active-page="menu"] .menu-v4-current h1,
   body[data-active-page="menu"] .menu-v4-current h2,
   body[data-active-page="menu"] .menu-v4-current h3,
   body[data-active-page="menu"] .menu-v4-current h4,
   body[data-active-page="menu"] .menu-v4-current strong,
   body[data-active-page="menu"] .menu-v4-current b,
-  body[data-active-page="menu"] .menu-v4-current .dish-name,
-  body[data-active-page="menu"] .menu-v4-current [class*="dish"],
-  body[data-active-page="menu"] .menu-v4-current [class*="name"],
+  body[data-active-page="menu"] .menu-v4-current p,
+  body[data-active-page="menu"] .menu-v4-current span,
+  body[data-active-page="menu"] .menu-v4-current div,
   body[data-active-page="menu"] .uxv4-current-order h1,
   body[data-active-page="menu"] .uxv4-current-order h2,
   body[data-active-page="menu"] .uxv4-current-order h3,
   body[data-active-page="menu"] .uxv4-current-order h4,
   body[data-active-page="menu"] .uxv4-current-order strong,
   body[data-active-page="menu"] .uxv4-current-order b,
-  body[data-active-page="menu"] .uxv4-current-order .dish-name,
-  body[data-active-page="menu"] .uxv4-current-order [class*="dish"],
-  body[data-active-page="menu"] .uxv4-current-order [class*="name"],
+  body[data-active-page="menu"] .uxv4-current-order p,
+  body[data-active-page="menu"] .uxv4-current-order span,
+  body[data-active-page="menu"] .uxv4-current-order div,
   body[data-active-page="menu"] .current-order-card h1,
   body[data-active-page="menu"] .current-order-card h2,
   body[data-active-page="menu"] .current-order-card h3,
   body[data-active-page="menu"] .current-order-card h4,
   body[data-active-page="menu"] .current-order-card strong,
   body[data-active-page="menu"] .current-order-card b,
-  body[data-active-page="menu"] .current-order-card .dish-name,
-  body[data-active-page="menu"] .current-order-card [class*="dish"],
-  body[data-active-page="menu"] .current-order-card [class*="name"],
+  body[data-active-page="menu"] .current-order-card p,
+  body[data-active-page="menu"] .current-order-card span,
+  body[data-active-page="menu"] .current-order-card div,
+  body[data-active-page="menu"] .nearest-order h1,
+  body[data-active-page="menu"] .nearest-order h2,
+  body[data-active-page="menu"] .nearest-order h3,
+  body[data-active-page="menu"] .nearest-order h4,
+  body[data-active-page="menu"] .nearest-order strong,
+  body[data-active-page="menu"] .nearest-order b,
+  body[data-active-page="menu"] .nearest-order p,
+  body[data-active-page="menu"] .nearest-order span,
+  body[data-active-page="menu"] .nearest-order div,
+  body[data-active-page="menu"] .today-card h1,
+  body[data-active-page="menu"] .today-card h2,
+  body[data-active-page="menu"] .today-card h3,
+  body[data-active-page="menu"] .today-card h4,
+  body[data-active-page="menu"] .today-card strong,
+  body[data-active-page="menu"] .today-card b,
+  body[data-active-page="menu"] .today-card p,
+  body[data-active-page="menu"] .today-card span,
+  body[data-active-page="menu"] .today-card div,
   body[data-active-page="menu"] [data-current-order] h1,
   body[data-active-page="menu"] [data-current-order] h2,
   body[data-active-page="menu"] [data-current-order] h3,
   body[data-active-page="menu"] [data-current-order] h4,
   body[data-active-page="menu"] [data-current-order] strong,
   body[data-active-page="menu"] [data-current-order] b,
-  body[data-active-page="menu"] [data-current-order] .dish-name,
-  body[data-active-page="menu"] [data-current-order] [class*="dish"],
-  body[data-active-page="menu"] [data-current-order] [class*="name"] {
-    color: #ffffff !important;
-    opacity: 1 !important;
-    font-weight: 950 !important;
-  }
-
-  body[data-active-page="menu"] .menu-current-order-hardfix p,
-  body[data-active-page="menu"] .menu-current-order-hardfix .meta,
-  body[data-active-page="menu"] .menu-current-order-hardfix [class*="meta"],
-  body[data-active-page="menu"] .menu-current-order-hardfix [class*="status"],
-  body[data-active-page="menu"] .menu-v4-current p,
-  body[data-active-page="menu"] .menu-v4-current .meta,
-  body[data-active-page="menu"] .menu-v4-current [class*="meta"],
-  body[data-active-page="menu"] .menu-v4-current [class*="status"],
-  body[data-active-page="menu"] .uxv4-current-order p,
-  body[data-active-page="menu"] .uxv4-current-order .meta,
-  body[data-active-page="menu"] .uxv4-current-order [class*="meta"],
-  body[data-active-page="menu"] .uxv4-current-order [class*="status"],
-  body[data-active-page="menu"] .current-order-card p,
-  body[data-active-page="menu"] .current-order-card .meta,
-  body[data-active-page="menu"] .current-order-card [class*="meta"],
-  body[data-active-page="menu"] .current-order-card [class*="status"],
   body[data-active-page="menu"] [data-current-order] p,
-  body[data-active-page="menu"] [data-current-order] .meta,
-  body[data-active-page="menu"] [data-current-order] [class*="meta"],
-  body[data-active-page="menu"] [data-current-order] [class*="status"] {
-    color: #d9eaff !important;
+  body[data-active-page="menu"] [data-current-order] span,
+  body[data-active-page="menu"] [data-current-order] div {
+    color: #f8fbff !important;
+    -webkit-text-fill-color: #f8fbff !important;
+    text-shadow: none !important;
     opacity: 1 !important;
+    mix-blend-mode: normal !important;
   }
 
   body[data-active-page="menu"] .menu-current-order-hardfix .price,
@@ -6856,11 +6837,26 @@ h4,
   body[data-active-page="menu"] .uxv4-current-order [class*="price"],
   body[data-active-page="menu"] .current-order-card .price,
   body[data-active-page="menu"] .current-order-card [class*="price"],
+  body[data-active-page="menu"] .nearest-order .price,
+  body[data-active-page="menu"] .nearest-order [class*="price"],
+  body[data-active-page="menu"] .today-card .price,
+  body[data-active-page="menu"] .today-card [class*="price"],
   body[data-active-page="menu"] [data-current-order] .price,
   body[data-active-page="menu"] [data-current-order] [class*="price"] {
     color: #ffffff !important;
-    opacity: 1 !important;
+    -webkit-text-fill-color: #ffffff !important;
     font-weight: 950 !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix img,
+  body[data-active-page="menu"] .menu-v4-current img,
+  body[data-active-page="menu"] .uxv4-current-order img,
+  body[data-active-page="menu"] .current-order-card img,
+  body[data-active-page="menu"] .nearest-order img,
+  body[data-active-page="menu"] .today-card img,
+  body[data-active-page="menu"] [data-current-order] img {
+    opacity: 1 !important;
+    filter: none !important;
   }
 }
 
