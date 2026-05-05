@@ -179,3 +179,237 @@ def reset_week():
 def export_json():
     rows = [dict(row) for row in query('SELECT * FROM orders ORDER BY created_at DESC')]
     return jsonify(rows)
+
+
+# ============================================================
+# Production CSV exports
+# ============================================================
+
+def _csv_export_guard():
+    from flask import abort
+    from ..core.auth import current_account
+
+    account = current_account()
+    if not account or account["role"] not in {"admin", "super_admin"}:
+        abort(403)
+    return account
+
+
+def _row_value(row, key, default=""):
+    try:
+        value = row[key]
+    except Exception:
+        value = default
+    return "" if value is None else value
+
+
+def _csv_response(filename, headers, rows):
+    import csv
+    from io import StringIO
+    from flask import Response
+
+    out = StringIO()
+    writer = csv.writer(out)
+    writer.writerow(headers)
+
+    for row in rows:
+        writer.writerow([_row_value(row, h) for h in headers])
+
+    data = out.getvalue()
+    return Response(
+        data,
+        mimetype="text/csv; charset=utf-8",
+        headers={
+            "Content-Disposition": f"attachment; filename={filename}",
+            "Cache-Control": "no-store",
+        },
+    )
+
+
+@bp.route("/admin/export/orders.csv")
+def export_orders_csv():
+    _csv_export_guard()
+
+    rows = query("""
+        SELECT
+            o.id,
+            o.created_at,
+            o.finalized_at,
+            o.day,
+            o.status,
+            o.payment_status,
+            o.paid_amount_cents,
+            o.price_snapshot_cents,
+            o.dish_name_snapshot,
+            o.price_snapshot_text,
+            o.note,
+            o.payment_note,
+            o.restaurant_id,
+            COALESCE(r.name, '') AS restaurant_name,
+            a.id AS account_id,
+            a.username,
+            a.email,
+            a.first_name,
+            a.last_name,
+            a.display_name,
+            a.role
+        FROM orders o
+        LEFT JOIN accounts a ON a.id = o.created_by_account_id
+        LEFT JOIN restaurants r ON r.id = o.restaurant_id
+        ORDER BY o.created_at DESC, o.id DESC
+    """)
+
+    headers = [
+        "id",
+        "created_at",
+        "finalized_at",
+        "day",
+        "status",
+        "payment_status",
+        "paid_amount_cents",
+        "price_snapshot_cents",
+        "dish_name_snapshot",
+        "price_snapshot_text",
+        "note",
+        "payment_note",
+        "restaurant_id",
+        "restaurant_name",
+        "account_id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "display_name",
+        "role",
+    ]
+
+    return _csv_response("orders.csv", headers, rows)
+
+
+@bp.route("/admin/export/billing.csv")
+def export_billing_csv():
+    _csv_export_guard()
+
+    rows = query("""
+        SELECT
+            a.id AS account_id,
+            a.username,
+            a.email,
+            a.first_name,
+            a.last_name,
+            a.display_name,
+            COALESCE(r.name, '') AS restaurant_name,
+            o.restaurant_id,
+            COUNT(o.id) AS orders_count,
+            COALESCE(SUM(o.price_snapshot_cents), 0) AS total_cents,
+            COALESCE(SUM(o.paid_amount_cents), 0) AS paid_cents,
+            COALESCE(SUM(o.price_snapshot_cents - o.paid_amount_cents), 0) AS remaining_cents
+        FROM orders o
+        LEFT JOIN accounts a ON a.id = o.created_by_account_id
+        LEFT JOIN restaurants r ON r.id = o.restaurant_id
+        WHERE o.status NOT IN ('cancelled')
+        GROUP BY
+            a.id,
+            a.username,
+            a.email,
+            a.first_name,
+            a.last_name,
+            a.display_name,
+            r.name,
+            o.restaurant_id
+        ORDER BY remaining_cents DESC, total_cents DESC, a.last_name, a.first_name
+    """)
+
+    headers = [
+        "account_id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "display_name",
+        "restaurant_name",
+        "restaurant_id",
+        "orders_count",
+        "total_cents",
+        "paid_cents",
+        "remaining_cents",
+    ]
+
+    return _csv_response("billing.csv", headers, rows)
+
+
+@bp.route("/admin/export/users.csv")
+def export_users_csv():
+    _csv_export_guard()
+
+    rows = query("""
+        SELECT
+            a.id,
+            a.username,
+            a.email,
+            a.first_name,
+            a.last_name,
+            a.display_name,
+            a.role,
+            a.is_active,
+            a.must_change_password,
+            a.created_at,
+            a.last_login_at,
+            COALESCE(u.allergens, '') AS allergens
+        FROM accounts a
+        LEFT JOIN users u ON u.account_id = a.id
+        ORDER BY a.role DESC, a.last_name, a.first_name, a.username
+    """)
+
+    headers = [
+        "id",
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "display_name",
+        "role",
+        "is_active",
+        "must_change_password",
+        "created_at",
+        "last_login_at",
+        "allergens",
+    ]
+
+    return _csv_response("users.csv", headers, rows)
+
+
+@bp.route("/admin/export/menu.csv")
+def export_menu_csv():
+    _csv_export_guard()
+
+    rows = query("""
+        SELECT
+            m.id,
+            m.day,
+            m.dish_name,
+            m.price_text,
+            m.price_cents,
+            m.image_url,
+            m.created_at,
+            m.restaurant_id,
+            COALESCE(r.name, '') AS restaurant_name
+        FROM menu m
+        LEFT JOIN restaurants r ON r.id = m.restaurant_id
+        ORDER BY r.name, m.day, m.id
+    """)
+
+    headers = [
+        "id",
+        "day",
+        "dish_name",
+        "price_text",
+        "price_cents",
+        "image_url",
+        "created_at",
+        "restaurant_id",
+        "restaurant_name",
+    ]
+
+    return _csv_response("menu.csv", headers, rows)
+
