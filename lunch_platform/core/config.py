@@ -16,6 +16,7 @@ class Config:
         self.TESTING = False
         self.SECRET_KEY = os.environ.get("SECRET_KEY", default_secret)
         self.DATABASE_PATH = os.environ.get("DATABASE_PATH", str(instance / "lunch_platform.db"))
+        self.DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
         self.UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER", str(base / "uploads"))
         self.LOG_FOLDER = os.environ.get("LOG_FOLDER", str(base / "logs"))
         self.MAX_CONTENT_LENGTH = int(os.environ.get("MAX_UPLOAD_MB", "8")) * 1024 * 1024

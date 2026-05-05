@@ -1,16 +1,14 @@
 from __future__ import annotations
 
 import re
-import sqlite3
 from flask import abort, current_app, has_request_context, jsonify, redirect, render_template_string, request, session, url_for
 
 from ..core.auth import current_account
-from ..core.db import execute, query
+from ..core.db import execute, query, table_columns
 
 
 def _columns(table: str) -> set[str]:
-    rows = query(f"PRAGMA table_info({table})")
-    return {row["name"] for row in rows}
+    return table_columns(table)
 
 
 def _slugify(value: str) -> str:
@@ -49,8 +47,8 @@ def ensure_multi_restaurant_schema(app=None) -> None:
     if "restaurant_id" not in order_cols:
         execute("ALTER TABLE orders ADD COLUMN restaurant_id INTEGER NOT NULL DEFAULT 1")
 
-    execute("UPDATE menu SET restaurant_id=1 WHERE restaurant_id IS NULL OR restaurant_id=''")
-    execute("UPDATE orders SET restaurant_id=1 WHERE restaurant_id IS NULL OR restaurant_id=''")
+    execute("UPDATE menu SET restaurant_id=1 WHERE restaurant_id IS NULL")
+    execute("UPDATE orders SET restaurant_id=1 WHERE restaurant_id IS NULL")
 
     execute("CREATE INDEX IF NOT EXISTS idx_menu_restaurant_day ON menu(restaurant_id, day, id)")
     execute("CREATE INDEX IF NOT EXISTS idx_orders_restaurant_account_day ON orders(restaurant_id, created_by_account_id, day)")

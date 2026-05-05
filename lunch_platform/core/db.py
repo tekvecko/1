@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import os
+import re
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
+from typing import Any
 
 from flask import current_app, g
 from werkzeug.security import generate_password_hash
@@ -49,6 +52,19 @@ CREATE TABLE IF NOT EXISTS notifications (
     read_at DATETIME
 );
 
+
+CREATE TABLE IF NOT EXISTS restaurants (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    slug TEXT UNIQUE NOT NULL,
+    description TEXT NOT NULL DEFAULT '',
+    phone TEXT NOT NULL DEFAULT '',
+    email TEXT NOT NULL DEFAULT '',
+    is_active INTEGER NOT NULL DEFAULT 1,
+    sort_order INTEGER NOT NULL DEFAULT 100,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS menu (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     day TEXT NOT NULL,
@@ -56,7 +72,8 @@ CREATE TABLE IF NOT EXISTS menu (
     price_text TEXT NOT NULL DEFAULT '',
     price_cents INTEGER NOT NULL DEFAULT 0,
     image_url TEXT NOT NULL DEFAULT '',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    restaurant_id INTEGER NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS orders (
@@ -120,19 +137,110 @@ CREATE INDEX IF NOT EXISTS idx_orders_payment_status ON orders(payment_status);
 CREATE INDEX IF NOT EXISTS idx_orders_account_payment_status ON orders(created_by_account_id, payment_status);
 CREATE INDEX IF NOT EXISTS idx_orders_restaurant_status ON orders(restaurant_id, status);
 CREATE INDEX IF NOT EXISTS idx_orders_restaurant_account_day ON orders(restaurant_id, created_by_account_id, day);
+CREATE INDEX IF NOT EXISTS idx_menu_restaurant_day ON menu(restaurant_id, day, id);
+
 """
 
 
-def get_db() -> sqlite3.Connection:
-    if "db" not in g:
-        db_path = Path(current_app.config["DATABASE_PATH"])
-        db_path.parent.mkdir(parents=True, exist_ok=True)
-        conn = sqlite3.connect(db_path, timeout=10)
-        conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys=ON")
-        conn.execute("PRAGMA journal_mode=WAL")
+class CursorResult:
+    def __init__(self, cursor, lastrowid=None):
+        self._cursor = cursor
+        self.lastrowid = lastrowid if lastrowid is not None else getattr(cursor, "lastrowid", None)
+
+    def __getattr__(self, name):
+        return getattr(self._cursor, name)
+
+
+def database_url() -> str:
+    return (current_app.config.get("DATABASE_URL") or os.environ.get("DATABASE_URL") or "").strip()
+
+
+def db_kind() -> str:
+    url = database_url()
+    if url.startswith("postgres://") or url.startswith("postgresql://"):
+        return "postgres"
+    return "sqlite"
+
+
+def is_postgres() -> bool:
+    return db_kind() == "postgres"
+
+
+def _convert_placeholders(sql: str) -> str:
+    # Project SQL uses SQLite-style '?' placeholders.
+    # Psycopg requires '%s'. Application SQL does not use literal '?' in DB statements.
+    return sql.replace("?", "%s")
+
+
+def _convert_sqlite_ddl_to_postgres(sql: str) -> str:
+    sql = sql.replace("INTEGER PRIMARY KEY AUTOINCREMENT", "SERIAL PRIMARY KEY")
+    sql = sql.replace("DATETIME", "TIMESTAMP")
+    sql = re.sub(r"\s+COLLATE\s+NOCASE", "", sql, flags=re.I)
+    return sql
+
+
+def _convert_sqlite_dml_to_postgres(sql: str) -> str:
+    stripped = " ".join(sql.strip().split()).upper()
+
+    if stripped.startswith("INSERT OR REPLACE INTO SETTINGS"):
+        return (
+            "INSERT INTO settings(key, value) VALUES(%s, %s) "
+            "ON CONFLICT (key) DO UPDATE SET value=EXCLUDED.value"
+        )
+
+    if stripped.startswith("INSERT OR IGNORE INTO USERS"):
+        sql = re.sub(r"INSERT\s+OR\s+IGNORE\s+INTO", "INSERT INTO", sql, flags=re.I)
+        sql = _convert_placeholders(sql)
+        return sql.rstrip().rstrip(";") + " ON CONFLICT DO NOTHING"
+
+    sql = _convert_placeholders(sql)
+
+    # lastrowid compatibility for inserts that are followed by cur.lastrowid.
+    if re.match(r"\s*INSERT\s+INTO\s+(accounts|restaurants)\b", sql, flags=re.I) and "RETURNING" not in sql.upper():
+        sql = sql.rstrip().rstrip(";") + " RETURNING id"
+
+    return sql
+
+
+def adapt_sql(sql: str) -> str:
+    if not is_postgres():
+        return sql
+
+    upper = sql.lstrip().upper()
+    if upper.startswith("CREATE TABLE") or upper.startswith("CREATE INDEX") or upper.startswith("ALTER TABLE"):
+        return _convert_placeholders(_convert_sqlite_ddl_to_postgres(sql))
+
+    return _convert_sqlite_dml_to_postgres(sql)
+
+
+def get_db():
+    if "db" in g:
+        return g.db
+
+    if is_postgres():
+        try:
+            import psycopg
+            from psycopg.rows import dict_row
+        except Exception as exc:
+            raise RuntimeError(
+                "DATABASE_URL is PostgreSQL, but psycopg is not installed. "
+                "Install dependency: pip install 'psycopg[binary]'"
+            ) from exc
+
+        conn = psycopg.connect(database_url(), row_factory=dict_row)
         g.db = conn
-    return g.db
+        g.db_kind = "postgres"
+        return conn
+
+    db_path = Path(current_app.config["DATABASE_PATH"])
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(db_path, timeout=10)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA foreign_keys=ON")
+    conn.execute("PRAGMA journal_mode=WAL")
+    g.db = conn
+    g.db_kind = "sqlite"
+    return conn
 
 
 @contextmanager
@@ -151,7 +259,7 @@ def cursor(write: bool = False):
 
 
 def query(sql: str, params: tuple = (), *, one: bool = False):
-    cur = get_db().execute(sql, params)
+    cur = get_db().execute(adapt_sql(sql), params)
     rows = cur.fetchone() if one else cur.fetchall()
     cur.close()
     return rows
@@ -159,9 +267,39 @@ def query(sql: str, params: tuple = (), *, one: bool = False):
 
 def execute(sql: str, params: tuple = ()):
     conn = get_db()
-    cur = conn.execute(sql, params)
+    cur = conn.execute(adapt_sql(sql), params)
+
+    lastrowid = None
+    if is_postgres() and "RETURNING ID" in adapt_sql(sql).upper():
+        row = cur.fetchone()
+        if row:
+            lastrowid = row["id"] if isinstance(row, dict) else row[0]
+
     conn.commit()
-    return cur
+    return CursorResult(cur, lastrowid=lastrowid)
+
+
+def run_schema(conn, schema_sql: str) -> None:
+    if not is_postgres():
+        conn.executescript(schema_sql)
+        return
+
+    statements = [s.strip() for s in schema_sql.split(";") if s.strip()]
+    for stmt in statements:
+        conn.execute(adapt_sql(stmt))
+    conn.commit()
+
+
+def table_columns(table: str) -> set[str]:
+    if is_postgres():
+        rows = query(
+            "SELECT column_name AS name FROM information_schema.columns WHERE table_name=? ORDER BY ordinal_position",
+            (table,),
+        )
+        return {row["name"] for row in rows}
+
+    rows = query(f"PRAGMA table_info({table})")
+    return {row["name"] for row in rows}
 
 
 def get_setting(key: str, default: str = "") -> str:
@@ -190,7 +328,9 @@ def bootstrap_super_admin() -> None:
     admin = query("SELECT id FROM accounts WHERE lower(username)='admin'", one=True)
     if admin:
         return
+
     password = current_app.config.get("ADMIN_BOOTSTRAP_PASSWORD") or "heslo123"
+
     execute(
         """
         INSERT INTO accounts(username, display_name, first_name, last_name, email, password_hash, must_change_password, role, is_active)
@@ -198,18 +338,30 @@ def bootstrap_super_admin() -> None:
         """,
         ("admin", "System Admin", "System", "Admin", "admin@local.invalid", generate_password_hash(password)),
     )
+
     admin = query("SELECT id, first_name, last_name, display_name, role FROM accounts WHERE username='admin'", one=True)
+
     execute("INSERT OR IGNORE INTO users(account_id, allergens) VALUES(?, '')", (admin["id"],))
+
     execute(
         "INSERT INTO notifications(account_id, title, body, link_url, level, kind, dedupe_key) VALUES (?, ?, ?, ?, ?, ?, ?)",
-        (admin["id"], "Změňte výchozí heslo", "Používáte výchozí heslo admin / heslo123. Změňte ho co nejdříve.", "/profile#password-change", "warning", "security", "password_change_required"),
+        (
+            admin["id"],
+            "Změňte výchozí heslo",
+            "Používáte výchozí heslo admin / heslo123. Změňte ho co nejdříve.",
+            "/profile#password-change",
+            "warning",
+            "security",
+            "password_change_required",
+        ),
     )
+
     current_app.logger.warning("Bootstrap admin created: username=admin password=%s", password)
 
 
 def init_db() -> None:
     conn = get_db()
-    conn.executescript(SCHEMA_SQL)
+    run_schema(conn, SCHEMA_SQL)
     set_setting("db_version", str(current_app.config["DB_VERSION"]))
     set_setting("lock_state", get_setting("lock_state", "auto"))
     set_setting("lock_time", get_setting("lock_time", "10:00"))
@@ -218,6 +370,7 @@ def init_db() -> None:
 
 def close_db(_error=None) -> None:
     db = g.pop("db", None)
+    g.pop("db_kind", None)
     if db is not None:
         db.close()
 
