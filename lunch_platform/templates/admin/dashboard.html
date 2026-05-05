@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Admin · FINAL Lunch
+</div>
 {% endblock %}
 {% block content %}
+<div class="admin-mobile-3c-page">
 
 <section class="admin-export-panel admin-export-panel-top" aria-label="Export dat">
   <div class="admin-export-head">
@@ -39,7 +41,7 @@
 </section>
 
 <section class="hero hero-admin">
-    <div class="card hero-copy stack">
+    <div class="card hero-copy stack admin-section-accounts-3c admin-section-billing-3c">
         <span class="badge badge-gold label">Admin cockpit</span>
         <h1 class="display">Správa provozu</h1>
         <p>Import menu, billing i účty běží nad modulární v2 architekturou. Účty používají křestní jméno, příjmení, e-mail a notifikace.</p>
@@ -149,7 +151,8 @@
         <section class="card pad-lg stack">
             <div class="section-title"><h2 class="display">Účty</h2></div>
             <div class="table-wrap">
-                <table>
+                <div class="admin-table-scroll-3c">
+<table>
                     <tr><th>Identita</th><th>E-mail / login</th><th>Role</th><th>Security</th><th>Akce</th></tr>
                     {% for row in accounts %}
                     <tr>
@@ -177,15 +180,18 @@
                     </tr>
                     {% endfor %}
                 </table>
+</div>
             </div>
         </section>
     </div>
 </section>
 
 <section class="tab-panel stack" data-tab-panel="audit">
-    <section class="card pad-lg stack">
+    <section class="card pad-lg stack admin-section-audit-3c">
         <div class="section-title"><h2 class="display">Audit log</h2></div>
-        <div class="table-wrap"><table><tr><th>Kdy</th><th>Event</th><th>Actor</th><th>Role</th><th>Detail</th></tr>{% for row in audit_rows %}<tr><td>{{ row['created_at'] }}</td><td>{{ row['event_type'] }}</td><td>{{ row['actor'] }}</td><td>{{ row['role'] }}</td><td>{{ row['detail'] }}</td></tr>{% else %}<tr><td colspan="5">Audit log je prázdný.</td></tr>{% endfor %}</table></div>
+        <div class="table-wrap"><div class="admin-table-scroll-3c">
+<table><tr><th>Kdy</th><th>Event</th><th>Actor</th><th>Role</th><th>Detail</th></tr>{% for row in audit_rows %}<tr><td>{{ row['created_at'] }}</td><td>{{ row['event_type'] }}</td><td>{{ row['actor'] }}</td><td>{{ row['role'] }}</td><td>{{ row['detail'] }}</td></tr>{% else %}<tr><td colspan="5">Audit log je prázdný.</td></tr>{% endfor %}</table>
+</div></div>
     </section>
 </section>
 {% endblock %}

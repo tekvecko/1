@@ -6860,3 +6860,319 @@ h4,
   }
 }
 
+
+/* ============================================================
+   ADMIN MOBILE POLISH 3C
+   - mobile-first admin dashboard
+   - compact account actions
+   - readable audit table
+   - billing/export/admin sections
+   ============================================================ */
+
+@media (max-width: 760px) {
+  body[data-active-page="admin"] {
+    --admin-3c-bottom-safe: 220px;
+  }
+
+  body[data-active-page="admin"] main,
+  body[data-active-page="admin"] .page,
+  body[data-active-page="admin"] .content,
+  body[data-active-page="admin"] .container,
+  body[data-active-page="admin"] .app-shell,
+  body[data-active-page="admin"] .admin-mobile-3c-page {
+    padding-bottom: var(--admin-3c-bottom-safe) !important;
+  }
+
+  body[data-active-page="admin"] .admin-mobile-3c-page {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  /* General admin cards */
+  body[data-active-page="admin"] .card,
+  body[data-active-page="admin"] section.card,
+  body[data-active-page="admin"] .admin-export-panel,
+  body[data-active-page="admin"] .kpi {
+    border-radius: 24px !important;
+    padding: 18px !important;
+    margin: 12px 0 16px !important;
+    background:
+      radial-gradient(circle at 22% 0%, rgba(55, 141, 255, .18), transparent 36%),
+      linear-gradient(180deg, rgba(10, 45, 93, .95), rgba(4, 21, 50, .98)) !important;
+    border: 1px solid rgba(88, 166, 255, .34) !important;
+    box-shadow: 0 0 0 1px rgba(55, 139, 255, .14), 0 16px 40px rgba(0,0,0,.32) !important;
+    overflow: hidden !important;
+  }
+
+  body[data-active-page="admin"] h1,
+  body[data-active-page="admin"] h2,
+  body[data-active-page="admin"] h3,
+  body[data-active-page="admin"] .display {
+    color: #fff !important;
+    line-height: .9 !important;
+    letter-spacing: .012em !important;
+  }
+
+  body[data-active-page="admin"] h1,
+  body[data-active-page="admin"] .display {
+    font-size: clamp(2.9rem, 13vw, 4.8rem) !important;
+  }
+
+  body[data-active-page="admin"] h2 {
+    font-size: clamp(2.2rem, 10vw, 3.5rem) !important;
+    margin-bottom: 12px !important;
+  }
+
+  body[data-active-page="admin"] p,
+  body[data-active-page="admin"] .muted,
+  body[data-active-page="admin"] small {
+    color: rgba(205, 225, 255, .78) !important;
+    line-height: 1.28 !important;
+  }
+
+  /* Top flash */
+  body[data-active-page="admin"] .flash,
+  body[data-active-page="admin"] .alert {
+    min-height: 64px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-radius: 22px !important;
+    padding: 14px 18px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    background:
+      linear-gradient(135deg, rgba(12, 50, 103, .95), rgba(5, 24, 58, .98)) !important;
+    border: 1px solid rgba(83, 165, 255, .38) !important;
+  }
+
+  /* Export data panel */
+  body[data-active-page="admin"] .admin-export-panel {
+    padding: 18px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel h2 {
+    font-size: 2rem !important;
+    margin: 0 0 6px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel p {
+    font-size: .96rem !important;
+    margin: 0 !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin-top: 14px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-grid a {
+    min-height: 78px !important;
+    padding: 10px !important;
+    border-radius: 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    text-align: center !important;
+    color: #fff !important;
+    background:
+      linear-gradient(180deg, rgba(12, 48, 99, .86), rgba(5, 24, 58, .94)) !important;
+    border: 1px solid rgba(111, 186, 255, .28) !important;
+  }
+
+  /* Admin cockpit hero */
+  body[data-active-page="admin"] .admin-section-accounts-3c,
+  body[data-active-page="admin"] .admin-section-audit-3c,
+  body[data-active-page="admin"] .admin-section-billing-3c {
+    padding: 18px !important;
+  }
+
+  /* KPI grid: compact */
+  body[data-active-page="admin"] .kpi,
+  body[data-active-page="admin"] [class*="kpi"] {
+    min-height: 92px !important;
+    padding: 16px !important;
+  }
+
+  body[data-active-page="admin"] .kpi strong,
+  body[data-active-page="admin"] [class*="kpi"] strong {
+    font-size: clamp(1.7rem, 8vw, 2.7rem) !important;
+    line-height: .9 !important;
+  }
+
+  /* Scroll wrapper */
+  body[data-active-page="admin"] .admin-table-scroll-3c {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(111, 186, 255, .20) !important;
+    background: rgba(2, 13, 32, .52) !important;
+    margin-top: 12px !important;
+    padding-bottom: 8px !important;
+  }
+
+  body[data-active-page="admin"] .admin-table-scroll-3c table,
+  body[data-active-page="admin"] table {
+    display: table !important;
+    width: 720px !important;
+    min-width: 720px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: transparent !important;
+    color: #fff !important;
+    font-size: .84rem !important;
+  }
+
+  body[data-active-page="admin"] th,
+  body[data-active-page="admin"] td {
+    padding: 10px 10px !important;
+    vertical-align: top !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    color: #fff !important;
+    border-color: rgba(111, 186, 255, .13) !important;
+  }
+
+  body[data-active-page="admin"] th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 2 !important;
+    background: rgba(8, 29, 62, .96) !important;
+    color: rgba(235, 245, 255, .92) !important;
+    font-size: .76rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: .08em !important;
+    font-weight: 950 !important;
+  }
+
+  body[data-active-page="admin"] td {
+    background: rgba(3, 16, 38, .28) !important;
+  }
+
+  /* Accounts table likely columns:
+     login, role, security, akce */
+  body[data-active-page="admin"] table th:nth-child(1),
+  body[data-active-page="admin"] table td:nth-child(1) {
+    width: 150px !important;
+  }
+
+  body[data-active-page="admin"] table th:nth-child(2),
+  body[data-active-page="admin"] table td:nth-child(2) {
+    width: 120px !important;
+  }
+
+  body[data-active-page="admin"] table th:nth-child(3),
+  body[data-active-page="admin"] table td:nth-child(3) {
+    width: 110px !important;
+  }
+
+  body[data-active-page="admin"] table th:nth-child(4),
+  body[data-active-page="admin"] table td:nth-child(4) {
+    width: 320px !important;
+  }
+
+  /* Account action forms/buttons */
+  body[data-active-page="admin"] td form,
+  body[data-active-page="admin"] td .form-inline,
+  body[data-active-page="admin"] td [class*="action"] {
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    align-items: center !important;
+    margin: 0 0 7px 0 !important;
+  }
+
+  body[data-active-page="admin"] td input,
+  body[data-active-page="admin"] td select,
+  body[data-active-page="admin"] td button,
+  body[data-active-page="admin"] td .btn,
+  body[data-active-page="admin"] td .btn-blue {
+    min-height: 42px !important;
+    max-width: 122px !important;
+    border-radius: 14px !important;
+    padding: 8px 10px !important;
+    font-size: .82rem !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="admin"] td input,
+  body[data-active-page="admin"] td select {
+    background: rgba(255,255,255,.08) !important;
+    border: 1px solid rgba(130, 196, 255, .25) !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="admin"] td button,
+  body[data-active-page="admin"] td .btn,
+  body[data-active-page="admin"] td .btn-blue {
+    background:
+      linear-gradient(180deg, rgba(43, 119, 226, .96), rgba(16, 72, 160, .98)) !important;
+    color: #fff !important;
+    border: 1px solid rgba(156, 213, 255, .34) !important;
+  }
+
+  body[data-active-page="admin"] td button[type="submit"]:has(+ input),
+  body[data-active-page="admin"] td button.danger,
+  body[data-active-page="admin"] td .danger {
+    background:
+      linear-gradient(180deg, rgba(226, 75, 87, .95), rgba(150, 33, 46, .98)) !important;
+  }
+
+  /* Security OK pill */
+  body[data-active-page="admin"] .badge,
+  body[data-active-page="admin"] .status-badge {
+    border-radius: 999px !important;
+    padding: 7px 12px !important;
+    font-weight: 950 !important;
+    background: rgba(44, 124, 226, .22) !important;
+    border: 1px solid rgba(111, 186, 255, .30) !important;
+    color: #fff !important;
+  }
+
+  /* Audit table: wider and more readable */
+  body[data-active-page="admin"] .admin-section-audit-3c .admin-table-scroll-3c table,
+  body[data-active-page="admin"] .admin-section-audit-3c table {
+    width: 760px !important;
+    min-width: 760px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(1),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(1) {
+    width: 230px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(2),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(2) {
+    width: 180px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(3),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(3) {
+    width: 180px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(4),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(4) {
+    width: 170px !important;
+  }
+
+  /* If user is at the bottom, content must remain above nav */
+  body[data-active-page="admin"] .admin-mobile-3c-page::after {
+    content: "";
+    display: block;
+    height: 90px;
+  }
+}
+
