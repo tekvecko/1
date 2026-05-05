@@ -9503,3 +9503,405 @@ h4,
   }
 }
 
+
+/* ============================================================
+   ADMIN MOBILE CLEANUP 3C.1
+   Goal:
+   - make admin mobile readable, not over-compressed
+   - reduce giant headings
+   - improve forms
+   - improve accounts/audit tables
+   - keep neon dark app style
+   ============================================================ */
+
+@media (max-width: 760px) {
+  body[data-active-page="admin"] {
+    --admin-3c1-bottom-safe: 230px;
+  }
+
+  body[data-active-page="admin"] main,
+  body[data-active-page="admin"] .page,
+  body[data-active-page="admin"] .content,
+  body[data-active-page="admin"] .container,
+  body[data-active-page="admin"] .app-shell,
+  body[data-active-page="admin"] .admin-mobile-3c-page {
+    padding-bottom: var(--admin-3c1-bottom-safe) !important;
+  }
+
+  /* Page rhythm */
+  body[data-active-page="admin"] .admin-mobile-3c-page {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    width: 100% !important;
+  }
+
+  body[data-active-page="admin"] .card,
+  body[data-active-page="admin"] section.card,
+  body[data-active-page="admin"] .admin-export-panel,
+  body[data-active-page="admin"] .kpi,
+  body[data-active-page="admin"] [class*="panel"] {
+    margin: 0 0 14px !important;
+    padding: 18px !important;
+    border-radius: 22px !important;
+    background:
+      radial-gradient(circle at 18% 0%, rgba(60, 148, 255, .17), transparent 34%),
+      linear-gradient(180deg, rgba(10, 45, 93, .95), rgba(4, 21, 50, .98)) !important;
+    border: 1px solid rgba(88, 166, 255, .34) !important;
+    box-shadow: 0 14px 34px rgba(0,0,0,.28) !important;
+    overflow: hidden !important;
+  }
+
+  /* Headings: admin was too loud */
+  body[data-active-page="admin"] h1,
+  body[data-active-page="admin"] .display {
+    font-size: clamp(2.4rem, 10.5vw, 3.55rem) !important;
+    line-height: .9 !important;
+    margin: 0 0 10px !important;
+    letter-spacing: .01em !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="admin"] h2 {
+    font-size: clamp(1.9rem, 8.2vw, 2.8rem) !important;
+    line-height: .92 !important;
+    margin: 0 0 10px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="admin"] h3 {
+    font-size: clamp(1.35rem, 6vw, 2rem) !important;
+    line-height: 1 !important;
+    margin: 0 0 8px !important;
+    color: #fff !important;
+  }
+
+  body[data-active-page="admin"] p,
+  body[data-active-page="admin"] .muted,
+  body[data-active-page="admin"] small {
+    font-size: .94rem !important;
+    line-height: 1.32 !important;
+    color: rgba(211, 229, 255, .80) !important;
+  }
+
+  /* Small capsule labels */
+  body[data-active-page="admin"] .badge,
+  body[data-active-page="admin"] .status-badge,
+  body[data-active-page="admin"] [class*="badge"],
+  body[data-active-page="admin"] [class*="pill"] {
+    font-size: .78rem !important;
+    line-height: 1 !important;
+    padding: 7px 11px !important;
+    border-radius: 999px !important;
+    font-weight: 900 !important;
+    background: rgba(43, 119, 226, .24) !important;
+    border: 1px solid rgba(118, 190, 255, .30) !important;
+    color: #fff !important;
+  }
+
+  /* Export panel tighter */
+  body[data-active-page="admin"] .admin-export-panel {
+    padding: 16px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel h2 {
+    font-size: 1.65rem !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel p {
+    font-size: .86rem !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin-top: 12px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-grid a {
+    min-height: 68px !important;
+    padding: 8px !important;
+    border-radius: 16px !important;
+    font-size: .86rem !important;
+    line-height: 1.12 !important;
+    color: #fff !important;
+    background:
+      linear-gradient(180deg, rgba(14, 55, 112, .88), rgba(5, 24, 58, .95)) !important;
+    border: 1px solid rgba(111, 186, 255, .28) !important;
+  }
+
+  /* KPI/cockpit boxes */
+  body[data-active-page="admin"] .kpi,
+  body[data-active-page="admin"] [class*="kpi"] {
+    min-height: 76px !important;
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-active-page="admin"] .kpi strong,
+  body[data-active-page="admin"] [class*="kpi"] strong {
+    font-size: clamp(1.55rem, 7vw, 2.35rem) !important;
+    line-height: .92 !important;
+  }
+
+  body[data-active-page="admin"] .kpi .muted,
+  body[data-active-page="admin"] [class*="kpi"] .muted {
+    font-size: .76rem !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Forms: readable touch controls */
+  body[data-active-page="admin"] form {
+    display: grid !important;
+    gap: 9px !important;
+  }
+
+  body[data-active-page="admin"] input,
+  body[data-active-page="admin"] select,
+  body[data-active-page="admin"] textarea {
+    min-height: 46px !important;
+    border-radius: 14px !important;
+    padding: 10px 12px !important;
+    font-size: .92rem !important;
+    background: rgba(5, 24, 58, .74) !important;
+    border: 1px solid rgba(122, 192, 255, .25) !important;
+    color: #fff !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05) !important;
+  }
+
+  body[data-active-page="admin"] textarea {
+    min-height: 86px !important;
+  }
+
+  body[data-active-page="admin"] input::placeholder,
+  body[data-active-page="admin"] textarea::placeholder {
+    color: rgba(184, 211, 246, .66) !important;
+  }
+
+  body[data-active-page="admin"] button,
+  body[data-active-page="admin"] .btn,
+  body[data-active-page="admin"] .btn-blue {
+    min-height: 46px !important;
+    border-radius: 14px !important;
+    padding: 10px 14px !important;
+    font-size: .9rem !important;
+    line-height: 1 !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    background:
+      linear-gradient(180deg, rgba(48, 132, 255, .98), rgba(16, 75, 170, .98)) !important;
+    border: 1px solid rgba(163, 216, 255, .35) !important;
+    box-shadow: 0 10px 22px rgba(30, 115, 239, .18) !important;
+  }
+
+  body[data-active-page="admin"] button[type="submit"],
+  body[data-active-page="admin"] .btn-primary {
+    background:
+      linear-gradient(180deg, #ffd61e, #eeb900) !important;
+    color: #071428 !important;
+    border-color: rgba(255,255,255,.40) !important;
+  }
+
+  /* Admin tabs / tab buttons */
+  body[data-active-page="admin"] .admin-tabbar,
+  body[data-active-page="admin"] .admin-tabs,
+  body[data-active-page="admin"] .admin-section-tabs,
+  body[data-active-page="admin"] [data-admin-tabs] {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 7px !important;
+    padding: 7px !important;
+    margin: 10px 0 12px !important;
+    border-radius: 18px !important;
+    background: rgba(5, 22, 52, .82) !important;
+    border: 1px solid rgba(111, 186, 255, .22) !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabbar button,
+  body[data-active-page="admin"] .admin-tabs button,
+  body[data-active-page="admin"] .admin-section-tabs button,
+  body[data-active-page="admin"] [data-admin-tabs] button {
+    min-height: 44px !important;
+    min-width: max-content !important;
+    padding: 9px 13px !important;
+    border-radius: 14px !important;
+    font-size: .82rem !important;
+  }
+
+  /* Tables: make actual usable data area */
+  body[data-active-page="admin"] .admin-table-scroll-3c {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 260px !important;
+    max-height: 440px !important;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 18px !important;
+    border: 1px solid rgba(111, 186, 255, .24) !important;
+    background:
+      linear-gradient(180deg, rgba(3, 16, 38, .76), rgba(2, 11, 27, .86)) !important;
+    margin-top: 12px !important;
+    padding-bottom: 10px !important;
+  }
+
+  body[data-active-page="admin"] .admin-table-scroll-3c table,
+  body[data-active-page="admin"] table {
+    display: table !important;
+    width: 760px !important;
+    min-width: 760px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: transparent !important;
+    color: #fff !important;
+    font-size: .82rem !important;
+  }
+
+  body[data-active-page="admin"] th,
+  body[data-active-page="admin"] td {
+    padding: 10px 10px !important;
+    vertical-align: top !important;
+    line-height: 1.22 !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+    color: #f7fbff !important;
+    border-bottom: 1px solid rgba(111, 186, 255, .12) !important;
+  }
+
+  body[data-active-page="admin"] th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 5 !important;
+    background:
+      linear-gradient(180deg, rgba(10, 34, 72, .98), rgba(5, 22, 52, .98)) !important;
+    color: rgba(238, 247, 255, .96) !important;
+    font-size: .73rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: .08em !important;
+    font-weight: 950 !important;
+  }
+
+  body[data-active-page="admin"] td {
+    background: rgba(3, 16, 38, .28) !important;
+  }
+
+  body[data-active-page="admin"] tr:nth-child(even) td {
+    background: rgba(18, 48, 91, .20) !important;
+  }
+
+  /* Accounts table columns */
+  body[data-active-page="admin"] table th:nth-child(1),
+  body[data-active-page="admin"] table td:nth-child(1) {
+    width: 180px !important;
+  }
+
+  body[data-active-page="admin"] table th:nth-child(2),
+  body[data-active-page="admin"] table td:nth-child(2) {
+    width: 130px !important;
+  }
+
+  body[data-active-page="admin"] table th:nth-child(3),
+  body[data-active-page="admin"] table td:nth-child(3) {
+    width: 110px !important;
+  }
+
+  body[data-active-page="admin"] table th:nth-child(4),
+  body[data-active-page="admin"] table td:nth-child(4) {
+    width: 340px !important;
+  }
+
+  /* Controls inside tables: compact grid instead of scattered vertical pile */
+  body[data-active-page="admin"] td form {
+    display: inline-grid !important;
+    grid-template-columns: repeat(2, minmax(86px, 1fr)) !important;
+    gap: 7px !important;
+    align-items: center !important;
+    margin: 0 0 8px 0 !important;
+    max-width: 280px !important;
+  }
+
+  body[data-active-page="admin"] td input,
+  body[data-active-page="admin"] td select,
+  body[data-active-page="admin"] td button,
+  body[data-active-page="admin"] td .btn,
+  body[data-active-page="admin"] td .btn-blue {
+    min-height: 40px !important;
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 13px !important;
+    padding: 8px 9px !important;
+    font-size: .78rem !important;
+    line-height: 1 !important;
+  }
+
+  body[data-active-page="admin"] td button,
+  body[data-active-page="admin"] td .btn,
+  body[data-active-page="admin"] td .btn-blue {
+    color: #fff !important;
+    background:
+      linear-gradient(180deg, rgba(43, 119, 226, .96), rgba(16, 72, 160, .98)) !important;
+  }
+
+  /* Reset password button should span wider */
+  body[data-active-page="admin"] td button:contains("RESET"),
+  body[data-active-page="admin"] td .reset-password,
+  body[data-active-page="admin"] td [class*="reset"] {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Audit log specific: make data visible */
+  body[data-active-page="admin"] .admin-section-audit-3c .admin-table-scroll-3c {
+    min-height: 360px !important;
+    max-height: 560px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c .admin-table-scroll-3c table,
+  body[data-active-page="admin"] .admin-section-audit-3c table {
+    width: 860px !important;
+    min-width: 860px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(1),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(1) {
+    width: 250px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(2),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(2) {
+    width: 190px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(3),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(3) {
+    width: 180px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c th:nth-child(4),
+  body[data-active-page="admin"] .admin-section-audit-3c td:nth-child(4) {
+    width: 240px !important;
+  }
+
+  body[data-active-page="admin"] .admin-section-audit-3c td {
+    font-size: .80rem !important;
+  }
+
+  /* Dlužníci/Billing sections */
+  body[data-active-page="admin"] [class*="billing"],
+  body[data-active-page="admin"] [class*="debt"],
+  body[data-active-page="admin"] [class*="debtor"] {
+    max-width: 100% !important;
+  }
+
+  /* Leave visual breathing room above nav */
+  body[data-active-page="admin"] .admin-mobile-3c-page::after {
+    content: "";
+    display: block;
+    height: 110px;
+  }
+}
+
