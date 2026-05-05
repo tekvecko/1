@@ -7900,3 +7900,374 @@ body[data-active-page="auth"] .app-bottom-nav {
   }
 }
 
+
+/* ============================================================
+   UX FIX 3A.5 FINAL MOBILE
+   Exact overrides for:
+   - menu current order
+   - weekly strip
+   - profile orders table
+   - bottom safe area
+   ============================================================ */
+
+/* ---------- GLOBAL SAFE BOTTOM ---------- */
+@media (max-width: 760px) {
+  body {
+    --final-bottom-nav-safe: 178px;
+  }
+
+  body main,
+  body .page,
+  body .content,
+  body .container,
+  body .app-shell {
+    padding-bottom: var(--final-bottom-nav-safe) !important;
+  }
+
+  .app-bottom-nav {
+    z-index: 999 !important;
+  }
+}
+
+/* ---------- MENU CURRENT ORDER: HARD TARGET ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="menu"] .menu-current-order-hardfix,
+  body[data-active-page="menu"] .menu-v4-current,
+  body[data-active-page="menu"] .uxv4-current-order,
+  body[data-active-page="menu"] .current-order-card,
+  body[data-active-page="menu"] .nearest-order,
+  body[data-active-page="menu"] .today-card,
+  body[data-active-page="menu"] [data-current-order] {
+    display: grid !important;
+    grid-template-columns: 76px minmax(0, 1fr) auto !important;
+    grid-template-rows: auto auto !important;
+    align-items: center !important;
+    column-gap: 14px !important;
+    row-gap: 4px !important;
+    min-height: 112px !important;
+    height: auto !important;
+    max-height: none !important;
+    padding: 16px 18px !important;
+    margin-top: 8px !important;
+    margin-bottom: 18px !important;
+    border-radius: 24px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    background:
+      linear-gradient(135deg, rgba(226, 241, 255, .98), rgba(192, 220, 248, .96)) !important;
+    border: 1px solid rgba(255,255,255,.78) !important;
+    color: #071428 !important;
+    box-shadow: 0 14px 32px rgba(0,0,0,.24) !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix *,
+  body[data-active-page="menu"] .menu-v4-current *,
+  body[data-active-page="menu"] .uxv4-current-order *,
+  body[data-active-page="menu"] .current-order-card *,
+  body[data-active-page="menu"] .nearest-order *,
+  body[data-active-page="menu"] .today-card *,
+  body[data-active-page="menu"] [data-current-order] * {
+    color: #071428 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: none !important;
+    filter: none !important;
+    transform: none !important;
+    max-height: none !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix img,
+  body[data-active-page="menu"] .menu-v4-current img,
+  body[data-active-page="menu"] .uxv4-current-order img,
+  body[data-active-page="menu"] .current-order-card img,
+  body[data-active-page="menu"] .nearest-order img,
+  body[data-active-page="menu"] .today-card img,
+  body[data-active-page="menu"] [data-current-order] img {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    display: block !important;
+    position: static !important;
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    min-height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+    border-radius: 18px !important;
+    object-fit: cover !important;
+    margin: 0 !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix h3,
+  body[data-active-page="menu"] .menu-current-order-hardfix strong,
+  body[data-active-page="menu"] .menu-current-order-hardfix .dish-name,
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="name"],
+  body[data-active-page="menu"] .menu-v4-current h3,
+  body[data-active-page="menu"] .menu-v4-current strong,
+  body[data-active-page="menu"] .menu-v4-current .dish-name,
+  body[data-active-page="menu"] .menu-v4-current [class*="name"],
+  body[data-active-page="menu"] .uxv4-current-order h3,
+  body[data-active-page="menu"] .uxv4-current-order strong,
+  body[data-active-page="menu"] .uxv4-current-order .dish-name,
+  body[data-active-page="menu"] .uxv4-current-order [class*="name"],
+  body[data-active-page="menu"] .current-order-card h3,
+  body[data-active-page="menu"] .current-order-card strong,
+  body[data-active-page="menu"] .current-order-card .dish-name,
+  body[data-active-page="menu"] .current-order-card [class*="name"],
+  body[data-active-page="menu"] .nearest-order h3,
+  body[data-active-page="menu"] .nearest-order strong,
+  body[data-active-page="menu"] .nearest-order .dish-name,
+  body[data-active-page="menu"] .nearest-order [class*="name"],
+  body[data-active-page="menu"] .today-card h3,
+  body[data-active-page="menu"] .today-card strong,
+  body[data-active-page="menu"] .today-card .dish-name,
+  body[data-active-page="menu"] .today-card [class*="name"],
+  body[data-active-page="menu"] [data-current-order] h3,
+  body[data-active-page="menu"] [data-current-order] strong,
+  body[data-active-page="menu"] [data-current-order] .dish-name,
+  body[data-active-page="menu"] [data-current-order] [class*="name"] {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #071428 !important;
+    font-size: 1.08rem !important;
+    line-height: 1.12 !important;
+    font-weight: 950 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix p,
+  body[data-active-page="menu"] .menu-current-order-hardfix .meta,
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="meta"],
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="status"],
+  body[data-active-page="menu"] .menu-v4-current p,
+  body[data-active-page="menu"] .menu-v4-current .meta,
+  body[data-active-page="menu"] .menu-v4-current [class*="meta"],
+  body[data-active-page="menu"] .menu-v4-current [class*="status"],
+  body[data-active-page="menu"] .uxv4-current-order p,
+  body[data-active-page="menu"] .uxv4-current-order .meta,
+  body[data-active-page="menu"] .uxv4-current-order [class*="meta"],
+  body[data-active-page="menu"] .uxv4-current-order [class*="status"],
+  body[data-active-page="menu"] .current-order-card p,
+  body[data-active-page="menu"] .current-order-card .meta,
+  body[data-active-page="menu"] .current-order-card [class*="meta"],
+  body[data-active-page="menu"] .current-order-card [class*="status"],
+  body[data-active-page="menu"] .nearest-order p,
+  body[data-active-page="menu"] .nearest-order .meta,
+  body[data-active-page="menu"] .nearest-order [class*="meta"],
+  body[data-active-page="menu"] .nearest-order [class*="status"],
+  body[data-active-page="menu"] .today-card p,
+  body[data-active-page="menu"] .today-card .meta,
+  body[data-active-page="menu"] .today-card [class*="meta"],
+  body[data-active-page="menu"] .today-card [class*="status"],
+  body[data-active-page="menu"] [data-current-order] p,
+  body[data-active-page="menu"] [data-current-order] .meta,
+  body[data-active-page="menu"] [data-current-order] [class*="meta"],
+  body[data-active-page="menu"] [data-current-order] [class*="status"] {
+    grid-column: 2 / span 2 !important;
+    grid-row: 2 !important;
+    display: block !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #10213a !important;
+    font-size: .94rem !important;
+    line-height: 1.16 !important;
+    font-weight: 850 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body[data-active-page="menu"] .menu-current-order-hardfix .price,
+  body[data-active-page="menu"] .menu-current-order-hardfix [class*="price"],
+  body[data-active-page="menu"] .menu-v4-current .price,
+  body[data-active-page="menu"] .menu-v4-current [class*="price"],
+  body[data-active-page="menu"] .uxv4-current-order .price,
+  body[data-active-page="menu"] .uxv4-current-order [class*="price"],
+  body[data-active-page="menu"] .current-order-card .price,
+  body[data-active-page="menu"] .current-order-card [class*="price"],
+  body[data-active-page="menu"] .nearest-order .price,
+  body[data-active-page="menu"] .nearest-order [class*="price"],
+  body[data-active-page="menu"] .today-card .price,
+  body[data-active-page="menu"] .today-card [class*="price"],
+  body[data-active-page="menu"] [data-current-order] .price,
+  body[data-active-page="menu"] [data-current-order] [class*="price"] {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+    display: block !important;
+    justify-self: end !important;
+    align-self: start !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #071428 !important;
+    font-size: 1.02rem !important;
+    line-height: 1.1 !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Fallback: if card contains plain direct div wrappers, expose them */
+  body[data-active-page="menu"] .menu-current-order-hardfix > div,
+  body[data-active-page="menu"] .menu-v4-current > div,
+  body[data-active-page="menu"] .uxv4-current-order > div,
+  body[data-active-page="menu"] .current-order-card > div,
+  body[data-active-page="menu"] .nearest-order > div,
+  body[data-active-page="menu"] .today-card > div,
+  body[data-active-page="menu"] [data-current-order] > div {
+    display: block !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+  }
+}
+
+/* ---------- MENU WEEK STRIP: remove white shell completely ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-strip,
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .menu-v4-days,
+  body[data-active-page="menu"] .day-tabs,
+  body[data-active-page="menu"] [class*="week"][class*="strip"],
+  body[data-active-page="menu"] [class*="days"] {
+    background:
+      linear-gradient(180deg, rgba(10, 41, 84, .99), rgba(5, 23, 55, .99)) !important;
+    border: 1px solid rgba(75, 151, 239, .42) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 14px 30px rgba(0,0,0,.30) !important;
+  }
+
+  body[data-active-page="menu"] .week-strip::before,
+  body[data-active-page="menu"] .week-strip::after,
+  body[data-active-page="menu"] .weekly-strip::before,
+  body[data-active-page="menu"] .weekly-strip::after,
+  body[data-active-page="menu"] .uxv4-week-strip::before,
+  body[data-active-page="menu"] .uxv4-week-strip::after,
+  body[data-active-page="menu"] .menu-v4-days::before,
+  body[data-active-page="menu"] .menu-v4-days::after,
+  body[data-active-page="menu"] .day-tabs::before,
+  body[data-active-page="menu"] .day-tabs::after {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .day-pill,
+  body[data-active-page="menu"] .uxv4-day-pill,
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .day-tab,
+  body[data-active-page="menu"] [class*="day-pill"],
+  body[data-active-page="menu"] [class*="day-tab"] {
+    background:
+      linear-gradient(180deg, rgba(43, 104, 169, .95), rgba(12, 48, 96, .99)) !important;
+    border: 1px solid rgba(164, 215, 255, .25) !important;
+    color: #f7fbff !important;
+  }
+
+  body[data-active-page="menu"] .day-pill *,
+  body[data-active-page="menu"] .uxv4-day-pill *,
+  body[data-active-page="menu"] .menu-v4-day *,
+  body[data-active-page="menu"] .day-tab *,
+  body[data-active-page="menu"] [class*="day-pill"] *,
+  body[data-active-page="menu"] [class*="day-tab"] * {
+    color: #f7fbff !important;
+    text-shadow: none !important;
+  }
+}
+
+/* ---------- PROFILE ORDERS TABLE: scrollable + bottom-safe ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="profile"] {
+    --profile-bottom-safe-final: 210px;
+  }
+
+  body[data-active-page="profile"] main,
+  body[data-active-page="profile"] .page,
+  body[data-active-page="profile"] .content,
+  body[data-active-page="profile"] .container {
+    padding-bottom: var(--profile-bottom-safe-final) !important;
+  }
+
+  body[data-active-page="profile"] .profile-orders-scroll {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 22px !important;
+    border-radius: 16px !important;
+  }
+
+  body[data-active-page="profile"] .profile-orders-scroll table,
+  body[data-active-page="profile"] table {
+    display: table !important;
+    min-width: 620px !important;
+    width: 620px !important;
+    max-width: none !important;
+    table-layout: fixed !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    font-size: .82rem !important;
+  }
+
+  body[data-active-page="profile"] th,
+  body[data-active-page="profile"] td {
+    padding: 9px 10px !important;
+    vertical-align: top !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body[data-active-page="profile"] th:nth-child(1),
+  body[data-active-page="profile"] td:nth-child(1) {
+    width: 88px !important;
+  }
+
+  body[data-active-page="profile"] th:nth-child(2),
+  body[data-active-page="profile"] td:nth-child(2) {
+    width: 82px !important;
+  }
+
+  body[data-active-page="profile"] th:nth-child(3),
+  body[data-active-page="profile"] td:nth-child(3) {
+    width: 260px !important;
+  }
+
+  body[data-active-page="profile"] th:nth-child(4),
+  body[data-active-page="profile"] td:nth-child(4) {
+    width: 90px !important;
+    text-align: right !important;
+    font-weight: 950 !important;
+  }
+
+  body[data-active-page="profile"] .app-bottom-nav {
+    z-index: 999 !important;
+  }
+}
+
+/* ---------- DEBUG/TOUCH GRID HIDE ---------- */
+.debug-grid,
+.dev-grid,
+.layout-guides,
+.touch-debug,
+.pointer-debug,
+[data-debug-grid],
+[data-layout-guides],
+[data-pointer-debug] {
+  display: none !important;
+}
+

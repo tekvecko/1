@@ -50,7 +50,8 @@
 <section class="card pad-lg" style="margin-top:18px">
     <div class="section-title"><h2 class="display">Poslední objednávky</h2></div>
     <div class="table-wrap">
-        <table>
+        <div class="profile-orders-scroll">
+<table>
             <tr><th>Den</th><th>Status</th><th>Jídlo</th><th>Cena</th></tr>
             {% for row in rows %}
             <tr>
@@ -63,6 +64,7 @@
             <tr><td colspan="4">Zatím žádné objednávky.</td></tr>
             {% endfor %}
         </table>
+</div>
     </div>
 </section>
 {% endblock %}
