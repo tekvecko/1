@@ -226,7 +226,7 @@ def _csv_response(filename, headers, rows):
     )
 
 
-@bp.route("/admin/export/orders.csv")
+@bp.route("/export/orders.csv")
 def export_orders_csv():
     _csv_export_guard()
 
@@ -286,7 +286,7 @@ def export_orders_csv():
     return _csv_response("orders.csv", headers, rows)
 
 
-@bp.route("/admin/export/billing.csv")
+@bp.route("/export/billing.csv")
 def export_billing_csv():
     _csv_export_guard()
 
@@ -338,7 +338,7 @@ def export_billing_csv():
     return _csv_response("billing.csv", headers, rows)
 
 
-@bp.route("/admin/export/users.csv")
+@bp.route("/export/users.csv")
 def export_users_csv():
     _csv_export_guard()
 
@@ -379,7 +379,7 @@ def export_users_csv():
     return _csv_response("users.csv", headers, rows)
 
 
-@bp.route("/admin/export/menu.csv")
+@bp.route("/export/menu.csv")
 def export_menu_csv():
     _csv_export_guard()
 
