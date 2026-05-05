@@ -4831,3 +4831,414 @@ body[data-active-page="admin"] .admin-export-panel,
   }
 }
 
+
+/* ============================================================
+   MOBILE UX HARDENING 3A FULL
+   ============================================================ */
+
+:root {
+  --ux3a-bg: #061225;
+  --ux3a-panel: #0d2e5e;
+  --ux3a-panel-2: #123f79;
+  --ux3a-card-blue: #123f78;
+  --ux3a-text: #f7fbff;
+  --ux3a-muted: rgba(220, 236, 255, .78);
+  --ux3a-ink: #071428;
+  --ux3a-border: rgba(139, 195, 255, .34);
+  --ux3a-safe-bottom: 142px;
+}
+
+/* ---------- global mobile safe area ---------- */
+@media (max-width: 760px) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+
+  main,
+  .page,
+  .content,
+  .container,
+  .app-shell {
+    padding-bottom: var(--ux3a-safe-bottom) !important;
+  }
+
+  .app-bottom-nav {
+    z-index: 50 !important;
+  }
+
+  .app-bottom-nav a,
+  .app-bottom-nav span,
+  .app-bottom-nav .label {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+    font-size: .78rem !important;
+  }
+
+  .app-bottom-nav svg,
+  .app-bottom-nav img {
+    max-width: 30px !important;
+    max-height: 30px !important;
+  }
+}
+
+/* ---------- auth/login/register polish ---------- */
+html.auth-screen .app-bottom-nav,
+body.auth-screen .app-bottom-nav,
+body[data-active-page="login"] .app-bottom-nav,
+body[data-active-page="register"] .app-bottom-nav,
+body[data-active-page="auth"] .app-bottom-nav {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  body.auth-screen main,
+  body[data-active-page="login"] main,
+  body[data-active-page="register"] main,
+  body[data-active-page="auth"] main {
+    padding-bottom: 34px !important;
+  }
+
+  body.auth-screen .brand,
+  body.auth-screen .brand-title,
+  body.auth-screen .logo-title,
+  body[data-active-page="login"] .brand,
+  body[data-active-page="login"] .brand-title,
+  body[data-active-page="login"] .logo-title,
+  body[data-active-page="register"] .brand,
+  body[data-active-page="register"] .brand-title,
+  body[data-active-page="register"] .logo-title {
+    max-width: calc(100vw - 118px) !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  body.auth-screen .flash,
+  body[data-active-page="login"] .flash,
+  body[data-active-page="register"] .flash,
+  .flash {
+    color: #f7fbff !important;
+    background: linear-gradient(135deg, rgba(24, 77, 153, .96), rgba(13, 43, 96, .96)) !important;
+    border: 1px solid rgba(137, 195, 255, .34) !important;
+    border-radius: 18px !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="login"] form,
+  body[data-active-page="register"] form,
+  body.auth-screen form {
+    gap: 12px !important;
+  }
+
+  body[data-active-page="login"] .card,
+  body[data-active-page="register"] .card,
+  body.auth-screen .card,
+  .auth-card,
+  .login-card,
+  .register-card {
+    border-radius: 24px !important;
+    border: 1px solid rgba(144, 200, 255, .32) !important;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(80, 158, 255, .20), transparent 36%),
+      linear-gradient(180deg, rgba(27, 76, 135, .94), rgba(12, 43, 89, .96)) !important;
+    box-shadow: 0 20px 52px rgba(0,0,0,.34) !important;
+  }
+
+  body[data-active-page="login"] h1,
+  body[data-active-page="register"] h1,
+  body.auth-screen h1,
+  .auth-card h1,
+  .login-card h1,
+  .register-card h1 {
+    color: #fff !important;
+    font-size: clamp(2.25rem, 11vw, 3.35rem) !important;
+    line-height: .9 !important;
+    margin-bottom: 18px !important;
+  }
+
+  body[data-active-page="login"] p,
+  body[data-active-page="register"] p,
+  body.auth-screen p,
+  .auth-card p,
+  .login-card p,
+  .register-card p {
+    color: rgba(230, 242, 255, .84) !important;
+  }
+
+  body[data-active-page="login"] input,
+  body[data-active-page="register"] input,
+  body.auth-screen input,
+  .auth-card input,
+  .login-card input,
+  .register-card input {
+    min-height: 58px !important;
+    border-radius: 18px !important;
+    color: #fff !important;
+    background: rgba(255,255,255,.09) !important;
+    border: 1px solid rgba(210, 233, 255, .22) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08) !important;
+  }
+
+  body[data-active-page="login"] input::placeholder,
+  body[data-active-page="register"] input::placeholder,
+  body.auth-screen input::placeholder,
+  .auth-card input::placeholder,
+  .login-card input::placeholder,
+  .register-card input::placeholder {
+    color: rgba(226, 239, 255, .62) !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="login"] button,
+  body[data-active-page="register"] button,
+  body.auth-screen button,
+  .auth-card button,
+  .login-card button,
+  .register-card button {
+    min-height: 56px !important;
+    border-radius: 18px !important;
+    font-weight: 900 !important;
+  }
+
+  body[data-active-page="login"] a,
+  body[data-active-page="register"] a,
+  body.auth-screen a {
+    color: #dcecff !important;
+  }
+}
+
+/* ---------- menu page polish ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="menu"] {
+    --ux3a-safe-bottom: 148px;
+  }
+
+  body[data-active-page="menu"] .today-card,
+  body[data-active-page="menu"] .nearest-order,
+  body[data-active-page="menu"] .uxv4-current-order,
+  body[data-active-page="menu"] .menu-v4-current,
+  body[data-active-page="menu"] [data-current-order],
+  body[data-active-page="menu"] .current-order-card {
+    background:
+      linear-gradient(135deg, rgba(27, 84, 151, .94), rgba(17, 52, 107, .96)) !important;
+    color: #f7fbff !important;
+    border: 1px solid rgba(145, 201, 255, .34) !important;
+    box-shadow: 0 14px 32px rgba(0,0,0,.24) !important;
+  }
+
+  body[data-active-page="menu"] .today-card *,
+  body[data-active-page="menu"] .nearest-order *,
+  body[data-active-page="menu"] .uxv4-current-order *,
+  body[data-active-page="menu"] .menu-v4-current *,
+  body[data-active-page="menu"] [data-current-order] *,
+  body[data-active-page="menu"] .current-order-card * {
+    color: #f7fbff !important;
+    text-shadow: none !important;
+  }
+
+  body[data-active-page="menu"] .today-card .price,
+  body[data-active-page="menu"] .nearest-order .price,
+  body[data-active-page="menu"] .uxv4-current-order .price,
+  body[data-active-page="menu"] .menu-v4-current .price,
+  body[data-active-page="menu"] [data-current-order] .price,
+  body[data-active-page="menu"] .current-order-card .price {
+    color: #ffffff !important;
+    font-weight: 950 !important;
+    opacity: 1 !important;
+  }
+
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-strip,
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .menu-v4-days,
+  body[data-active-page="menu"] .day-tabs {
+    background:
+      linear-gradient(180deg, rgba(30, 83, 143, .95), rgba(12, 43, 91, .97)) !important;
+    border: 1px solid rgba(150, 205, 255, .34) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.22) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-section,
+  body[data-active-page="menu"] .day-section,
+  body[data-active-page="menu"] .menu-day-section {
+    margin-bottom: 12px !important;
+    border-radius: 22px !important;
+    background:
+      linear-gradient(180deg, rgba(18, 69, 131, .96), rgba(9, 41, 88, .98)) !important;
+    border: 1px solid rgba(91, 166, 255, .38) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-dish-card,
+  body[data-active-page="menu"] .dish-card,
+  body[data-active-page="menu"] .menu-v4-dish-card {
+    border-radius: 20px !important;
+    background:
+      linear-gradient(135deg, rgba(228, 241, 255, .97), rgba(196, 222, 248, .95)) !important;
+    border: 1px solid rgba(255,255,255,.70) !important;
+    color: var(--ux3a-ink) !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-dish-card *,
+  body[data-active-page="menu"] .dish-card *,
+  body[data-active-page="menu"] .menu-v4-dish-card * {
+    color: var(--ux3a-ink) !important;
+    text-shadow: none !important;
+  }
+}
+
+/* ---------- report/orders mobile polish ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="orders"] {
+    --ux3a-safe-bottom: 148px;
+  }
+
+  body[data-active-page="orders"] .v7-report-page,
+  body[data-active-page="orders"] main,
+  body[data-active-page="orders"] .page,
+  body[data-active-page="orders"] .content {
+    padding-bottom: var(--ux3a-safe-bottom) !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero,
+  body[data-active-page="orders"] .report-hero,
+  body[data-active-page="orders"] .orders-hero {
+    border-radius: 24px !important;
+    background:
+      radial-gradient(circle at 25% 0%, rgba(80, 158, 255, .20), transparent 38%),
+      linear-gradient(145deg, rgba(18, 67, 128, .96), rgba(9, 35, 79, .98)) !important;
+    border: 1px solid rgba(145, 201, 255, .34) !important;
+    box-shadow: 0 18px 42px rgba(0,0,0,.30) !important;
+  }
+
+  body[data-active-page="orders"] .v7-order-card,
+  body[data-active-page="orders"] .order-card,
+  body[data-active-page="orders"] .report-order-card {
+    border-radius: 22px !important;
+    background:
+      linear-gradient(135deg, rgba(226, 240, 255, .97), rgba(192, 219, 247, .95)) !important;
+    color: #071428 !important;
+    border: 1px solid rgba(255,255,255,.70) !important;
+    box-shadow: 0 12px 28px rgba(0,0,0,.22) !important;
+    margin-bottom: 12px !important;
+  }
+
+  body[data-active-page="orders"] .v7-order-card *,
+  body[data-active-page="orders"] .order-card *,
+  body[data-active-page="orders"] .report-order-card * {
+    color: #071428 !important;
+    text-shadow: none !important;
+  }
+
+  body[data-active-page="orders"] .payment-status,
+  body[data-active-page="orders"] .status-badge,
+  body[data-active-page="orders"] .badge {
+    font-weight: 900 !important;
+    border-radius: 999px !important;
+    padding: 6px 10px !important;
+  }
+
+  body[data-active-page="orders"] .unpaid,
+  body[data-active-page="orders"] [data-payment-status="unpaid"] {
+    background: rgba(255, 94, 94, .16) !important;
+    color: #7a0b0b !important;
+  }
+
+  body[data-active-page="orders"] .partial,
+  body[data-active-page="orders"] [data-payment-status="partial"] {
+    background: rgba(255, 190, 76, .20) !important;
+    color: #6b4100 !important;
+  }
+
+  body[data-active-page="orders"] .paid,
+  body[data-active-page="orders"] [data-payment-status="paid"] {
+    background: rgba(53, 205, 131, .18) !important;
+    color: #064d2b !important;
+  }
+}
+
+/* ---------- admin/billing polish ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="admin"] {
+    --ux3a-safe-bottom: 148px;
+  }
+
+  body[data-active-page="admin"] main,
+  body[data-active-page="admin"] .page,
+  body[data-active-page="admin"] .content {
+    padding-bottom: var(--ux3a-safe-bottom) !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-panel {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 6 !important;
+    margin: 12px 0 18px 0 !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+
+  body[data-active-page="admin"] .admin-export-btn,
+  body[data-active-page="admin"] .admin-export-grid a {
+    min-height: 70px !important;
+    border-radius: 17px !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabbar,
+  body[data-active-page="admin"] .admin-tabs,
+  body[data-active-page="admin"] .admin-section-tabs,
+  body[data-active-page="admin"] [data-admin-tabs] {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 8px !important;
+    padding-bottom: 6px !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body[data-active-page="admin"] .admin-tabbar button,
+  body[data-active-page="admin"] .admin-tabs button,
+  body[data-active-page="admin"] .admin-section-tabs button,
+  body[data-active-page="admin"] [data-admin-tabs] button {
+    min-height: 46px !important;
+    min-width: max-content !important;
+    border-radius: 16px !important;
+    padding: 10px 14px !important;
+  }
+
+  body[data-active-page="admin"] table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-active-page="admin"] input,
+  body[data-active-page="admin"] select,
+  body[data-active-page="admin"] textarea {
+    min-height: 48px !important;
+    border-radius: 15px !important;
+  }
+
+  body[data-active-page="admin"] button,
+  body[data-active-page="admin"] .btn,
+  body[data-active-page="admin"] .btn-blue {
+    min-height: 44px !important;
+    border-radius: 15px !important;
+  }
+
+  body[data-active-page="admin"] .billing-card,
+  body[data-active-page="admin"] .debtor-card,
+  body[data-active-page="admin"] .kpi,
+  body[data-active-page="admin"] .card {
+    border-radius: 22px !important;
+  }
+}
+

@@ -77,6 +77,25 @@
 </script>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='final_precision_font.css') }}">
+
+<script>
+/* MOBILE_UX_3A_AUTH_NAV_GUARD */
+(function(){
+  try {
+    var path = window.location.pathname || "";
+    var isAuth = path === "/login" || path === "/register" || path.indexOf("/login") === 0 || path.indexOf("/register") === 0;
+    if (!isAuth) return;
+    document.documentElement.classList.add("auth-screen");
+    document.body && document.body.classList.add("auth-screen");
+    document.addEventListener("DOMContentLoaded", function(){
+      document.querySelectorAll(".app-bottom-nav, .smart-bottom, .native-more-sheet, .bottom-nav").forEach(function(el){
+        el.style.display = "none";
+      });
+    });
+  } catch(e) {}
+})();
+</script>
+
 </head>
 <body data-active-page="{{ active_page|default('') }}">
 <div class="page-shell">
@@ -138,7 +157,7 @@
     </div>
     <main class="container">
         {% block content %}{% endblock %}
-        <footer class="page-foot">Preserved navy UI on top of the modular v2 architecture.</footer>
+        <footer class="page-foot"></footer>
     </main>
 </div>
 <script src="{{ url_for('static', filename='app.js') }}"></script>

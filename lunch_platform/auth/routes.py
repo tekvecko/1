@@ -29,7 +29,7 @@ def login():
         account = authenticate(identifier, password)
         if not account:
             log_event("login_failed", actor=identifier, detail=f"ip={ip}")
-            flash("Invalid credentials.", "error")
+            flash("Neplatné přihlašovací údaje.", "error")
             return redirect(url_for("auth.login"))
 
         login_user(account)
@@ -74,7 +74,7 @@ def register():
 @bp.route("/logout", methods=["GET", "POST"])
 def logout():
     logout_user()
-    flash("Signed out.")
+    flash("Odhlášeno.")
     return redirect(url_for("auth.login"))
 
 
