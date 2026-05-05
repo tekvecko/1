@@ -71,7 +71,7 @@ def register():
     return render_template("auth/register.html")
 
 
-@bp.route("/logout", methods=["POST"])
+@bp.route("/logout", methods=["GET", "POST"])
 def logout():
     logout_user()
     flash("Signed out.")
