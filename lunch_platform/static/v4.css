@@ -7569,3 +7569,334 @@ body[data-active-page="auth"] .app-bottom-nav {
   }
 }
 
+
+/* ============================================================
+   UX LAYOUT POLISH 3A.3
+   - menu current-order compact fix
+   - darker week overview
+   - auth register button spacing
+   - profile compact spacing
+   - orders/report compact spacing
+   ============================================================ */
+
+/* ---------- MENU: current-order card must show text ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="menu"] .today-card,
+  body[data-active-page="menu"] .nearest-order,
+  body[data-active-page="menu"] .uxv4-current-order,
+  body[data-active-page="menu"] .menu-v4-current,
+  body[data-active-page="menu"] [data-current-order],
+  body[data-active-page="menu"] .current-order-card {
+    min-height: 106px !important;
+    max-height: none !important;
+    padding: 16px 18px 16px 112px !important;
+    display: block !important;
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 24px !important;
+    background:
+      linear-gradient(135deg, rgba(224, 240, 255, .98), rgba(194, 220, 248, .96)) !important;
+    border: 1px solid rgba(255, 255, 255, .72) !important;
+    color: #071428 !important;
+    box-shadow: 0 14px 32px rgba(0,0,0,.24) !important;
+  }
+
+  body[data-active-page="menu"] .today-card *,
+  body[data-active-page="menu"] .nearest-order *,
+  body[data-active-page="menu"] .uxv4-current-order *,
+  body[data-active-page="menu"] .menu-v4-current *,
+  body[data-active-page="menu"] [data-current-order] *,
+  body[data-active-page="menu"] .current-order-card * {
+    color: #071428 !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  body[data-active-page="menu"] .today-card img,
+  body[data-active-page="menu"] .nearest-order img,
+  body[data-active-page="menu"] .uxv4-current-order img,
+  body[data-active-page="menu"] .menu-v4-current img,
+  body[data-active-page="menu"] [data-current-order] img,
+  body[data-active-page="menu"] .current-order-card img {
+    position: absolute !important;
+    left: 18px !important;
+    top: 20px !important;
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 18px !important;
+    object-fit: cover !important;
+  }
+
+  body[data-active-page="menu"] .today-card h3,
+  body[data-active-page="menu"] .today-card strong,
+  body[data-active-page="menu"] .nearest-order h3,
+  body[data-active-page="menu"] .nearest-order strong,
+  body[data-active-page="menu"] .uxv4-current-order h3,
+  body[data-active-page="menu"] .uxv4-current-order strong,
+  body[data-active-page="menu"] .menu-v4-current h3,
+  body[data-active-page="menu"] .menu-v4-current strong,
+  body[data-active-page="menu"] [data-current-order] h3,
+  body[data-active-page="menu"] [data-current-order] strong,
+  body[data-active-page="menu"] .current-order-card h3,
+  body[data-active-page="menu"] .current-order-card strong {
+    display: block !important;
+    max-width: calc(100% - 78px) !important;
+    margin: 0 76px 6px 0 !important;
+    color: #071428 !important;
+    font-size: 1.12rem !important;
+    line-height: 1.12 !important;
+    font-weight: 900 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+
+  body[data-active-page="menu"] .today-card p,
+  body[data-active-page="menu"] .nearest-order p,
+  body[data-active-page="menu"] .uxv4-current-order p,
+  body[data-active-page="menu"] .menu-v4-current p,
+  body[data-active-page="menu"] [data-current-order] p,
+  body[data-active-page="menu"] .current-order-card p {
+    display: block !important;
+    margin: 0 !important;
+    max-width: calc(100% - 72px) !important;
+    color: #10213a !important;
+    font-size: .96rem !important;
+    line-height: 1.18 !important;
+    font-weight: 800 !important;
+    white-space: normal !important;
+  }
+
+  body[data-active-page="menu"] .today-card .price,
+  body[data-active-page="menu"] .nearest-order .price,
+  body[data-active-page="menu"] .uxv4-current-order .price,
+  body[data-active-page="menu"] .menu-v4-current .price,
+  body[data-active-page="menu"] [data-current-order] .price,
+  body[data-active-page="menu"] .current-order-card .price {
+    position: absolute !important;
+    right: 18px !important;
+    top: 42px !important;
+    color: #071428 !important;
+    font-size: 1.06rem !important;
+    font-weight: 950 !important;
+    white-space: nowrap !important;
+  }
+
+  /* If current card uses generic flex rows, force text block visible */
+  body[data-active-page="menu"] .today-card > div,
+  body[data-active-page="menu"] .nearest-order > div,
+  body[data-active-page="menu"] .uxv4-current-order > div,
+  body[data-active-page="menu"] .menu-v4-current > div,
+  body[data-active-page="menu"] [data-current-order] > div,
+  body[data-active-page="menu"] .current-order-card > div {
+    min-width: 0 !important;
+  }
+
+  /* ---------- MENU: darker weekly overview ---------- */
+  body[data-active-page="menu"] .week-strip,
+  body[data-active-page="menu"] .weekly-strip,
+  body[data-active-page="menu"] .uxv4-week-strip,
+  body[data-active-page="menu"] .menu-v4-days,
+  body[data-active-page="menu"] .day-tabs {
+    background:
+      linear-gradient(180deg, rgba(13, 48, 96, .98), rgba(7, 29, 66, .98)) !important;
+    border: 1px solid rgba(95, 166, 255, .34) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 12px 28px rgba(0,0,0,.26) !important;
+  }
+
+  body[data-active-page="menu"] .day-pill,
+  body[data-active-page="menu"] .uxv4-day-pill,
+  body[data-active-page="menu"] .menu-v4-day,
+  body[data-active-page="menu"] .day-tab {
+    background:
+      linear-gradient(180deg, rgba(42, 99, 160, .92), rgba(16, 55, 105, .96)) !important;
+    border: 1px solid rgba(161, 211, 255, .22) !important;
+    color: #f7fbff !important;
+    box-shadow: 0 8px 18px rgba(0,0,0,.18) !important;
+  }
+
+  body[data-active-page="menu"] .day-pill *,
+  body[data-active-page="menu"] .uxv4-day-pill *,
+  body[data-active-page="menu"] .menu-v4-day *,
+  body[data-active-page="menu"] .day-tab * {
+    color: #f7fbff !important;
+  }
+
+  body[data-active-page="menu"] .uxv4-day-header,
+  body[data-active-page="menu"] .day-section-header,
+  body[data-active-page="menu"] .menu-day-header {
+    min-height: 82px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+}
+
+/* ---------- AUTH: tighter login/register bottom area ---------- */
+@media (max-width: 760px) {
+  body.auth-screen .app-bottom-nav,
+  body[data-active-page="login"] .app-bottom-nav,
+  body[data-active-page="register"] .app-bottom-nav {
+    display: none !important;
+  }
+
+  body[data-active-page="login"] .card,
+  body[data-active-page="register"] .card,
+  body.auth-screen .card,
+  .auth-card,
+  .login-card,
+  .register-card {
+    padding-bottom: 22px !important;
+  }
+
+  body[data-active-page="login"] form,
+  body[data-active-page="register"] form,
+  body.auth-screen form {
+    gap: 11px !important;
+  }
+
+  body[data-active-page="login"] button,
+  body[data-active-page="register"] button,
+  body.auth-screen button {
+    min-height: 54px !important;
+  }
+
+  body[data-active-page="login"] a,
+  body[data-active-page="register"] a,
+  body.auth-screen a {
+    line-height: 1.15 !important;
+  }
+
+  body[data-active-page="login"] .register-link,
+  body[data-active-page="login"] .auth-switch,
+  body[data-active-page="register"] .login-link,
+  body[data-active-page="register"] .auth-switch {
+    margin-top: 8px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    align-items: center !important;
+  }
+}
+
+/* ---------- PROFILE: compact cards + safe bottom ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="profile"] main,
+  body[data-active-page="profile"] .page,
+  body[data-active-page="profile"] .content,
+  body[data-active-page="profile"] .container {
+    padding-bottom: 160px !important;
+  }
+
+  body[data-active-page="profile"] .card {
+    margin-bottom: 14px !important;
+    padding: 22px !important;
+    border-radius: 24px !important;
+  }
+
+  body[data-active-page="profile"] h1 {
+    font-size: clamp(2.6rem, 12vw, 4rem) !important;
+    line-height: .88 !important;
+    margin-bottom: 10px !important;
+  }
+
+  body[data-active-page="profile"] h2 {
+    font-size: clamp(2rem, 9vw, 3rem) !important;
+    line-height: .9 !important;
+    margin-bottom: 12px !important;
+  }
+
+  body[data-active-page="profile"] input,
+  body[data-active-page="profile"] textarea {
+    min-height: 54px !important;
+    border-radius: 18px !important;
+  }
+
+  body[data-active-page="profile"] textarea {
+    min-height: 126px !important;
+  }
+
+  body[data-active-page="profile"] button,
+  body[data-active-page="profile"] .btn,
+  body[data-active-page="profile"] .btn-blue {
+    min-height: 54px !important;
+    border-radius: 18px !important;
+  }
+}
+
+/* ---------- ORDERS/REPORT: compact cards ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="orders"] main,
+  body[data-active-page="orders"] .page,
+  body[data-active-page="orders"] .content,
+  body[data-active-page="orders"] .container,
+  body[data-active-page="orders"] .v7-report-page {
+    padding-bottom: 160px !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero,
+  body[data-active-page="orders"] .report-hero,
+  body[data-active-page="orders"] .orders-hero {
+    padding: 24px 22px !important;
+    margin-bottom: 14px !important;
+    border-radius: 24px !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-hero h1,
+  body[data-active-page="orders"] .report-hero h1,
+  body[data-active-page="orders"] .orders-hero h1 {
+    font-size: clamp(3rem, 13vw, 4.6rem) !important;
+    line-height: .86 !important;
+  }
+
+  body[data-active-page="orders"] .v7-report-stats,
+  body[data-active-page="orders"] .report-stats,
+  body[data-active-page="orders"] .stats-grid {
+    gap: 10px !important;
+    margin-bottom: 14px !important;
+  }
+
+  body[data-active-page="orders"] .v7-order-card,
+  body[data-active-page="orders"] .order-card,
+  body[data-active-page="orders"] .report-order-card {
+    padding: 16px 18px !important;
+    margin-bottom: 12px !important;
+    border-radius: 22px !important;
+    min-height: 0 !important;
+  }
+
+  body[data-active-page="orders"] .v7-order-card h3,
+  body[data-active-page="orders"] .order-card h3,
+  body[data-active-page="orders"] .report-order-card h3,
+  body[data-active-page="orders"] .dish-name {
+    font-size: 1.15rem !important;
+    line-height: 1.14 !important;
+    margin-bottom: 8px !important;
+  }
+
+  body[data-active-page="orders"] .badge,
+  body[data-active-page="orders"] .status-badge,
+  body[data-active-page="orders"] .payment-status {
+    font-size: .92rem !important;
+    padding: 6px 10px !important;
+  }
+}
+
+/* ---------- ADMIN/BILLING: safer bottom and denser sections ---------- */
+@media (max-width: 760px) {
+  body[data-active-page="admin"] main,
+  body[data-active-page="admin"] .page,
+  body[data-active-page="admin"] .content,
+  body[data-active-page="admin"] .container {
+    padding-bottom: 160px !important;
+  }
+
+  body[data-active-page="admin"] .card {
+    margin-bottom: 14px !important;
+  }
+
+  body[data-active-page="admin"] table {
+    font-size: .88rem !important;
+  }
+}
+
