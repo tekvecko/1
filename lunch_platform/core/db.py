@@ -172,6 +172,28 @@ def _convert_placeholders(sql: str) -> str:
     return sql.replace("?", "%s")
 
 
+def _convert_postgres_functions(sql: str) -> str:
+    # SQLite:    GROUP_CONCAT(DISTINCT col)
+    # PostgreSQL: STRING_AGG(DISTINCT col::text, ',')
+    sql = re.sub(
+        r"GROUP_CONCAT\s*\(\s*DISTINCT\s+([^\)]+?)\s*\)",
+        r"STRING_AGG(DISTINCT \1::text, ',')",
+        sql,
+        flags=re.I,
+    )
+
+    # SQLite:    GROUP_CONCAT(col)
+    # PostgreSQL: STRING_AGG(col::text, ',')
+    sql = re.sub(
+        r"GROUP_CONCAT\s*\(\s*([^\)]+?)\s*\)",
+        r"STRING_AGG(\1::text, ',')",
+        sql,
+        flags=re.I,
+    )
+
+    return sql
+
+
 def _convert_sqlite_ddl_to_postgres(sql: str) -> str:
     sql = sql.replace("INTEGER PRIMARY KEY AUTOINCREMENT", "SERIAL PRIMARY KEY")
     sql = sql.replace("DATETIME", "TIMESTAMP")
@@ -180,6 +202,7 @@ def _convert_sqlite_ddl_to_postgres(sql: str) -> str:
 
 
 def _convert_sqlite_dml_to_postgres(sql: str) -> str:
+    sql = _convert_postgres_functions(sql)
     stripped = " ".join(sql.strip().split()).upper()
 
     if stripped.startswith("INSERT OR REPLACE INTO SETTINGS"):
@@ -206,6 +229,7 @@ def adapt_sql(sql: str) -> str:
     if not is_postgres():
         return sql
 
+    sql = _convert_postgres_functions(sql)
     upper = sql.lstrip().upper()
     if upper.startswith("CREATE TABLE") or upper.startswith("CREATE INDEX") or upper.startswith("ALTER TABLE"):
         return _convert_placeholders(_convert_sqlite_ddl_to_postgres(sql))
