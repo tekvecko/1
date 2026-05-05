@@ -51,4 +51,53 @@ def create_app(test_config: dict | None = None):
     def healthz():
         return {"status": "ok", "app": "final-lunch"}, 200
 
+    @app.get("/db-healthz")
+    def db_healthz():
+        from .core.db import db_kind, query, table_columns
+
+        required_tables = [
+            "settings",
+            "accounts",
+            "users",
+            "restaurants",
+            "menu",
+            "orders",
+            "ratings",
+            "audit_log",
+            "notifications",
+        ]
+
+        result = {
+            "status": "ok",
+            "app": "final-lunch",
+            "db_kind": db_kind(),
+            "tables": {},
+        }
+
+        try:
+            for table in required_tables:
+                cols = sorted(table_columns(table))
+                result["tables"][table] = {
+                    "ok": True,
+                    "columns": len(cols),
+                }
+
+            admin = query(
+                "SELECT id, username, role, is_active FROM accounts WHERE username=?",
+                ("admin",),
+                one=True,
+            )
+
+            result["admin_exists"] = bool(admin)
+            result["admin_role"] = admin["role"] if admin else None
+            result["admin_active"] = bool(admin["is_active"]) if admin else False
+
+            return result, 200
+
+        except Exception as exc:
+            result["status"] = "error"
+            result["error_type"] = exc.__class__.__name__
+            result["error"] = str(exc)
+            return result, 500
+
     return app
