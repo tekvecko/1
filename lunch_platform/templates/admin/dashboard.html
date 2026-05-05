@@ -1,21 +1,43 @@
 {% extends 'base.html' %}
 {% block title %}Admin · FINAL Lunch
-<section class="card pad-lg stack admin-export-panel" style="margin-top:16px">
-  <div class="section-title">
-    <h2 style="margin:0;color:#fff">Export dat</h2>
-    <p class="muted">Rychlé CSV exporty pro zálohu, účetnictví a kontrolu objednávek.</p>
+{% endblock %}
+{% block content %}
+
+<section class="admin-export-panel admin-export-panel-top" aria-label="Export dat">
+  <div class="admin-export-head">
+    <div>
+      <h2>Export dat</h2>
+      <p>CSV výstupy pro objednávky, vyúčtování, uživatele a menu.</p>
+    </div>
   </div>
 
   <div class="admin-export-grid">
-    <a class="btn-blue label" href="{{ url_for('admin.export_orders_csv') }}">Objednávky CSV</a>
-    <a class="btn-blue label" href="{{ url_for('admin.export_billing_csv') }}">Billing CSV</a>
-    <a class="btn-blue label" href="{{ url_for('admin.export_users_csv') }}">Uživatelé CSV</a>
-    <a class="btn-blue label" href="{{ url_for('admin.export_menu_csv') }}">Menu CSV</a>
+    <a class="admin-export-btn" href="{{ url_for('admin.export_orders_csv') }}">
+      <span>📋</span>
+      <strong>Objednávky</strong>
+      <small>orders.csv</small>
+    </a>
+
+    <a class="admin-export-btn" href="{{ url_for('admin.export_billing_csv') }}">
+      <span>💳</span>
+      <strong>Billing</strong>
+      <small>billing.csv</small>
+    </a>
+
+    <a class="admin-export-btn" href="{{ url_for('admin.export_users_csv') }}">
+      <span>👤</span>
+      <strong>Uživatelé</strong>
+      <small>users.csv</small>
+    </a>
+
+    <a class="admin-export-btn" href="{{ url_for('admin.export_menu_csv') }}">
+      <span>🍽️</span>
+      <strong>Menu</strong>
+      <small>menu.csv</small>
+    </a>
   </div>
 </section>
 
-{% endblock %}
-{% block content %}
 <section class="hero hero-admin">
     <div class="card hero-copy stack">
         <span class="badge badge-gold label">Admin cockpit</span>
