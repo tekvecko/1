@@ -468,3 +468,205 @@ def get_user_payment_summary(account_id: int) -> dict:
         "unpaid_text": f"{unpaid // 100} Kč",
         "payment_status": status,
     }
+
+
+# ============================================================
+# ORDER LOCK SAFETY 4A
+# ============================================================
+
+_legacy_build_order_state_lock_4a = build_order_state
+_legacy_place_order_lock_4a = place_order
+_legacy_cancel_order_lock_4a = cancel_order
+
+
+def _lock_service():
+    from .billing import get_lock_state, get_lock_time, is_day_locked
+    return get_lock_state, get_lock_time, is_day_locked
+
+
+def _day_locked(day: str) -> bool:
+    _get_lock_state, _get_lock_time, is_day_locked = _lock_service()
+    return bool(is_day_locked(day))
+
+
+def _lock_message(day: str) -> str:
+    get_lock_state, get_lock_time, _is_day_locked = _lock_service()
+    state = get_lock_state()
+    lock_time = get_lock_time()
+
+    if state == "locked":
+        return "Objednávky jsou ručně uzamčené administrátorem."
+
+    if state == "auto":
+        return f"Objednávky pro den {day} jsou uzamčené. V režimu auto se dnešní den zamyká v {lock_time}."
+
+    return f"Objednávky pro den {day} jsou uzamčené."
+
+
+def build_order_state(account_id: int, user_row=None):
+    state = _legacy_build_order_state_lock_4a(account_id, user_row)
+
+    try:
+        get_lock_state, get_lock_time, is_day_locked = _lock_service()
+        days = state.get("menu_days") or ALLOWED_DAYS
+        state["lock_state"] = get_lock_state()
+        state["lock_time"] = get_lock_time()
+        state["day_locked_by_day"] = {day: bool(is_day_locked(day)) for day in days}
+        state["any_locked"] = any(state["day_locked_by_day"].values())
+    except Exception:
+        state["lock_state"] = "auto"
+        state["lock_time"] = "10:00"
+        state["day_locked_by_day"] = {}
+        state["any_locked"] = False
+
+    return state
+
+
+def place_order(account, day: str, dish_id: int):
+    restaurant_id = _active_restaurant_id()
+
+    dish = query(
+        "SELECT * FROM menu WHERE id=? AND restaurant_id=?",
+        (dish_id, restaurant_id),
+        one=True,
+    )
+
+    if not dish:
+        return {
+            "success": False,
+            "message": "Jídlo nebylo nalezeno pro vybranou restauraci.",
+            "state": build_order_state(account["id"]),
+        }
+
+    day = day or dish["day"]
+
+    if day != dish["day"]:
+        raise ValueError("Only one lunch can be selected per day.")
+
+    if _day_locked(day):
+        return {
+            "success": False,
+            "message": _lock_message(day),
+            "state": build_order_state(account["id"]),
+        }
+
+    existing = query(
+        """
+        SELECT *
+        FROM orders
+        WHERE created_by_account_id=?
+          AND restaurant_id=?
+          AND day=?
+          AND status NOT IN ('cancelled')
+        """,
+        (account["id"], restaurant_id, day),
+        one=True,
+    )
+
+    if existing and existing["status"] not in {"draft", "submitted"}:
+        return {
+            "success": False,
+            "message": f"Objednávku pro {day} už nelze změnit. Aktuální stav: {existing['status']}.",
+            "state": build_order_state(account["id"]),
+        }
+
+    return _legacy_place_order_lock_4a(account, day, int(dish_id))
+
+
+def cancel_order(account, day: str):
+    restaurant_id = _active_restaurant_id()
+
+    if _day_locked(day):
+        return {
+            "success": False,
+            "message": _lock_message(day),
+            "state": build_order_state(account["id"]),
+        }
+
+    order = query(
+        """
+        SELECT *
+        FROM orders
+        WHERE created_by_account_id=?
+          AND restaurant_id=?
+          AND day=?
+          AND status NOT IN ('cancelled')
+        """,
+        (account["id"], restaurant_id, day),
+        one=True,
+    )
+
+    if order and order["status"] not in {"draft", "submitted"}:
+        return {
+            "success": False,
+            "message": f"Objednávku pro {day} už nelze zrušit. Aktuální stav: {order['status']}.",
+            "state": build_order_state(account["id"]),
+        }
+
+    return _legacy_cancel_order_lock_4a(account, day)
+
+
+def confirm_current_cart(account):
+    rows = query(
+        """
+        SELECT id, day, payment_status
+        FROM orders
+        WHERE created_by_account_id=?
+          AND status IN ('draft', 'submitted')
+          AND status NOT IN ('cancelled')
+        ORDER BY
+          CASE day WHEN 'Pondělí' THEN 1 WHEN 'Úterý' THEN 2 WHEN 'Středa' THEN 3 WHEN 'Čtvrtek' THEN 4 WHEN 'Pátek' THEN 5 ELSE 99 END,
+          id
+        """,
+        (account["id"],),
+    )
+
+    locked_days = []
+    for row in rows:
+        if _day_locked(row["day"]):
+            locked_days.append(row["day"])
+
+    if locked_days:
+        unique_days = []
+        for day in locked_days:
+            if day not in unique_days:
+                unique_days.append(day)
+        raise ValueError("Košík nelze potvrdit. Uzamčené dny: " + ", ".join(unique_days))
+
+    count = 0
+    for row in rows:
+        current_payment = (row["payment_status"] or "").strip()
+        payment_status = current_payment if current_payment in {"unpaid", "partial", "paid"} else "unpaid"
+
+        execute(
+            """
+            UPDATE orders
+            SET status='submitted',
+                payment_status=?,
+                paid_amount_cents=COALESCE(paid_amount_cents, 0),
+                confirmed_at=COALESCE(confirmed_at, CURRENT_TIMESTAMP),
+                cancelled_at=NULL
+            WHERE id=?
+            """,
+            (payment_status, row["id"]),
+        )
+        count += 1
+
+    log_event(
+        "cart_confirmed_unpaid",
+        account_id=account["id"],
+        actor=account_full_name(account),
+        role=account["role"],
+        detail=f"count={count}; lock_guard=4a",
+    )
+
+    return build_order_state(account["id"])
+
+
+def current_state(account_id: int, user_row=None):
+    return build_order_state(account_id, user_row)
+
+
+def build_menu_view_model(account_id: int, user_row=None):
+    return build_order_state(account_id, user_row)
+
