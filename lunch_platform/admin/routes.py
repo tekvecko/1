@@ -7,8 +7,14 @@ from ..core.auth import current_account, require_role
 from ..core.db import account_full_name, execute, query
 from ..core.utils import extract_price_cents, format_price_czk, full_name_from_parts, normalize_email, normalize_person_name
 from ..services.billing import get_lock_state
-from ..services.imports import get_current_menu_pdf_meta
 from ..services.notifications import create_notification, sync_password_change_notification
+from ..services.imports import (
+    get_current_menu_pdf_meta,
+    list_menu_weeks,
+    active_menu_week,
+    selected_menu_week_id,
+    selected_menu_week,
+)
 
 bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -17,7 +23,9 @@ bp = Blueprint("admin", __name__, url_prefix="/admin")
 @require_role("manager")
 def dashboard():
     account = current_account()
-    menu_rows = query("SELECT * FROM menu ORDER BY CASE day WHEN 'Pondělí' THEN 1 WHEN 'Úterý' THEN 2 WHEN 'Středa' THEN 3 WHEN 'Čtvrtek' THEN 4 WHEN 'Pátek' THEN 5 ELSE 99 END, id")
+    selected_week_id = selected_menu_week_id()
+    selected_week_id = selected_menu_week_id()
+    menu_rows = query("SELECT * FROM menu WHERE week_id=? ORDER BY CASE day WHEN 'Pondělí' THEN 1 WHEN 'Úterý' THEN 2 WHEN 'Středa' THEN 3 WHEN 'Čtvrtek' THEN 4 WHEN 'Pátek' THEN 5 ELSE 99 END, id", (selected_week_id,))
     audit_rows = query("SELECT * FROM audit_log ORDER BY id DESC LIMIT 25")
     order_rows = query(
         """
@@ -59,6 +67,9 @@ def dashboard():
         audit_rows=audit_rows,
         lock_state=get_lock_state(),
         current_menu_pdf_meta=get_current_menu_pdf_meta(),
+        menu_weeks=list_menu_weeks(),
+        active_menu_week=active_menu_week(),
+        selected_week_id=selected_week_id,
         active_page='admin',
     )
 
@@ -71,8 +82,8 @@ def add_menu_item():
     price_text = request.form.get('price_text', '')
     price_cents = extract_price_cents(price_text)
     execute(
-        'INSERT INTO menu(day, dish_name, price_text, price_cents) VALUES (?, ?, ?, ?)',
-        (day, dish_name, format_price_czk(price_cents), price_cents),
+        'INSERT INTO menu(day, dish_name, price_text, price_cents, week_id) VALUES (?, ?, ?, ?, ?)',
+        (day, dish_name, format_price_czk(price_cents), price_cents, int(request.form.get('week_id') or selected_menu_week_id())),
     )
     flash('Menu item added.')
     return redirect(url_for('admin.dashboard'))
@@ -413,3 +424,41 @@ def export_menu_csv():
 
     return _csv_response("menu.csv", headers, rows)
 
+
+@bp.route('/weeks/<int:week_id>/activate', methods=['POST'])
+@require_role('manager')
+def activate_week_admin_route(week_id: int):
+    from ..services.imports import activate_menu_week
+    week = activate_menu_week(week_id)
+    if week:
+        flash(f"Aktivní týden: {week['label']}")
+    else:
+        flash("Týden nebyl nalezen.", "error")
+    return redirect(url_for('admin.dashboard'))
+
+
+@bp.route('/weeks/<int:week_id>/status', methods=['POST'])
+@require_role('manager')
+def update_week_status_admin_route(week_id: int):
+    from ..services.imports import update_menu_week_status
+    week = update_menu_week_status(week_id, request.form.get('status', 'open'))
+    if week:
+        flash(f"Stav týdne uložen: {week['label']} / {week['status']}")
+    else:
+        flash("Týden nebyl nalezen.", "error")
+    return redirect(url_for('admin.dashboard'))
+
+
+@bp.route('/weeks/create', methods=['POST'])
+@require_role('manager')
+def create_week_admin_route():
+    from ..services.imports import create_menu_week
+    week = create_menu_week(
+        label=request.form.get('label', ''),
+        week_start=request.form.get('week_start', ''),
+        week_end=request.form.get('week_end', ''),
+        status=request.form.get('status', 'open'),
+        activate=request.form.get('activate') == '1',
+    )
+    flash(f"Týden vytvořen: {week['label']}")
+    return redirect(url_for('admin.dashboard'))

@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='navy.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='v4.css') }}?v=lock-logic-4a111">
+    <link rel="stylesheet" href="{{ url_for('static', filename='v4.css') }}?v=week-menu-5a776543211">
 
 <script>
 /* === EARLY V4 ORDER CLICK FIX === */
@@ -66,7 +66,7 @@
           day: cancel.dataset.cancelDay
         });
       }
-      window.location.href = window.location.pathname + "?v=lock-logic-4a1115-final5-final-" + Date.now();
+      window.location.href = window.location.pathname + "?v=week-menu-5a7765432115-final5-final-" + Date.now();
     } catch(err) {
       alert(err.message || "Akce se nepodařila.");
       btn.disabled = false;
@@ -110,7 +110,7 @@
             </div>
             {% if current_account %}
             <nav class="nav-links">
-                <a class="nav-pill label {{ 'active' if active_page == 'menu' else '' }}" href="{{ url_for('orders.index') }}?v=lock-logic-4a1111">Menu</a>
+                <a class="nav-pill label {{ 'active' if active_page == 'menu' else '' }}" href="{{ url_for('orders.index') }}?v=week-menu-5a7765432111">Menu</a>
                 <a class="nav-pill label {{ 'active' if active_page == 'orders' else '' }}" href="{{ url_for('orders.orders_report') }}">Report</a>
                 <a class="nav-pill label {{ 'active' if active_page == 'profile' else '' }}" href="{{ url_for('orders.profile') }}">Profil</a>
                 {% if current_role in ['manager', 'billing_admin', 'super_admin'] %}
@@ -165,7 +165,7 @@
 
 <strong>
 <nav class="app-bottom-nav v6-bottom-nav" aria-label="Hlavní mobilní navigace">
-  <a class="app-bottom-tab {{ 'active' if active_page == 'menu' else '' }}" href="{{ url_for('orders.index') }}?v=lock-logic-4a1111">
+  <a class="app-bottom-tab {{ 'active' if active_page == 'menu' else '' }}" href="{{ url_for('orders.index') }}?v=week-menu-5a7765432111">
     <span class="app-bottom-icon app-i-menu" aria-hidden="true"></span>
     <span>Menu</span>
   </a>
